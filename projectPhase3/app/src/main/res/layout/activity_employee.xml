@@ -1,0 +1,75 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    android:padding="10dp"
+    tools:context="group0699.example.com.supermart.EmployeeActivity">
+
+    <TextView
+        android:id="@+id/textWelcomeEmployee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="monospace"
+        android:text="Welcome Employee!"
+        android:textSize="30dp"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/textSelectOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="monospace"
+        android:textSize="20dp"
+        android:text="What do you want to do today?"
+        android:textColor="@android:color/background_dark" />
+
+    <Button
+        android:id="@+id/buttonUser"
+        style="?attr/buttonStyle"
+        android:drawableLeft="@mipmap/usericon"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="monospace"
+        android:background="@color/colorPrimary"
+
+        android:text="EDIT/CREATE A USER"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/buttonInventory"
+        style="?attr/buttonStyle"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="monospace"
+        android:text="RESTOCK INVENTORY"
+        android:drawableLeft="@mipmap/inventory"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/buttonAuthenticate"
+        style="?attr/buttonStyle"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="monospace"
+        android:text="Authenticate an Employee"
+        android:drawableLeft="@mipmap/authen"
+        android:textAlignment="center" />
+
+
+
+</LinearLayout>
