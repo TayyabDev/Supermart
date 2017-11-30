@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context="group0669.com.example.supermart.CheckShoppingCartActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Here is what you have in your cart:"
+        android:textSize="30dp"/>
+
+
+
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonBack"
+        android:drawableStart="@mipmap/back"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"
+        style="?attr/buttonStyle"
+        android:text="BACK"
+        />
+</LinearLayout>
