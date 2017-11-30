@@ -32,7 +32,6 @@
         <activity android:name=".Customer" />
         <activity android:name=".Admin" />
         <activity android:name=".Employee" />
-        <activity android:name=".nav_customer"></activity>
     </application>
 
 </manifest>
