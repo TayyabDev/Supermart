@@ -19,14 +19,5 @@
 
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonBack"
-        android:drawableStart="@mipmap/back"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorPrimary"
-        style="?attr/buttonStyle"
-        android:text="BACK"
-        />
+
 </LinearLayout>

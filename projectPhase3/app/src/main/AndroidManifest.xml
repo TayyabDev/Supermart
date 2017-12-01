@@ -25,13 +25,11 @@
         <activity android:name=".AddUserActivity" />
         <activity android:name=".EditUserActivity" />
         <activity android:name=".RestockInventoryActivity" />
-        <activity android:name=".AuthenticateEmployeeActivity" />
         <activity android:name=".ViewInventoryActivity" />
         <activity android:name=".ViewSaleActivity" />
         <activity android:name=".RestoreShoppingCartActivity" />
         <activity android:name=".Customer" />
         <activity android:name=".Admin" />
-        <activity android:name=".Employee" />
         <activity android:name=".InitializationActivity" />
     </application>
 

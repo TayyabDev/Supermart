@@ -11,6 +11,7 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
     Button buttonAddOrEdit;
     Button buttonViewInventory;
     Button buttonViewSale;
+    Button buttonInventory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,8 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
         buttonViewInventory.setOnClickListener(this);
         buttonViewSale = (Button) findViewById(R.id.buttonViewSale);
         buttonViewSale.setOnClickListener(this);
+        buttonInventory = (Button) findViewById(R.id.buttonInventory);
+        buttonInventory.setOnClickListener(this);
     }
 
     @Override
@@ -36,6 +39,9 @@ public class Admin extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.buttonViewSale:
                 startActivity(new Intent(this, ViewSaleActivity.class));
+                break;
+            case R.id.buttonInventory:
+                startActivity(new Intent(this, RestockInventoryActivity.class));
                 break;
         }
     }
