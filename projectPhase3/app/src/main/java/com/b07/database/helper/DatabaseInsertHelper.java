@@ -36,9 +36,9 @@ public class DatabaseInsertHelper extends DatabaseInserter {
     // check if the role is a valid enum
     if (name.equals(Roles.ADMIN.toString()) || name.equals(Roles.EMPLOYEE.toString())
         || name.equals(Roles.CUSTOMER.toString())) {
-      List<Integer> allrolesids = DatabaseSelectHelper.getRoleIds();
+      List<Integer> allRoleIds = DatabaseSelectHelper.getRoleIds();
       // first check the database if that name has been inserted
-      for (int id : allrolesids) {
+      for (int id : allRoleIds) {
         if (DatabaseSelectHelper.getRoleName(id).equals(name)) {
           throw new DatabaseInsertException("The role has already exist in Database");
           // if not, we can create a new roleId
