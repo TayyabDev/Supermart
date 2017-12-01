@@ -92,7 +92,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         List<Integer> roleIds = new ArrayList<>();
 
         while(c.moveToNext()){
-            roleIds.add(c.getColumnIndex("ID"));
+            roleIds.add(c.getInt(c.getColumnIndex("ID")));
         }
         c.close();
         return roleIds;
