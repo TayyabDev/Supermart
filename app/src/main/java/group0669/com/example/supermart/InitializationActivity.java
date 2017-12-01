@@ -7,6 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.b07.database.DatabaseDriver;
+import com.b07.database.DatabaseDriverAndroid;
+import com.b07.database.helper.DatabaseInsertHelper;
+import com.b07.exceptions.DatabaseInsertException;
+import com.b07.exceptions.InvalidInputException;
+import com.b07.store.DatabaseDriverExtender;
+
+import java.sql.SQLException;
+
 public class InitializationActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button buttonInitialize;
@@ -33,8 +42,20 @@ public class InitializationActivity extends AppCompatActivity implements View.On
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buttonInitialize:
-                startActivity(new Intent(this, LoginActivity.class));
-                break;
+                // initialize the database
+                DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(this);
+                if(mydb == null){
+                    System.out.println("NOOOOOOOO!");
+                }
+                try{
+                    // insert user into the database
+                    DatabaseInsertHelper.insertNewUser(editName.getText().toString(), Integer.parseInt(editAge.getText().toString()),editAddress.getText().toString(), editPassword.getText().toString());
+                    startActivity(new Intent(this, LoginActivity.class));
+                    break;
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+
         }
     }
 }
