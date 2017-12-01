@@ -42,17 +42,17 @@ public class InitializationActivity extends AppCompatActivity implements View.On
                     // initialize the database
                     DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(this);
 
-                    // insert get admin role
+                    // insert get activity_admin role
                     DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(this);
                     int adminRoleId = (int) ins.insertRole("ADMIN");
 
-                    // insert the admin into the database
+                    // insert the activity_admin into the database
                     int adminId = (int) ins.insertNewUser(editName.getText().toString(), Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), editPassword.getText().toString());
 
-                    // establish user as admin
+                    // establish user as activity_admin
                     ins.insertUserRole(adminId, adminRoleId);
 
-                    // insert customer role into database
+                    // insert activity_customer role into database
                     ins.insertRole("CUSTOMER");
 
                     // go to login page

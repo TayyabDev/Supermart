@@ -25,11 +25,11 @@ public class RestoreShoppingCartActivity extends AppCompatActivity implements Vi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buttonYes:
-                startActivity(new Intent(this, Customer.class));
+                startActivity(new Intent(this, CustomerActivity.class));
                 break;
 
             case R.id.buttonNo:
-                startActivity(new Intent(this, Customer.class));
+                startActivity(new Intent(this, CustomerActivity.class));
                 break;
         }
     }

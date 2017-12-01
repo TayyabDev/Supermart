@@ -58,13 +58,13 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                     // initialize select helper
                     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
 
-                    // search for customer role id
+                    // search for activity_customer role id
                     List<Integer> roleIds = sel.getRoleIdsHelper();
                     System.out.println(roleIds);
                     for(Integer roleId : roleIds){
                         System.out.println(roleId);
 
-                        // once we have found customer role id, establish user as customer
+                        // once we have found activity_customer role id, establish user as activity_customer
                         if(sel.getRoleName(roleId).equals("CUSTOMER")){
                             ins.insertUserRole(userId, roleId);
                             break;

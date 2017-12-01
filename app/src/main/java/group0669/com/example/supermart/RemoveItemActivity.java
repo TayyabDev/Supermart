@@ -24,7 +24,7 @@ public class RemoveItemActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buttonSave:
-                startActivity(new Intent(this, Customer.class));
+                startActivity(new Intent(this, CustomerActivity.class));
                 break;
         }
     }

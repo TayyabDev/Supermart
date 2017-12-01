@@ -226,7 +226,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     User user = null;
     // get the role name using the id
     String roleName = getRoleName(roleId);
-    // if role is admin create an admin
+    // if role is activity_admin create an activity_admin
     if (roleName.equals(Roles.ADMIN.toString())) {
       user = new Admin(id, name, age, address);
     } else if (roleName.equals(Roles.CUSTOMER.toString())) {
@@ -578,9 +578,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
   }
 
   /**
-   * returnt all the accountIds associated with the given customer.
+   * returnt all the accountIds associated with the given activity_customer.
    * 
-   * @param userId of the customer
+   * @param userId of the activity_customer
    * @return a list of integer that contains all accountIds that the user have
    * @throws SQLException on failure
    */
@@ -602,7 +602,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
   /**
    * return the account details for a given accountId.
    * 
-   * @param accountId of the customer
+   * @param accountId of the activity_customer
    * @return the account with details
    * @throws SQLException on failure
    * @throws InvalidInputException on invalid input

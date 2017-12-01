@@ -40,13 +40,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
                     User user = sel.getUser(Integer.parseInt(editUserName.getText().toString()));
 
-                    // if user is admin go to admin interface
+                    // if user is activity_admin go to activity_admin interface
                     Intent intent = new Intent(this, MainActivity.class);
                     if(sel.getRoleName(user.getRoleId(this)).equals("ADMIN")){
-                        intent = new Intent(this, Admin.class);
+                        intent = new Intent(this, AdminActivity.class);
                     } else if(sel.getRoleName(user.getRoleId(this)).equals("CUSTOMER")){
-                        // of user is customer go to customer interface
-                        intent = new Intent(this, Customer.class);
+                        // of user is activity_customer go to activity_customer interface
+                        intent = new Intent(this, CustomerActivity.class);
                         intent.putExtra("userId", user.getId());
                     }
                     startActivity(intent);
