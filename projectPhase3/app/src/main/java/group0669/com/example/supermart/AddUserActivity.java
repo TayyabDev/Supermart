@@ -29,7 +29,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         editAge =  findViewById(R.id.editAge);
         editAddress =  findViewById(R.id.editAddress);
         editPassword =  findViewById(R.id.editPassword);
-        editConfirmPassword = findViewById(R.id.editConfirmEmployeeId);
+        editConfirmPassword = findViewById(R.id.editConfirmPassword);
         buttonNext =  findViewById(R.id.buttonNext);
         buttonNext.setOnClickListener(this);
 

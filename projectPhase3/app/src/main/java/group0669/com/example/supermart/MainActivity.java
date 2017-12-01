@@ -2,6 +2,7 @@ package group0669.com.example.supermart;
 
 
 import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.sql.Connection;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button buttonLogin, buttonInitialize;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonLogin.setOnClickListener(this);
         buttonInitialize = findViewById(R.id.buttonInitialize);
         buttonInitialize.setOnClickListener(this);
+        viewPager = findViewById(R.id.viewPager);
+        ImageSwipeAdapter imageSwipeAdapter = new ImageSwipeAdapter(this);
+        viewPager.setAdapter(imageSwipeAdapter);
     }
 
 
@@ -40,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
 
 }
 

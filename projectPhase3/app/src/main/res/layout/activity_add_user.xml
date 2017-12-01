@@ -69,7 +69,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/editConfirmRPassword"
+        android:id="@+id/editConfirmPassword"
         android:layout_width="match_parent"
         android:inputType="textPassword"
         android:layout_height="wrap_content" />
