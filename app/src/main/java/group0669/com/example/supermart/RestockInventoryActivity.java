@@ -29,7 +29,7 @@ public class RestockInventoryActivity extends AppCompatActivity implements View.
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buttonConfirm:
-                startActivity(new Intent(this, Employee.class));
+                startActivity(new Intent(this, Admin.class));
         }
     }
 }

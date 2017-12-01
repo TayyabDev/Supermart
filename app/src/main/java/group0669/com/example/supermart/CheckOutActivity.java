@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class CheckOutActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button buttonCheckOut, buttonBack;
+    Button buttonCheckOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +17,7 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
 
         buttonCheckOut = (Button) findViewById(R.id.buttonCheckOut);
         buttonCheckOut.setOnClickListener(this);
-        buttonBack = (Button) findViewById(R.id.buttonBack);
-        buttonBack.setOnClickListener(this);
+
     }
 
     @Override
@@ -28,9 +27,6 @@ public class CheckOutActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(this, MainActivity.class));
                 break;
 
-            case R.id.buttonBack:
-                startActivity(new Intent(this, Customer.class));
-                break;
         }
     }
 }
