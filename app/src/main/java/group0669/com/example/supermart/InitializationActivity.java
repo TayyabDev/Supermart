@@ -7,14 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.b07.database.DatabaseDriver;
 import com.b07.database.DatabaseDriverAndroid;
 import com.b07.database.helper.DatabaseInsertHelper;
-import com.b07.exceptions.DatabaseInsertException;
-import com.b07.exceptions.InvalidInputException;
-import com.b07.store.DatabaseDriverExtender;
-
-import java.sql.SQLException;
+import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 
 public class InitializationActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -42,14 +37,21 @@ public class InitializationActivity extends AppCompatActivity implements View.On
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buttonInitialize:
-                // initialize the database
-                DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(this);
-                if(mydb == null){
-                    System.out.println("NOOOOOOOO!");
-                }
                 try{
-                    // insert user into the database
-                    DatabaseInsertHelper.insertNewUser(editName.getText().toString(), Integer.parseInt(editAge.getText().toString()),editAddress.getText().toString(), editPassword.getText().toString());
+                    // initialize the database
+                    DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(this);
+
+                    // insert get admin role
+                    DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(this);
+                    int adminRoleId = (int) ins.insertRole("ADMIN");
+
+                    // insert the admin into the database
+                    int adminId = (int) ins.insertNewUser(editName.getText().toString(), Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), editPassword.getText().toString());
+
+                    // establish user as admin
+                    ins.insertUserRole(adminId, adminRoleId);
+
+                    // go to login page
                     startActivity(new Intent(this, LoginActivity.class));
                     break;
                 } catch(Exception e){

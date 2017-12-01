@@ -1,9 +1,12 @@
 package com.b07.users;
 
 import com.b07.database.helper.DatabaseSelectHelper;
+import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.InvalidIdException;
 import com.b07.security.PasswordHelpers;
 import java.sql.SQLException;
+
+import group0669.com.example.supermart.LoginActivity;
 
 
 public abstract class User {
