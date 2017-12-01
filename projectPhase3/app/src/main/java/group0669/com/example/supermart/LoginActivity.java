@@ -43,18 +43,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     User user = sel.getUser(Integer.parseInt(editUserName.getText().toString()));
 
                     Intent intent = new Intent(this, MainActivity.class);
-                    if(sel.getRoleName(user.getRoleId()).equals("ADMIN")){
+                    if(sel.getRoleName(user.getRoleId(this)).equals("ADMIN")){
                         intent = new Intent(this, Admin.class);
-                    } else if(sel.getRoleName(user.getRoleId()).equals("CUSTOMER")){
+                    } else if(sel.getRoleName(user.getRoleId(this)).equals("CUSTOMER")){
                         intent = new Intent(this, Customer.class);
                     }
                     startActivity(intent);
                     break;
                 } catch (InvalidRoleException e) {
-                    e.printStackTrace();
-                } catch (InvalidIdException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
                     e.printStackTrace();
                 }
 

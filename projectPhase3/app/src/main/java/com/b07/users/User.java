@@ -1,5 +1,7 @@
 package com.b07.users;
 
+import android.content.Context;
+
 import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.InvalidIdException;
@@ -84,6 +86,11 @@ public abstract class User {
    */
   public int getRoleId() throws SQLException, InvalidIdException {
     return DatabaseSelectHelper.getUserRoleId(this.id);
+  }
+
+  public int getRoleId(Context context){
+    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+    return sel.getUserRoleId(this.id);
   }
 
   /**

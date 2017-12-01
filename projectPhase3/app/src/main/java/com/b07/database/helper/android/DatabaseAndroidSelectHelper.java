@@ -79,23 +79,34 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         }
         return user;
     }
+    public String getRoleName(int roleId) {
+        return super.getRole(roleId);
+    }
 
-
+    public int getUserRoleId(int userId) {
+        return super.getUserRole(userId);
+    }
 
     public List<Integer> getRoleIdsHelper() {
+        Cursor c = super.getRoles();
+        List<Integer> roleIds = new ArrayList<>();
+
+        while(c.moveToNext()){
+            roleIds.add(c.getColumnIndex("ID"));
+        }
+        c.close();
+        return roleIds;
     }
+/*
 
 
-    public String getRoleName(int roleId) {
-    }
+
+
+
+
 
 
     private boolean checkUserId(int userId) {
-
-    }
-
-
-    public int getUserRoleId(int userId) {
 
     }
 
@@ -170,6 +181,6 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
 
     }
-
+ */
 }
 
