@@ -40,15 +40,15 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
 
         // get user object given the id
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
+        Customer customer = null;
         try {
-            Customer customer = (Customer) sel.getUser(userId);
+            customer = (Customer) sel.getUser(userId);
         } catch (InvalidRoleException e) {
             e.printStackTrace();
         }
 
         final TextView welcomeUser = (TextView) findViewById(R.id.textWelcomeUser);
-        welcomeUser.setText(Integer.toString(userId));
-
+        welcomeUser.setText("Welcome " + customer.getName() + "!");
 
         buttonRestoreShoppingCart = (Button) findViewById(R.id.buttonRestoreShoppingCart);
         buttonRestoreShoppingCart.setOnClickListener(this);

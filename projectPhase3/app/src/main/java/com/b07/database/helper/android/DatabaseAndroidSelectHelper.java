@@ -97,6 +97,10 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         c.close();
         return roleIds;
     }
+
+    public String getPasswordHelper(int userId)  {
+        return super.getPassword(userId);
+    }
 /*
 
 
@@ -119,12 +123,6 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     public List<User> getUsersDetailsHelper() {
 
     }
-
-
-    public String getPasswordHelper(int userId)  {
-
-    }
-
 
     public List<Item> getAllItemsHelper()  {
 

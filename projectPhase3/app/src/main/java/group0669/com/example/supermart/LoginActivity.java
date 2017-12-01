@@ -9,9 +9,12 @@ import android.widget.EditText;
 
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 
+import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidRoleException;
 
 import com.b07.users.User;
+
+import java.sql.SQLException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -41,17 +44,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     User user = sel.getUser(Integer.parseInt(editUserName.getText().toString()));
 
                     // if user is activity_admin go to activity_admin interface
-                    Intent intent = new Intent(this, MainActivity.class);
-                    if(sel.getRoleName(user.getRoleId(this)).equals("ADMIN")){
-                        intent = new Intent(this, AdminActivity.class);
-                    } else if(sel.getRoleName(user.getRoleId(this)).equals("CUSTOMER")){
-                        // of user is activity_customer go to activity_customer interface
-                        intent = new Intent(this, CustomerActivity.class);
+                    if(user.authenticate(editPassword.getText().toString(), this)) {
+                        Intent intent = new Intent(this, MainActivity.class);
+                        if (sel.getRoleName(user.getRoleId(this)).equals("ADMIN")) {
+                            intent = new Intent(this, AdminActivity.class);
+                        } else if (sel.getRoleName(user.getRoleId(this)).equals("CUSTOMER")) {
+                            // of user is activity_customer go to activity_customer interface
+                            intent = new Intent(this, CustomerActivity.class);
+                        }
                         intent.putExtra("userId", user.getId());
+                        startActivity(intent);
+                        break;
+                    } else {
+                        System.out.println("Wrong password.");
                     }
-                    startActivity(intent);
-                    break;
+
                 } catch (InvalidRoleException e) {
+                    e.printStackTrace();
+                } catch (InvalidIdException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
 

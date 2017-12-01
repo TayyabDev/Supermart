@@ -5,6 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
+import com.b07.exceptions.InvalidRoleException;
+import com.b07.users.Admin;
 
 public class AdminActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -17,6 +22,27 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+
+        // get the intent data
+        Bundle loginData = getIntent().getExtras();
+        if(loginData == null){
+            return;
+        }
+        // get the userid from the bundle
+        int userId = loginData.getInt("userId");
+
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
+        // get the user
+        Admin admin = null;
+        try {
+            admin = (Admin) sel.getUser(userId);
+        } catch (InvalidRoleException e) {
+            e.printStackTrace();
+        }
+
+        final TextView welcomeAdmin= (TextView) findViewById(R.id.textWelcomeAdmin);
+        welcomeAdmin.setText("Welcome " + admin.getName() + "!");
+
 
         buttonAddOrEdit = (Button) findViewById(R.id.buttonAddOrEdit);
         buttonAddOrEdit.setOnClickListener(this);
