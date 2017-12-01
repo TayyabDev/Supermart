@@ -209,6 +209,28 @@ public class DatabaseUpdater {
     }
     return false;
   }
+
+  /**
+   * Updates a users password in the database.
+   * @param userId the id of the user.
+   * @param password the HASHED password of the user (not plain text!).
+   * @param connection the connection to the database.
+   * @return true if update succeeded, false otherwise.
+   */
+  protected static boolean updateUserPassword(String password, int id,
+                                              Connection connection) {
+    String sql = "UPDATE USERPW SET PASSWORD = ? WHERE USERID = ?";
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(sql);
+      preparedStatement.setString(1, password);
+      preparedStatement.setInt(2, id);
+      preparedStatement.executeUpdate();
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
   
   /*
    * 
