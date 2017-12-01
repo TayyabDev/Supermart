@@ -10,7 +10,7 @@
     android:background="@color/colorPrimaryDark">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textWelcomeAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Welcome Admin! Please select one of the following options."

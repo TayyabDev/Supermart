@@ -108,4 +108,14 @@ public abstract class User {
     this.authenticated = PasswordHelpers.comparePassword(databasePassword, password);
     return this.authenticated;
   }
+  public final boolean authenticate(String password, Context context) throws SQLException, InvalidIdException {
+    // get the hashed password from the database
+    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+    String databasePassword = sel.getPasswordHelper(this.id);
+    // check if the hashed password is equal to the input password
+    this.authenticated = PasswordHelpers.comparePassword(databasePassword, password);
+    return this.authenticated;
+  }
+
+
 }
