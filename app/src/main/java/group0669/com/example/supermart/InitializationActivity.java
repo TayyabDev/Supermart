@@ -38,6 +38,7 @@ public class InitializationActivity extends AppCompatActivity implements View.On
         switch (view.getId()){
             case R.id.buttonInitialize:
                 try{
+
                     // initialize the database
                     DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(this);
 
@@ -51,8 +52,12 @@ public class InitializationActivity extends AppCompatActivity implements View.On
                     // establish user as admin
                     ins.insertUserRole(adminId, adminRoleId);
 
+                    // insert customer role into database
+                    ins.insertRole("CUSTOMER");
+
                     // go to login page
                     startActivity(new Intent(this, LoginActivity.class));
+
                     break;
                 } catch(Exception e){
                     e.printStackTrace();
