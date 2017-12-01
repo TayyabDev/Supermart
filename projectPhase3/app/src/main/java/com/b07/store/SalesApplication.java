@@ -37,7 +37,7 @@ public class SalesApplication {
         if (argv.length > 0 && argv[0].equals("-1")) {
           DatabaseDriverExtender.initialize(connection);
 
-          // get the name,age, and address of the admin
+          // get the name,age, and address of the activity_admin
           System.out.println("Input your name");
           String name = br.readLine();
           System.out.println("Input your age");
@@ -47,21 +47,21 @@ public class SalesApplication {
           System.out.println("Enter the password you would like to use");
           String password = br.readLine();
 
-          // insert the role of admin into the dataabase and get the roleid
+          // insert the role of activity_admin into the dataabase and get the roleid
           int adminRoleId = DatabaseInsertHelper.insertRole("ADMIN");
 
-          // insert the admin into the database and get the id
+          // insert the activity_admin into the database and get the id
           int adminId = DatabaseInsertHelper.insertNewUser(name, age, address, password);
-          // establish the admin relationsihp
+          // establish the activity_admin relationsihp
 
           DatabaseInsertHelper.insertUserRole(adminId, adminRoleId);
 
-          // store the admin account
+          // store the activity_admin account
           Admin admin = new Admin(adminId, name, age, address, true);
 
-          System.out.println("Your admin ID is: " + admin.getId());
+          System.out.println("Your activity_admin ID is: " + admin.getId());
 
-          // insert customer into the roleid's
+          // insert activity_customer into the roleid's
           DatabaseInsertHelper.insertRole("CUSTOMER");
 
           // now populate the database with items and get the item id's
@@ -83,8 +83,8 @@ public class SalesApplication {
         } else {
           // list the options
           System.out.println("Please choose from one of the following options:");
-          System.out.println("1 - Admin Login");
-          System.out.println("2 - Customer Login");
+          System.out.println("1 - AdminActivity Login");
+          System.out.println("2 - CustomerActivity Login");
           System.out.println("0 - Exit");
           int choice = Integer.parseInt(br.readLine());
 
@@ -96,77 +96,77 @@ public class SalesApplication {
 
           if (choice == 1) {
             // ask user for id and password
-            System.out.println("Welcome to the Admin Login!");
+            System.out.println("Welcome to the AdminActivity Login!");
             System.out.println("Please enter your id");
             int id = Integer.parseInt(br.readLine());
             System.out.println("Please enter your password");
             String password = br.readLine();
 
-            // check if id is for an Admin
+            // check if id is for an AdminActivity
             if (DatabaseSelectHelper.getRoleName(DatabaseSelectHelper.getUserRoleId(id))
                 .equals("ADMIN")) {
               // check if password is correct
               Admin admin = (Admin) DatabaseSelectHelper.getUserDetails(id);
               if (admin.authenticate(password)) {
-                // if password was correct then we can access the Admin interface
+                // if password was correct then we can access the AdminActivity interface
                 AdminInterface adminInterface =
                     new AdminInterface(admin, DatabaseSelectHelper.getInventory());
                 System.out.println("Login successful! Welcome " + admin.getName()
                     + ", please choose from one of the following options:");
-                System.out.println("1. Authenticate new admin");
-                System.out.println("2. Make new customer");
+                System.out.println("1. Authenticate new activity_admin");
+                System.out.println("2. Make new activity_customer");
                 System.out.println("3. Make new account");
-                System.out.println("4. Make new admin");
+                System.out.println("4. Make new activity_admin");
                 System.out.println("5. Restock inventory");
                 System.out.println("6. View the sales");
                 System.out.println("7. Exit");
 
                 int adminInterfaceChoice = 0;
-                // keep looping until Admin wants to exit the Admin portal
+                // keep looping until AdminActivity wants to exit the AdminActivity portal
                 while (adminInterfaceChoice != 7) {
                   adminInterfaceChoice = Integer.parseInt(br.readLine());
-                  // user wants to authenticate new Admin
+                  // user wants to authenticate new AdminActivity
                   if (adminInterfaceChoice == 1) {
-                    // ask for id and password for the new Admin
+                    // ask for id and password for the new AdminActivity
                     System.out.println("What is the Admins id");
                     int authId = Integer.parseInt(br.readLine());
 
                     System.out.println("What is the Admins password");
                     String authPassword = br.readLine();
 
-                    // authenticate the new Admin if possible
+                    // authenticate the new AdminActivity if possible
                     if (DatabaseSelectHelper.getRoleName(DatabaseSelectHelper.getUserRoleId(authId))
-                        .equals("Admin")) {
+                        .equals("AdminActivity")) {
                       Admin authAdmin = (Admin) DatabaseSelectHelper.getUserDetails(id);
                       if (authAdmin.authenticate(authPassword)) {
-                        System.out.println("Admin authenticated.");
+                        System.out.println("AdminActivity authenticated.");
                       } else {
                         System.out.println("Invalid password");
                       }
                     } else {
-                      System.out.println("Not an Admin");
+                      System.out.println("Not an AdminActivity");
                     }
                   } else if (adminInterfaceChoice == 2) {
-                    // ask for new customer info
-                    System.out.println("What is the name of the customer");
+                    // ask for new activity_customer info
+                    System.out.println("What is the name of the activity_customer");
                     String newName = br.readLine();
-                    System.out.println("What is the age of the customer");
+                    System.out.println("What is the age of the activity_customer");
                     int newAge = Integer.parseInt(br.readLine());
-                    System.out.println("What is the address of the customer");
+                    System.out.println("What is the address of the activity_customer");
                     String newAddress = br.readLine();
                     System.out.println("Enter a password");
                     String newPassword = br.readLine();
 
-                    // now create the customer
+                    // now create the activity_customer
                     int newId =
                         adminInterface.createCustomer(newName, newAge, newAddress, newPassword);
 
-                    System.out.println("New customer created, with id of " + newId);
+                    System.out.println("New activity_customer created, with id of " + newId);
                   } else if (adminInterfaceChoice == 3) {
-                    System.out.println("What is the customer's id?");
+                    System.out.println("What is the activity_customer's id?");
                     int customerId = Integer.parseInt(br.readLine());
 
-                    // try creating account for the customer
+                    // try creating account for the activity_customer
                     try {
                       Account customerAccount = adminInterface.createAccount(customerId);
                       System.out.println("The new account ID is " + customerAccount.getId());
@@ -175,19 +175,19 @@ public class SalesApplication {
                     }
 
                   } else if (adminInterfaceChoice == 4) {
-                    System.out.println("What is the name of the Admin");
+                    System.out.println("What is the name of the AdminActivity");
                     String newName = br.readLine();
-                    System.out.println("What is the age of the Admin");
+                    System.out.println("What is the age of the AdminActivity");
                     int newAge = Integer.parseInt(br.readLine());
-                    System.out.println("What is the address of the Admin");
+                    System.out.println("What is the address of the AdminActivity");
                     String newAddress = br.readLine();
                     System.out.println("Enter a password");
                     String newPassword = br.readLine();
 
-                    // now create the Admin
+                    // now create the AdminActivity
                     int newId =
                         adminInterface.createAdmin(newName, newAge, newAddress, newPassword);
-                    System.out.println("New Admin created with id " + newId);
+                    System.out.println("New AdminActivity created with id " + newId);
                   } else if (adminInterfaceChoice == 5) {
                     // add skates and hockey sticks to the database for purpose of restocking
 
@@ -220,12 +220,12 @@ public class SalesApplication {
                 System.out.println("Wrong password. Try again.");
               }
             } else {
-              // user not Admin
-              System.out.println("Not an Admin.");
+              // user not AdminActivity
+              System.out.println("Not an AdminActivity.");
             }
 
           } else if (choice == 2) {
-            System.out.println("Welcome to the customer portal!");
+            System.out.println("Welcome to the activity_customer portal!");
             boolean validCustomer = false;
 
             while (!validCustomer) {
@@ -233,13 +233,13 @@ public class SalesApplication {
               int id = Integer.parseInt(br.readLine());
               System.out.println("Please enter your password");
               String password = br.readLine();
-              // check if user is customer
+              // check if user is activity_customer
               if (DatabaseSelectHelper.getRoleName(DatabaseSelectHelper.getUserRoleId(id))
                   .equals("CUSTOMER")) {
                 // check if password is correct
                 Customer customer = (Customer) DatabaseSelectHelper.getUserDetails(id);
                 if (customer.authenticate(password)) {
-                  // if password correct then open customer menu
+                  // if password correct then open activity_customer menu
                   validCustomer = true;
                   System.out.println("Login succesful! Welcome " + customer.getName() + "!");
                   System.out.println(
@@ -259,7 +259,7 @@ public class SalesApplication {
                   System.out.println("6. Exit");
 
                   int customerChoice = -1;
-                  // keep looping until customer wants to exit (by entering 6)
+                  // keep looping until activity_customer wants to exit (by entering 6)
                   while (customerChoice != 6) {
                     customerChoice = Integer.parseInt(br.readLine());
 
@@ -349,7 +349,7 @@ public class SalesApplication {
                   }
                 }
               } else {
-                System.out.println("Not a customer.");
+                System.out.println("Not a activity_customer.");
               }
             }
           }

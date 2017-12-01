@@ -31,30 +31,30 @@ public class ShoppingCart {
   private boolean cartRestored = false;
 
   /**
-   * Create a shopping cart for a logged in customer
+   * Create a shopping cart for a logged in activity_customer
    * 
-   * @param customer customer logged in.
-   * @throws CustomerNotLoggedInException thrown if the customer does not log in.
+   * @param customer activity_customer logged in.
+   * @throws CustomerNotLoggedInException thrown if the activity_customer does not log in.
    * @throws SQLException on failure
    */
   public ShoppingCart(Customer customer) throws CustomerNotLoggedInException, SQLException {
-    // initialize the tax rate and customer
+    // initialize the tax rate and activity_customer
     this.customer = customer;
 
     cart = new HashMap<Item, Integer>();
     total = new BigDecimal("0.00");
 
-    // if customer not logged in throw exception
+    // if activity_customer not logged in throw exception
     if (customer == null) {
-      throw new CustomerNotLoggedInException("Customer not logged in");
+      throw new CustomerNotLoggedInException("CustomerActivity not logged in");
     } else {
-      // check if customer has any accounts
+      // check if activity_customer has any accounts
       List<Integer> customerAccountIds = DatabaseSelectHelper.getUserAccounts(customer.getId());
 
-      // if customer has any account
+      // if activity_customer has any account
       if (customerAccountIds.size() > 0) {
         this.hasAccount = true;
-        // get the most recent account of the customer
+        // get the most recent account of the activity_customer
         this.customerAccountId = customerAccountIds.get(customerAccountIds.size() - 1);
       } else {
         this.hasAccount = false;
@@ -71,7 +71,7 @@ public class ShoppingCart {
    * @throws ItemNotFoundException on invalid item
    * @throws InvalidQuantityException on invalid quantity
    * @throws DatabaseInsertException on failure insert
-   * @throws CustomerNoAccountException if customer tries to restore cart without an account
+   * @throws CustomerNoAccountException if activity_customer tries to restore cart without an account
    */
   public void restoreShoppingCart()
       throws SQLException, InvalidInputException, InvalidIdException, ItemNotFoundException,
@@ -257,10 +257,10 @@ public class ShoppingCart {
 
 
   /**
-   * Take a shopping cart with associated customer then calculate the total after tax and submit to
+   * Take a shopping cart with associated activity_customer then calculate the total after tax and submit to
    * database. If the item are enough to be purchased, update the table and clear the shopping cart.
    * 
-   * @param shoppingCart shopping cart customer is using.
+   * @param shoppingCart shopping cart activity_customer is using.
    * @return true if the item are enough to be purchased, update the table and clear the shopping
    *         cart, false otherwise.
    * @throws SQLException thrown if something goes wrong with the query.
@@ -275,7 +275,7 @@ public class ShoppingCart {
       InvalidQuantityException, InvalidInputException, InvalidRoleException, InvalidIdException {
     boolean checkedOut = false;
 
-    // check if customer is logged in
+    // check if activity_customer is logged in
     if (shoppingCart.getCustomer().equals(customer)) {
       boolean sufficientInventory = true;
       // check inventory for all the objects

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="group0669.com.example.supermart.AdminActivity"
+    android:padding="20dp"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome Admin! Please select one of the following options."
+        android:textSize="20sp" />
+
+
+    <Button
+        android:id="@+id/buttonAddOrEdit"
+        style="?attr/buttonStyle"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@color/colorPrimary"
+        android:drawableLeft="@mipmap/usericon"
+        android:text="Add or Edit a User" />
+
+    <Button
+        android:id="@+id/buttonViewInventory"
+        style="?attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@color/colorPrimary"
+        android:drawableLeft="@mipmap/inventoryicon"
+        android:text="View the Inventory" />
+
+    <Button
+        android:id="@+id/buttonInventory"
+        style="?attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="RESTOCK INVENTORY"
+        android:drawableLeft="@mipmap/inventory"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/buttonViewSale"
+        style="?attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:drawableLeft="@mipmap/sales"
+        android:text="See the sales" />
+
+    <TextView
+        android:id="@+id/textViewHereAreStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="Here are some quick stats about the store!"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Stats" />
+
+
+</LinearLayout>

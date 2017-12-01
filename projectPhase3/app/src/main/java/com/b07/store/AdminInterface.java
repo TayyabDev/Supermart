@@ -91,12 +91,12 @@ public class AdminInterface {
   }
 
   /**
-   * Create a new customer with the information provided.
+   * Create a new activity_customer with the information provided.
    * 
-   * @param name name of the customer.
-   * @param age age of the customer.
-   * @param address address of the customer.
-   * @param password password of the customer.
+   * @param name name of the activity_customer.
+   * @param age age of the activity_customer.
+   * @param address address of the activity_customer.
+   * @param password password of the activity_customer.
    * @return Return true if the operation succeed, false otherwise.
    * @throws DatabaseInsertException thrown if something goes wrong with database insertion.
    * @throws SQLException thrown if something goes wrong with the quantity.
@@ -107,13 +107,13 @@ public class AdminInterface {
   public int createCustomer(String name, int age, String address, String password)
       throws DatabaseInsertException, SQLException, InvalidRoleException, InvalidIdException,
       InvalidInputException {
-    // try inserting the customer into the database. an exception will be raised if not possible
+    // try inserting the activity_customer into the database. an exception will be raised if not possible
     int customerId = DatabaseInsertHelper.insertNewUser(name, age, address, password);
     // get the roleId's in the databases
     List<Integer> roleIds = DatabaseSelectHelper.getRoleIds();
-    // search for the role id of customer
+    // search for the role id of activity_customer
     for (Integer roleId : roleIds) {
-      // once role id of customer is found, establish the customer as a customer in the database
+      // once role id of activity_customer is found, establish the activity_customer as a activity_customer in the database
       if (DatabaseSelectHelper.getRoleName(roleId).equals("CUSTOMER")) {
         DatabaseInsertHelper.insertUserRole(customerId, roleId);
         break;
@@ -190,8 +190,8 @@ public class AdminInterface {
     // loop through all the sales in saleslog
     for (Sale sale : salesLog.getSales()) {
       // get the itemized sale
-      // add the customer name
-      statement += "Customer: " + sale.getUser().getName() + "\n";
+      // add the activity_customer name
+      statement += "CustomerActivity: " + sale.getUser().getName() + "\n";
 
       // add the purchase number
       statement += "Purchase Number: " + sale.getId() + "\n";

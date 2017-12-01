@@ -71,7 +71,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         User user = null;
         // get the role name using the id
         String roleName = getRoleName(roleId);
-        // if role is admin create an admin
+        // if role is activity_admin create an activity_admin
         if (roleName.equals(Roles.ADMIN.toString())) {
             user = new Admin(id, name, age, address);
         } else if (roleName.equals(Roles.CUSTOMER.toString())) {

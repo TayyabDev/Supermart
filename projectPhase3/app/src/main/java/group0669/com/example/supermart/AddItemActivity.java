@@ -24,7 +24,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonSave:
-                startActivity(new Intent(this, Customer.class));
+                startActivity(new Intent(this, CustomerActivity.class));
                 break;
         }
     }
