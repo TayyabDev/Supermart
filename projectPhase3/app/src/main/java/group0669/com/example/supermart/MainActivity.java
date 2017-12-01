@@ -7,25 +7,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.b07.store.DatabaseDriverExtender;
+
+import java.sql.Connection;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button buttonRegister, buttonCustomer, buttonEmployee, buttonAdmin;
+    Button buttonLogin, buttonInitialize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonRegister = (Button) findViewById(R.id.buttonRegister);
-        buttonRegister.setOnClickListener(this);
-
-        buttonCustomer = (Button) findViewById(R.id.buttonCustomer);
-        buttonCustomer.setOnClickListener(this);
-        buttonEmployee = (Button) findViewById(R.id.buttonEmployee);
-        buttonEmployee.setOnClickListener(this);
-        buttonAdmin = (Button) findViewById(R.id.buttonAdmin);
-        buttonAdmin.setOnClickListener(this);
-
+        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonLogin.setOnClickListener(this);
+        buttonInitialize = findViewById(R.id.buttonInitialize);
+        buttonInitialize.setOnClickListener(this);
     }
 
 
@@ -33,19 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()){
 
-            case R.id.buttonRegister:
-                startActivity(new Intent(this, AddUserActivity.class));
+            case R.id.buttonInitialize:
+                startActivity(new Intent(this, InitializationActivity.class));
                 break;
 
-            case R.id.buttonCustomer:
-                startActivity(new Intent(this, Customer.class));
-                break;
-
-            case R.id.buttonAdmin:
-                startActivity(new Intent(this, Admin.class));
-                break;
-            case R.id.buttonEmployee:
-                startActivity(new Intent(this, Employee.class));
+            case R.id.buttonLogin:
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
         }
     }
