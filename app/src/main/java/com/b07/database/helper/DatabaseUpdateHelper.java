@@ -368,6 +368,78 @@ public class DatabaseUpdateHelper extends DatabaseUpdater {
     return false;
 
   }
+  
+  /**
+   * change the active status of an account.
+   * @param accountId the id of the account
+   * @param active if the account is active(true) or inactive(false)
+   * @return true if operation was sucesful, false otherwise
+   * @throws SQLException if SQL error occurs
+   * @throws InvalidInputException if input was invalid
+   * @throws InvalidRoleException if role is invalid
+   * @throws InvalidIdException if id is invalid
+   */
+  public static boolean updateAccountStatus(int accountId, boolean active) throws 
+      SQLException, InvalidInputException, InvalidRoleException, InvalidIdException {
+    
+    boolean complete = false;
+    boolean accountIdcheck = positiveInt(accountId) == userExists(accountId);
+    
+    if (accountIdcheck == true) {
+      Connection connection = DatabaseDriverHelper.connectOrCreateDataBase();
+      complete = DatabaseUpdater.updateAccountStatus(accountId, active, connection);
+      connection.close();
+      return complete;
+    }
+    
+    if (accountIdcheck == false) {
+      throw new InvalidIdException("The Id is not valid");
+    }
+    return complete;
+  }
+  
+  /**
+  * update the password of the user.
+  * @param password the new password
+  * @param id the id of the user
+  * @return true if operation was sucessful, false otherwise
+  * @throws SQLException if SQL error occurs
+  * @throws InvalidInputException if input is not valid
+  * @throws InvalidRoleException if role is not valid
+  * @throws InvalidIdException if id is not valid
+  * @throws InvalidStringException if string is not valid
+  */
+  public static boolean updateUserPassword(String password, int id) throws SQLException, 
+      InvalidInputException, InvalidRoleException, InvalidIdException, InvalidStringException {
+    // perform checks
+    boolean wordCheck = goodString(password);
+    boolean userIdCheck = positiveInt(id);
+    boolean userExist = userExists(id);
+    boolean complete = false;
+    if (wordCheck == userIdCheck == userExist == true) {
+      Connection connection = DatabaseDriverHelper.connectOrCreateDataBase();
+      complete = DatabaseUpdater.updateUserPassword(password, id, connection);
+      
+      connection.close();
+    }
+    // deal with all the exceptions
+    if (wordCheck == false) {
+      throw new InvalidStringException("The password entered is not valid.");
+    }
+
+    if (userIdCheck == false) {
+      throw new InvalidInputException("The Id that was inputed was not not valid.");
+    }
+
+    if (userExist == false) {
+      throw new InvalidIdException("The Id that was inputed was not in the database");
+    }
+
+   
+    return complete;
+    
+  }
+  
 
   /**
    * check if a name is in a correct format.
