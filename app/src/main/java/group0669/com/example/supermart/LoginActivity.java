@@ -7,13 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
-import com.b07.exceptions.InvalidIdException;
-import com.b07.exceptions.InvalidRoleException;
-import com.b07.users.User;
 
-import java.sql.SQLException;
+import com.b07.exceptions.InvalidRoleException;
+
+import com.b07.users.User;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -42,11 +40,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
                     User user = sel.getUser(Integer.parseInt(editUserName.getText().toString()));
 
+                    // if user is admin go to admin interface
                     Intent intent = new Intent(this, MainActivity.class);
                     if(sel.getRoleName(user.getRoleId(this)).equals("ADMIN")){
                         intent = new Intent(this, Admin.class);
                     } else if(sel.getRoleName(user.getRoleId(this)).equals("CUSTOMER")){
+                        // of user is customer go to customer interface
                         intent = new Intent(this, Customer.class);
+                        intent.putExtra("userId", user.getId());
                     }
                     startActivity(intent);
                     break;
