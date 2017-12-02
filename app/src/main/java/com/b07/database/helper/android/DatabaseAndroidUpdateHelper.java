@@ -13,9 +13,7 @@ import java.util.List;
  * Created by Tayyab on 2017-12-01.
  */
 
-public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
-  throws SQLException, InvalidInputException, InvalidStringException, InvalidIdException{
-
+public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
     public DatabaseAndroidUpdateHelper(Context context) {
         super(context);
     }
@@ -64,6 +62,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         boolean userIdCheck = positiveInt(userId);
         // check if user exists in the database
         boolean userIdExist = userExists(userId, context);
+
         // if inputs are valid then get the user
         if (nameCheck && userIdCheck && userIdExist) {
             for (User user : userList) {
@@ -74,19 +73,8 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
             }
         }
         // if name could not be updated return false
-        if (nameCheck == false) {
-        throw new InvalidStringException("The name entered is not valid.");
-        }
-
-        if (userIdCheck == false) {
-        throw new InvalidIdException("The Id that was inputed was not not valid.");
-        }
-
-        if (userIdExist = false) {
-        throw new InvalidIdException("The Id of the user does not exist.");
-        }
         return false;
-        }
+    }
 
     public boolean updateUserAge(int age, int userId, Context context) {
         // perform check for appropriate values
@@ -104,12 +92,9 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
                     return super.updateUserAge(age, userId);
                 }
             }
-        if (ageCheck == false) {
-        throw new InvalidInputException("The age entered is not valid.");
         }
         // if age could not be updated return false
         return false;
-
     }
 
     public boolean updateUserRole(int roleId, int userId, Context context) {
@@ -132,7 +117,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         }
         // if user role could not be found then return false
         return false;
-        }
+    }
 
     public boolean updateItemName(String name, int itemId, Context context) {
         // perform checks
@@ -177,33 +162,14 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         // if price not updated return false
         return false;
     }
-    
+
     public boolean updateAccountStatus(int accountId, boolean active) {
         // perform checks
-        if (itemIdCheck == false) {
-            throw new InvalidInputException("The Id that was inputed was not not valid.");
-        }
-
-        if (itemExist == false) {
-            throw new InvalidIdException("The Id does not exist in the database");
-        }
-
-        return false;
-        }
-
-
-
-    public static boolean updateAccountStatus(int accountId, boolean active) throws
-        SQLException, InvalidInputException, InvalidRoleException, InvalidIdException {
-
         boolean complete = false;
         boolean accountIdCheck = positiveInt(accountId);
         if (accountIdCheck) {
             // if account id is valid then update the status
             complete = super.updateAccountStatus(accountId, active);
-        }
-        if (accountIdcheck == false) {
-            throw new InvalidIdException("The Id is not valid");
         }
         return complete;
     }
@@ -221,8 +187,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         }
         // return if password was updated
         return complete;
-        }
-
+    }
     /**
      * check if a name is in a correct format.
      *
