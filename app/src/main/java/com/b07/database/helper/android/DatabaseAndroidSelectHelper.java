@@ -222,6 +222,25 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
     }
 
+    public User getUserDetailsHelper(int userId) {
+        if (checkUserId(userId)) {
+            Cursor c = super.getUserDetails(userId);
+            // initialize the users info
+            int id = -1;
+            String name = "";
+            int age = -1;
+            String address = "";
+            while (c.moveToNext()) {
+                id = c.getInt(c.getColumnIndex("ID"));
+                name = c.getString(c.getColumnIndex("NAME"));
+                age =  c.getInt(c.getColumnIndex("AGE"));
+                address = c.getString(c.getColumnIndex("ADDRESS"));
+            }
+            c.close();
+            int roleId = getUserRoleId(userId);
+            return createUser(id, name , age, address, roleId);
+        }
+    }
 
     public List<User> getUsersDetailsHelper() {
         Cursor c = super.getUsersDetails();
@@ -242,44 +261,44 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     public SalesLog getSalesHelper() {
         Cursor c = super.getSales();
         SalesLog salesLog = new SalesLogImpl();
+        List<Sale> saleList = new ArrayList<>();
         while (c.moveToNext()){
             int id = c.getInt(c.getColumnIndex("ID"));
-            Sale sale = super.getSaleById(id);
+            Sale sale = getSaleByIdHelper(id);
             salesLog.addSale(sale);
         }
         c.close();
+        return salesLog;
 
     }
 
 
     public Sale getSaleByIdHelper(int saleId) {
         Cursor c = super.getSaleById(saleId);
+        Sale sale = new SaleImpl();
         while (c.moveToNext()) {
             int id = c.getInt(c.getColumnIndex("ID"));
             int userId = c.getInt(c.getColumnIndex("USERID"));
             BigDecimal price = new BigDecimal((c.getString(c.getColumnIndex("TOTALPRICE"))));
-            Sale sale = new SaleImpl();
             sale.setId(id);
-            sale.setUser(super.getUserDetails(userId));
+            sale.setUser(getUserDetailsHelper(userId));
             sale.setTotalPrice(price);
-            return sale;
         }
         c.close();
-
-
+        return sale;
     }
 
 
     public List<Sale> getSalesToUserHelper(int userId) {
         Cursor c = super.getSalesToUser(userId);
         List<Sale> sales = new ArrayList<>();
+        Sale sale = new SaleImpl();
         while (c.moveToNext()) {
             int id = c.getInt(c.getColumnIndex("ID"));
             int usersId = c.getInt(c.getColumnIndex("USERID"));
             BigDecimal price = new BigDecimal((c.getString(c.getColumnIndex("TOTALPRICE"))));
-            Sale sale = new SaleImpl();
             sale.setId(id);
-            sale.setUser(super.getUserDetails(userId));
+            sale.setUser(getUserDetailsHelper(userId));
             sale.setTotalPrice(price);
             sales.add(sale);
         }
@@ -293,8 +312,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         while (c.moveToNext()) {
             sale.setId(c.getInt(c.getColumnIndex("SALEID")));
             HashMap<Item, Integer> itemMap = new HashMap<>();
-            itemMap.put(super.getItem(c.getInt(c.getColumnIndex("ITEMID")),
-                    new Integer(c.getInt(c.getColumnIndex("QUANTITY")));
+            itemMap.put(getItemHelper(c.getInt(c.getColumnIndex("ITEMID"))));
             sale.setItemMap(itemMap);
         }
         c.close();
@@ -330,7 +348,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         List<Integer> quantityList = new ArrayList<Integer>();
         while (c.moveToNext()) {
             itemIdList.add(c.getInt(c.getColumnIndex("ITEMID")));
-            quantityList.add(c.getInt(c.getColumnIndex("QUANTITY"));
+            quantityList.add(c.getInt(c.getColumnIndex("QUANTITY")));
         }
         c.close();
         return new Account(accountId, itemIdList, quantityList);
