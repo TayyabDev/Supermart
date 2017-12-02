@@ -250,7 +250,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
             String name = c.getString(c.getColumnIndex("NAME"));
             int age =  c.getInt(c.getColumnIndex("AGE"));
             String address = c.getString(c.getColumnIndex("ADDRESS"));
-            User newUser = createUser(id, name, age, address, DatabaseAndroidSelectHelper.this.getUserRoleId(id));
+            User newUser = createUser(id, name, age, address, getUserRoleId(id));
             users.add(newUser);
         }
         c.close();
