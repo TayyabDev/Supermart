@@ -7,13 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.b07.database.helper.DatabaseInsertHelper;
 import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.DatabaseInsertException;
+import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidInputException;
+import com.b07.exceptions.InvalidRoleException;
+import com.b07.exceptions.InventoryFullException;
+import com.b07.store.AdminInterface;
+import com.b07.users.Admin;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -22,12 +28,34 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
 
     Button buttonNext;
     EditText editUsername, editAge, editAddress, editPassword, editConfirmPassword;
-
+    AdminInterface adminInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
 
+        // get the admin user id
+        Bundle adminActivityData = getIntent().getExtras();
+        int adminId = adminActivityData.getInt("adminId");
+
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
+
+        // create admin from the id
+        Admin admin = null;
+        try {
+            admin = (Admin) sel.getUser(adminId);
+        } catch (InvalidRoleException e) {
+            Toast.makeText(this, "Something went wrong. Perhaps you are not an admin?", Toast.LENGTH_LONG).show();
+        }
+
+
+        try {
+            adminInterface = new AdminInterface(admin, sel.getInventoryHelper());
+        } catch (InventoryFullException e) {
+            e.printStackTrace();
+        } catch (InvalidIdException e) {
+            e.printStackTrace();
+        }
         editUsername = findViewById(R.id.editUsername);
         editAge = findViewById(R.id.editAge);
         editAddress = findViewById(R.id.editAddress);
@@ -44,33 +72,15 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.buttonNext:
                 // check if passwords are equal
                 if (editPassword.getText().toString().equals(editConfirmPassword.getText().toString())) {
-                    // initialize the insert helper
-                    DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(this);
+                    // create customer
 
-                    // insert user
-                    String name = editUsername.getText().toString();
-                    int age = Integer.parseInt(editAge.getText().toString());
-                    String address = editAddress.getText().toString();
-                    String password = editPassword.getText().toString();
-                    int userId = (int) ins.insertNewUser(name, age, address, password);
-                    System.out.println("User id is: " + userId);
+                int customerId = adminInterface.createCustomer(editUsername.getText().toString(), Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), editPassword.getText().toString(), this);
+                Toast.makeText(this, "Customer created with id: " + customerId, Toast.LENGTH_LONG).show();
+                finish();
 
-                    // initialize select helper
-                    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
 
-                    // search for activity_customer role id
-                    List<Integer> roleIds = sel.getRoleIdsHelper();
-                    System.out.println(roleIds);
-                    for(Integer roleId : roleIds){
-                        System.out.println(roleId);
-
-                        // once we have found activity_customer role id, establish user as activity_customer
-                        if(sel.getRoleName(roleId).equals("CUSTOMER")){
-                            ins.insertUserRole(userId, roleId);
-                            break;
-                        }
-                    }
+                }
                 }
         }
     }
-}
+

@@ -1,8 +1,13 @@
 package com.b07.store;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.b07.database.helper.DatabaseInsertHelper;
 import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.DatabaseUpdateHelper;
+import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
+import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.DatabaseInsertException;
 import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidInputException;
@@ -122,6 +127,30 @@ public class AdminInterface {
     // return the customers id
     return customerId;
   }
+
+  public int createCustomer(String name, int age, String address, String password, Context context) {
+    // try inserting the activity_customer into the database. an exception will be raised if not possible
+    DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
+
+    int customerId = (int) ins.insertNewUser(name, age, address, password);
+    // initialize select helper
+    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+
+    // search for activity_customer role id
+    List<Integer> roleIds = sel.getRoleIdsHelper();
+
+    for(Integer roleId : roleIds){
+      // once we have found customer role id, establish user as customer
+      if(sel.getRoleName(roleId).equals("CUSTOMER")){
+        ins.insertUserRole(customerId, roleId);
+        // give user a message with the user id
+        return customerId;
+      }
+    }
+      return customerId;
+  }
+
+
 
   /**
    * Create a new employee with the information provided.
