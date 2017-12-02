@@ -3,6 +3,11 @@ package com.b07.database.helper.android;
 import android.content.Context;
 
 import com.b07.database.DatabaseDriverAndroid;
+import com.b07.inventory.Item;
+import com.b07.users.User;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by Tayyab on 2017-12-01.
@@ -15,83 +20,60 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         super(context);
     }
 
-    public boolean updateInventoryQuantity(int quantity, int itemId)
-        throws SQLException, InvalidInputException, InvalidIdException {
+    public boolean updateInventoryQuantity(int quantity, int itemId, Context context){
         boolean quantityCheck = quantity >= 0;
-        boolean itemExist = itemExists(itemId);
         boolean itemIdCheck = positiveInt(itemId);
+        boolean itemExist = itemExists(itemId, context);
 
-        if (quantityCheck == itemIdCheck == itemExist == true) {
-        boolean complete = DatabaseUpdater.updateInventoryQuantity(quantity, itemId);
-        complete.close();
-        return complete;
-
+        // if inputs valid then update the inventory quantity
+        if (quantityCheck && itemIdCheck && itemExist) {
+            return super.updateInventoryQuantity(quantity, itemId);
         }
-        // deal with all the exceptions
-        if (quantityCheck == false) {
-        throw new InvalidInputException("The quantity of the item entered is not valid.");
-        }
-
-        if (itemIdCheck == false) {
-        throw new InvalidInputException("The Id that was inputed was not not valid.");
-        }
-
-        if (itemExist == false) {
-        throw new InvalidIdException("The Id does not exist in the database");
-        }
+        // if inputs not valid return false
+        return false;
     }
 
-    public static boolean updateRoleName(String name, int id)
-        throws SQLException, InvalidInputException, InvalidStringException, InvalidIdException{
-
+    public  boolean updateRoleName(String name, int id, Context context) {
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<Integer> roleidlist = sel.getRoleIds();
+        List<Integer> roleidlist = sel.getRoleIdsHelper();
         // check if name is appropriate (not null or empty)
         boolean nameCheck = goodString(name);
         boolean idCheck = positiveInt(id);
 
-        if (nameCheck == idCheck == true) {
+        // if the inputs are good
+        if (nameCheck && idCheck) {
             for (Integer roleid : roleidlist) {
                 // check if the id exists in the list of roles
                 if (id == roleid) {
+                    //  update role name and return
                     boolean complete = super.updateRoleName(name, id);
-                    complete.close();
                     return complete;
                 }
             }
         }
-        if (nameCheck == false) {
-        throw new InvalidStringException("The name entered is not valid.");
-        }
-
-        if (idCheck == false) {
-        throw new InvalidIdException("The Id that was inputed was not not valid.");
-        }
+        // if role name not be updated then return false;
         return false;
     }
-
-    public static boolean updateUserName(String name, int userId)
-        throws SQLException, InvalidInputException, InvalidStringException, InvalidIdException, InvalidRoleException {
-
+    public boolean updateUserName(String name, int userId, Context context)  {
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<Integer> roleidlist = sel.getRoleIds();
+        List<User> userList = sel.getUsersDetailsHelper();
 
         // check if name is appropriate (not null or empty)
         boolean nameCheck = goodString(name);
         // check if number is not negative
         boolean userIdCheck = positiveInt(userId);
         // check if user exists in the database
-        boolean userIdExist = userExists(userId);
-        if (nameCheck == userIdCheck == userIdExist == true) {
-            for (User user : userlist) {
+        boolean userIdExist = userExists(userId, context);
+        // if inputs are valid then get the user
+        if (nameCheck && userIdCheck && userIdExist) {
+            for (User user : userList) {
                 if (userId == user.getId()) {
-                    boolean complete = super.updateUserName(name, userId);
-                    complete.close();
-                    return complete;
+                    // update user's name
+                    return super.updateUserName(name, userId);
                 }
             }
         }
-
+        // if name could not be updated return false
         if (nameCheck == false) {
         throw new InvalidStringException("The name entered is not valid.");
         }
@@ -106,178 +88,98 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         return false;
         }
 
-    public static boolean updateUserAge(int age, int userId) {
-
+    public boolean updateUserAge(int age, int userId, Context context) {
         // perform check for appropriate values
         boolean ageCheck = age >= 0;
         boolean userIdCheck = positiveInt(userId);
-        boolean userIdExist = userExists(userId);
-        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<User> userIdlist = sel.getUsersDetails();
+        boolean userIdExist = userExists(userId, context);
 
-        if (ageCheck == userIdCheck == userIdExist == true) {
+        // if inputs valid then check if user exists
+        if (ageCheck && userIdCheck && userIdExist) {
+            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+            List<User> userIdlist = sel.getUsersDetailsHelper();
             for (User user : userIdlist) {
                 if (userId == user.getId()) {
-                    boolean complete = super.updateUserAge(age, userId);
-                    complete.close();
-                    return complete;
+                    // if user exists then update his age with the given age
+                    return super.updateUserAge(age, userId);
                 }
             }
         if (ageCheck == false) {
         throw new InvalidInputException("The age entered is not valid.");
         }
-
-        if (userIdCheck == false) {
-        throw new InvalidIdException("The Id that was inputed was not not valid.");
-        }
-
-        if (userIdExist = false) {
-        throw new InvalidIdException("The Id of the user does not exist.");
-        }
+        // if age could not be updated return false
         return false;
 
     }
 
-    public static boolean updateUserAddress(String address, int userId)
-        throws SQLException, InvalidInputException, InvalidStringException, InvalidIdException, InvalidRoleException {
-
-        // perform check for appropriate values
-        boolean addressCheck = goodString(address);
-        boolean userIdCheck = positiveInt(userId);
-        boolean addressLength = address.length() <= 100;
-        boolean userIdExist = userExists(userId);
-
-        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<User> userIdlist = sel.getUsersDetails();
-
-        if (addressCheck == userIdCheck == addressLength == userIdExist == true) {
-            for (User user : userIdlist) {
-                if (userId == user.getId()) {
-                    boolean complete = super.updateUserAddress(address, userId, connection);
-                    complete.close();
-                    return complete;
-                }
-            }
-        }
-
-        if (addressCheck == false) {
-        throw new InvalidStringException("The adress entered is not valid.");
-        }
-
-        if (userIdCheck == false) {
-        throw new InvalidIdException("The Id that was inputed was not not valid.");
-        }
-
-        if (userIdExist = false) {
-        throw new InvalidIdException("The Id of the user does not exist.");
-        }
-
-        if (addressLength == false) {
-        throw new InvalidInputException("The address length input is not valid");
-        }
-
-        return false;
-        }
-
-    public static boolean updateUserRole(int roleId, int userId)
-        throws SQLException, InvalidInputException, InvalidIdException, InvalidRoleException {
-        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<User> userlist = sel.getUsersDetails();
-
+    public boolean updateUserRole(int roleId, int userId, Context context) {
         // perform checks
         boolean roleIdCheck = positiveInt(roleId);
         boolean userIdCheck = positiveInt(userId);
-        boolean userIdExist = userExists(userId);
+        boolean userIdExist = userExists(userId, context);
 
-        if (roleIdCheck == userIdCheck == userIdExist == true) {
+        // if inputs valid then search for user in database
+        if (roleIdCheck && userIdCheck && userIdExist) {
+            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+            List<User> userlist = sel.getUsersDetailsHelper();
+
             for (User user : userlist) {
                 if (userId == user.getId()) {
-                    boolean complete = super.updateUserRole(roleId, userId);
-                    complete.close();
-                    return complete;
+                    // update users role if user found
+                    return super.updateUserRole(roleId, userId);
                 }
             }
         }
-        // deal with all the exceptions
-        if (roleIdCheck == false) {
-        throw new InvalidInputException("The role Id entered is not valid.");
-        }
-
-        if (userIdCheck == false) {
-        throw new InvalidInputException("The Id that was inputed was not not valid.");
-        }
-
-        if (userIdExist = false) {
-        throw new InvalidIdException("The Id of the user does not exist.");
-        }
-
+        // if user role could not be found then return false
         return false;
         }
 
-
-    public static boolean updateItemName(String name, int itemId)
-        throws SQLException, InvalidInputException, InvalidStringException, InvalidIdException {
-
-        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<Item> itemidlist = sel.getAllItems();
-
+    public boolean updateItemName(String name, int itemId, Context context) {
         // perform checks
         boolean nameCheck = goodString(name);
         boolean itemIdCheck = positiveInt(itemId);
-        boolean itemExist = itemExists(itemId);
+        boolean itemExist = itemExists(itemId, context);
 
-        if (nameCheck == itemIdCheck == itemExist == true) {
+        // if inputs valid search get all items in database
+        if (nameCheck && itemIdCheck && itemExist) {
+            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+            List<Item> itemidlist = sel.getAllItemsHelper();
+
             for (Item item : itemidlist) {
+                // once item is found then update it's name
                 if (itemId == item.getId()) {
-                    boolean complete = super.updateItemName(name, itemId);
-                    complete.close();
-                    return complete;
+                    return super.updateItemName(name, itemId);
                 }
             }
         }
-        // deal with all the exceptions
-        if (nameCheck == false) {
-        throw new InvalidStringException("The name of the item entered is not valid.");
-        }
-
-        if (itemIdCheck == false) {
-        throw new InvalidInputException("The Id that was inputed was not not valid.");
-        }
-
-        if (itemExist == false) {
-        throw new InvalidIdException("The Id that was inputed was not in the database");
-        }
-
+        // if item could not be updated return false
         return false;
-        }
+    }
 
-
-    public static boolean updateItemPrice(BigDecimal price, int itemId)
-        throws SQLException, InvalidInputException, InvalidIdException {
-
-
-            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<Item> itemidlist = sel.getAllItems();
-
+    public boolean updateItemPrice(BigDecimal price, int itemId, Context context) {
         // perform checks
         boolean priceCheck = (price.doubleValue() > 0);
         boolean itemIdCheck = positiveInt(itemId);
-        boolean itemExist = itemExists(itemId);
+        boolean itemExist = itemExists(itemId, context);
 
-        if (priceCheck == itemIdCheck == itemExist == true) {
-            for (Item item : itemidlist) {
+        // if inputs valid then get all items
+        if (priceCheck && itemIdCheck && itemExist) {
+            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+            List<Item> itemList = sel.getAllItemsHelper();
+
+            for (Item item : itemList) {
+                // once item is found  then update its price
                 if (itemId == item.getId()) {
-                    boolean complete = super.updateItemPrice(price, itemId);
-                    complete.close();
-                    return complete;
+                    return super.updateItemPrice(price ,itemId);
                 }
             }
         }
-        // deal with all the exceptions
-        if (priceCheck == false) {
-            throw new InvalidInputException("The price of the item entered is not valid.");
-        }
-
+        // if price not updated return false
+        return false;
+    }
+    
+    public boolean updateAccountStatus(int accountId, boolean active) {
+        // perform checks
         if (itemIdCheck == false) {
             throw new InvalidInputException("The Id that was inputed was not not valid.");
         }
@@ -295,12 +197,10 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         SQLException, InvalidInputException, InvalidRoleException, InvalidIdException {
 
         boolean complete = false;
-        boolean accountIdcheck = positiveInt(accountId) == userExists(accountId);
-
-        if (accountIdcheck == true) {
+        boolean accountIdCheck = positiveInt(accountId);
+        if (accountIdCheck) {
+            // if account id is valid then update the status
             complete = super.updateAccountStatus(accountId, active);
-            complete.close();
-            return complete;
         }
         if (accountIdcheck == false) {
             throw new InvalidIdException("The Id is not valid");
@@ -308,34 +208,18 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         return complete;
     }
 
-
-
-    public static boolean updateUserPassword(String password, int id) throws SQLException,
-        InvalidInputException, InvalidRoleException, InvalidIdException, InvalidStringException {
+    public boolean updateUserPassword(String password, int id, Context context) {
         // perform checks
         boolean wordCheck = goodString(password);
-        boolean userIdCheck = positiveInt(id);
-        boolean userExist = userExists(id);
+        boolean userIdCheck = userExists(id, context);
+        boolean userExist = userExists(id, context);
         boolean complete = false;
-        if (wordCheck == userIdCheck == userExist == true) {
+
+        // if inputs valid then update password
+        if (wordCheck && userIdCheck && userExist) {
             complete = super.updateUserPassword(password, id);
-            return complete;
-            complete.close();
         }
-        // deal with all the exceptions
-        if (wordCheck == false) {
-        throw new InvalidStringException("The password entered is not valid.");
-        }
-
-        if (userIdCheck == false) {
-        throw new InvalidInputException("The Id that was inputed was not not valid.");
-        }
-
-        if (userExist == false) {
-        throw new InvalidIdException("The Id that was inputed was not in the database");
-        }
-
-
+        // return if password was updated
         return complete;
         }
 
@@ -376,17 +260,13 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
      *
      * @param userId the user's Id that needs to be checked
      * @return true if the user exists in the database
-     * @throws SQLException if an SQL error exists
-     * @throws InvalidInputException if an invalid input exists
-     * @throws InvalidIdException if the Id is invalid
-     * @throws InvalidRoleException if the role is invalid
      */
-    private static boolean userExists(int userId)
-            throws SQLException, InvalidInputException, InvalidRoleException, InvalidIdException {
+    private  boolean userExists(int userId, Context context) {
         boolean idExists = false;
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<User> userIdList = sel.getUsersDetails();
+        List<User> userIdList = sel.getUsersDetailsHelper();
 
+        // loop through all users
         for (User user : userIdList) {
             if (user.getId() == userId) {
                 idExists = true;
@@ -400,13 +280,13 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
      *
      * @param itemId the id of the item
      * @return true if item exists in the database
-     * @throws SQLException if SQL error occurs
      */
-    private static boolean itemExists(int itemId) throws SQLException {
+    private static boolean itemExists(int itemId, Context context) {
         boolean idExists = false;
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<Item> itemIdList = sel.getAllItems();
+        List<Item> itemIdList = sel.getAllItemsHelper();
 
+        // loop through all items
         for (Item item : itemIdList) {
             if (itemId == item.getId()) {
                 idExists = true;
@@ -417,4 +297,4 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
     }
 }
 
-}
+
