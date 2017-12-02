@@ -1,26 +1,26 @@
 package com.b07.users;
 
-import android.content.Context;
-
 import com.b07.database.helper.DatabaseSelectHelper;
-import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.InvalidIdException;
 import com.b07.security.PasswordHelpers;
 import java.sql.SQLException;
 
-import group0669.com.example.supermart.LoginActivity;
+import java.io.Serializable;
 
 
-public abstract class User {
-  // TODO: Complete this class based on UML provided on the assignment sheet.
+public abstract class User implements Serializable{
+  
+  private static final long serialVersionUID = 1472686819255975506L;
+  
   private int id;
   private String name;
   private int age;
   @SuppressWarnings("unused")
   private String address;
   @SuppressWarnings("unused")
-  private int roleId;
-  private boolean authenticated;
+  // don't serialize these into database
+  private transient int roleId;
+  private transient boolean authenticated;
 
 
   /**
@@ -88,11 +88,6 @@ public abstract class User {
     return DatabaseSelectHelper.getUserRoleId(this.id);
   }
 
-  public int getRoleId(Context context){
-    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-    return sel.getUserRoleId(this.id);
-  }
-
   /**
    * Check if the user is authenticated.
    * 
@@ -108,14 +103,4 @@ public abstract class User {
     this.authenticated = PasswordHelpers.comparePassword(databasePassword, password);
     return this.authenticated;
   }
-  public final boolean authenticate(String password, Context context) throws SQLException, InvalidIdException {
-    // get the hashed password from the database
-    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-    String databasePassword = sel.getPasswordHelper(this.id);
-    // check if the hashed password is equal to the input password
-    this.authenticated = PasswordHelpers.comparePassword(databasePassword, password);
-    return this.authenticated;
-  }
-
-
 }

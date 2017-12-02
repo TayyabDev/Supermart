@@ -2,10 +2,11 @@ package com.b07.store;
 
 import com.b07.inventory.Item;
 import com.b07.users.User;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-public interface Sale {
+public interface Sale extends Serializable{
   public int getId();
 
   public void setId(int id);

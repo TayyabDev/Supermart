@@ -2,10 +2,11 @@ package com.b07.inventory;
 
 import com.b07.exceptions.InvalidQuantityException;
 import com.b07.exceptions.InventoryFullException;
+import java.io.Serializable;
 import java.util.HashMap;
 
 
-public interface Inventory {
+public interface Inventory extends Serializable{
 
   public HashMap<Item, Integer> getItemMap();
 

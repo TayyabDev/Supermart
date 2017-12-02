@@ -3,6 +3,8 @@ package com.b07.inventory;
 import java.math.BigDecimal;
 
 public class ItemImpl implements Item {
+ 
+  private static final long serialVersionUID = -5829418623470240907L;
   private int id;
   private String name;
   private BigDecimal price;
