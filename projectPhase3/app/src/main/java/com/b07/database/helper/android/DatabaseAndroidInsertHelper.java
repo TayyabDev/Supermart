@@ -9,6 +9,7 @@ import com.b07.enumerators.Roles;
 import com.b07.exceptions.DatabaseInsertException;
 import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidInputException;
+import com.b07.exceptions.InvalidQuantityException;
 import com.b07.inventory.Item;
 
 import java.math.BigDecimal;
@@ -79,8 +80,19 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
         }
     }
 
+    public long insertSale(int userId, BigDecimal totalPrice) {
+        BigDecimal leastPrice = new BigDecimal("0");
+        long saleId = -1;
+        // if totalPrice is >= 0 then proceed check if user id is valid
+        if (totalPrice.compareTo(leastPrice) >= 0) {
+            saleId = super.insertSale(userId, totalPrice);
+        }
+        return saleId;
+    }
+    public long insertItemizedSale(int saleId, int itemId, int quantity){
+        int itemizedSaleId = -1;
 
-
+    }
 
 
 }
