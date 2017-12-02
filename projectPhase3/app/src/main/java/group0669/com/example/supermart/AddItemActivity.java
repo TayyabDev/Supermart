@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
@@ -18,7 +19,7 @@ import com.b07.inventory.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddItemActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddItemActivity extends AppCompatActivity {
 
     Button buttonSave;
     ListView listItems;
@@ -44,18 +45,15 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         adapter = new ArrayAdapter<String>(listItems.getContext(), android.R.layout.simple_list_item_1, itemInformation);
         listItems.setAdapter(adapter);
 
-
-        buttonSave = (Button) findViewById(R.id.buttonSave);
-
-        buttonSave.setOnClickListener(this);
+        listItems.setOnItemClickListener(
+                new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        String itemName = String.valueOf(adapterView.getItemAtPosition(i));
+                        Toast.makeText(AddItemActivity.this, itemName, Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.buttonSave:
-                startActivity(new Intent(this, CustomerActivity.class));
-                break;
-        }
-    }
 }
