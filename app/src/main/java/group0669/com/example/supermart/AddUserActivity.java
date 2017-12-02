@@ -48,14 +48,10 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             Toast.makeText(this, "Something went wrong. Perhaps you are not an admin?", Toast.LENGTH_LONG).show();
         }
 
+        // get the admin interface
+        adminInterface = new AdminInterface(admin, sel.getInventoryHelper());
 
-        try {
-            adminInterface = new AdminInterface(admin, sel.getInventoryHelper());
-        } catch (InventoryFullException e) {
-            e.printStackTrace();
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
-        }
+        // get the buttons
         editUsername = findViewById(R.id.editUsername);
         editAge = findViewById(R.id.editAge);
         editAddress = findViewById(R.id.editAddress);
@@ -72,13 +68,10 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.buttonNext:
                 // check if passwords are equal
                 if (editPassword.getText().toString().equals(editConfirmPassword.getText().toString())) {
-                    // create customer
-
-                int customerId = adminInterface.createCustomer(editUsername.getText().toString(), Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), editPassword.getText().toString(), this);
-                Toast.makeText(this, "Customer created with id: " + customerId, Toast.LENGTH_LONG).show();
-                finish();
-
-
+                    // create customer and close activity
+                    int customerId = adminInterface.createCustomer(editUsername.getText().toString(), Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), editPassword.getText().toString(), this);
+                    Toast.makeText(this, "Customer created with id: " + customerId, Toast.LENGTH_LONG).show();
+                    finish();
                 }
                 }
         }

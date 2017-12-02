@@ -207,10 +207,18 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
 
     public List<Integer> getUsersByRoleHelper(int roleId){
-        List<User> userList = super.getUsersDetails();
-        for (User user : userList) {
+        // get cursor and initialize the user id list
+        Cursor c = super.getUsersByRole(roleId);
+        List<Integer> userIdList = new ArrayList<>();
 
+        // loop through cursor results
+        while(c.moveToNext()){
+            //  get the user id and it to list
+            userIdList.add(c.getInt(c.getColumnIndex("ID")));
         }
+        // close cursor and return list of user id's
+        c.close();
+        return userIdList;
 
     }
 
