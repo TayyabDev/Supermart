@@ -6,9 +6,11 @@ import java.util.HashMap;
 
 
 public class InventoryImpl implements Inventory {
+
+  private static final long serialVersionUID = 6863228137485611689L;
   private HashMap<Item, Integer> itemMap = new HashMap<Item, Integer>();
-  private int total;
-  private boolean totalSet = false;
+  private transient int total;
+  private transient boolean totalSet = false;
 
   @Override
   public HashMap<Item, Integer> getItemMap() {

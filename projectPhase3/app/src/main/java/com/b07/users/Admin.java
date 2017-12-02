@@ -2,6 +2,8 @@ package com.b07.users;
 
 public class Admin extends User {
 
+  private static final long serialVersionUID = 9048995631488605180L;
+
   /**
    * Admin constructor.
    * 
