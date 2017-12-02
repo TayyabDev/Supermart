@@ -101,6 +101,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     public String getPasswordHelper(int userId)  {
         return super.getPassword(userId);
     }
+
     public Item getItemHelper(int itemId) throws InvalidIdException {
         // intitialize item info
         int id = 0;
@@ -168,6 +169,23 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         // quantity of -1  will be returned if invalid item Id
         return quantity;
     }
+    public Inventory getInventoryHelper() throws InventoryFullException, InvalidIdException {
+        // initialize an inventory
+        Inventory inventory = new InventoryImpl();
+
+        // get cursor
+        Cursor c = super.getInventory();
+
+        while (c.moveToNext()) {
+            // update the item map with the current table data
+            inventory.updateItemMap(getItemHelper(c.getInt(c.getColumnIndex("ITEMID"))),c.getInt(c.getColumnIndex("QUANTITY")));
+
+        }
+        c.close();
+        return inventory;
+    }
+
+
 
 /*
 

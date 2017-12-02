@@ -9,11 +9,15 @@ import android.widget.Button;
 public class AddOrEditActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button buttonAddUser, buttonEditUser;
-
+    int adminId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit);
+
+        // get the admin user id
+        Bundle adminActivityData = getIntent().getExtras();
+        adminId = adminActivityData.getInt("adminId");
 
         buttonAddUser = (Button) findViewById(R.id.buttonAddUser);
         buttonAddUser.setOnClickListener(this);
@@ -25,7 +29,9 @@ public class AddOrEditActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buttonAddUser:
-                startActivity(new Intent(this, AddUserActivity.class));
+                Intent intent = new Intent(this, AddUserActivity.class);
+                intent.putExtra("adminId", adminId);
+                startActivity(intent);
                 break;
             case R.id.buttonEditUser:
                 startActivity(new Intent(this, EditUserActivity.class));

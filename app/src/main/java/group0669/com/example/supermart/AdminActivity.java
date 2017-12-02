@@ -17,7 +17,7 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
     Button buttonViewInventory;
     Button buttonViewSale;
     Button buttonInventory;
-
+    Admin admin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +33,7 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
 
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
         // get the user
-        Admin admin = null;
+        admin = null;
         try {
             admin = (Admin) sel.getUser(userId);
         } catch (InvalidRoleException e) {
@@ -58,7 +58,9 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.buttonAddOrEdit:
-                startActivity(new Intent(this, AddOrEditActivity.class));
+                Intent intent = new Intent(this, AddOrEditActivity.class);
+                intent.putExtra("adminId", admin.getId());
+                startActivity(intent);
                 break;
             case R.id.buttonViewInventory:
                 startActivity(new Intent(this, ViewInventoryActivity.class));

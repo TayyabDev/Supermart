@@ -8,12 +8,29 @@
     tools:context="group0669.com.example.supermart.LoginActivity">
 
     <TextView
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
+        android:id="@+id/textViewSupermart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/supermart"
+        android:text="Supermart"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Always Low Prices!"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
         android:layout_width="wrap_content"
-        android:text="Username"
-        android:textSize="23dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"
+        android:text="User ID"
+        android:textSize="23dp" />
 
     <EditText
         android:layout_marginBottom="10dp"
