@@ -29,7 +29,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/editNewItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -37,7 +37,7 @@
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/editNewItemPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -45,7 +45,7 @@
             android:inputType="numberDecimal" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonAddNewItem"
             style="?attr/buttonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
