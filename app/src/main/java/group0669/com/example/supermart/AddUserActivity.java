@@ -46,6 +46,8 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
             admin = (Admin) sel.getUser(adminId);
         } catch (InvalidRoleException e) {
             Toast.makeText(this, "Something went wrong. Perhaps you are not an admin?", Toast.LENGTH_LONG).show();
+        } catch (InvalidIdException e) {
+            Toast.makeText(this, "Something went wrong. Perhaps your user ID got changed?", Toast.LENGTH_LONG).show();
         }
 
         // get the admin interface

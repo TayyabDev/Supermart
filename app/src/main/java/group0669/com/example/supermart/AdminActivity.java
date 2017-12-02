@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
+import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidRoleException;
 import com.b07.users.Admin;
 
@@ -38,7 +40,9 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
         try {
             admin = (Admin) sel.getUser(userId);
         } catch (InvalidRoleException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "Something went wrong. Perhaps you are not an admin?", Toast.LENGTH_LONG).show();
+        } catch (InvalidIdException e) {
+            Toast.makeText(this, "Something went wrong. Perhaps you are not in database?", Toast.LENGTH_LONG).show();
         }
 
         final TextView welcomeAdmin= (TextView) findViewById(R.id.textWelcomeAdmin);

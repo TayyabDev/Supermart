@@ -43,7 +43,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         super(context);
     }
 
-    public User getUser(int userId) throws InvalidRoleException {
+    public User getUser(int userId) throws InvalidRoleException, InvalidIdException {
         User user = null;
         Cursor c = super.getUserDetails(userId);
         int id = -1;
@@ -65,8 +65,11 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
             // construct user and return
             if(roleId > 0){
                 user = createUser(id, name, age, address, roleId);
+            } else {
+                throw new InvalidRoleException("User is not registered in database as any role.");
             }
-
+        } else {
+            throw new InvalidIdException("User is not in database");
         }
 
 
