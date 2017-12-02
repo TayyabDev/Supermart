@@ -13,8 +13,12 @@ import android.widget.TextView;
 
 
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
+import com.b07.exceptions.CustomerNotLoggedInException;
 import com.b07.exceptions.InvalidRoleException;
+import com.b07.store.ShoppingCart;
 import com.b07.users.Customer;
+
+import java.sql.SQLException;
 
 public class CustomerActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -50,6 +54,21 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
         final TextView welcomeUser = (TextView) findViewById(R.id.textWelcomeUser);
         welcomeUser.setText("Welcome " + customer.getName() + "!");
 
+        // make the shopping cart
+        /**
+         *
+        try {
+            ShoppingCart sc = new ShoppingCart(customer);
+        } catch (CustomerNotLoggedInException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+         */
+
+
+
+
         buttonRestoreShoppingCart = (Button) findViewById(R.id.buttonRestoreShoppingCart);
         buttonRestoreShoppingCart.setOnClickListener(this);
         buttonAddItem = (Button) findViewById(R.id.buttonAddItem);
@@ -72,6 +91,7 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
             case R.id.buttonAddItem:
                 startActivity(new Intent(this, AddItemActivity.class));
                 break;
+
 
             case R.id.buttonRemoveItem:
                 startActivity(new Intent(this, RemoveItemActivity.class));
