@@ -79,6 +79,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         }
         return user;
     }
+
     public String getRoleName(int roleId) {
         return super.getRole(roleId);
     }
@@ -131,7 +132,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
     }
 
-    public List<Item> getAllItemsHelper() throws SQLException {
+    public List<Item> getAllItemsHelper() {
         Cursor c = super.getAllItems();
         // initialize list of items to return
         List<Item> items = new ArrayList<>();
@@ -169,7 +170,8 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         // quantity of -1  will be returned if invalid item Id
         return quantity;
     }
-    public Inventory getInventoryHelper() throws InventoryFullException, InvalidIdException {
+
+    public Inventory getInventoryHelper() {
         // initialize an inventory
         Inventory inventory = new InventoryImpl();
 
@@ -178,7 +180,13 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
         while (c.moveToNext()) {
             // update the item map with the current table data
-            inventory.updateItemMap(getItemHelper(c.getInt(c.getColumnIndex("ITEMID"))),c.getInt(c.getColumnIndex("QUANTITY")));
+            try {
+                inventory.updateItemMap(getItemHelper(c.getInt(c.getColumnIndex("ITEMID"))),c.getInt(c.getColumnIndex("QUANTITY")));
+            } catch (InventoryFullException e) {
+                e.printStackTrace();
+            } catch (InvalidIdException e) {
+                e.printStackTrace();
+            }
 
         }
         c.close();
@@ -187,77 +195,137 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
 
 
-/*
-
-
-
-
-
-
-
-
     private boolean checkUserId(int userId) {
-
+        boolean check = false;
+        Cursor c = super.getUserDetails(userId);
+        while (c.moveToNext()) {
+            check = ((c.getColumnIndex("ID")) == userId);
+        }
+        c.close();
+        return check;
     }
 
 
     public List<Integer> getUsersByRoleHelper(int roleId){
+        List<User> userList = super.getUsersDetails();
+        for (User user : userList) {
+
+        }
 
     }
 
 
     public List<User> getUsersDetailsHelper() {
-
-    }
-
-    public List<Item> getAllItemsHelper()  {
-
-    }
-
-
-
-
-
-    public Inventory getInventoryHelper() {
-
+        Cursor c = super.getUsersDetails();
+        List<User> users = new ArrayList<>();
+        while (c.moveToNext()){
+            int id = c.getInt(c.getColumnIndex("ID"));
+            String name = c.getString(c.getColumnIndex("NAME"));
+            int age =  c.getInt(c.getColumnIndex("AGE"));
+            String address = c.getString(c.getColumnIndex("ADDRESS"));
+            User newUser = createUser(id, name, age, address, DatabaseAndroidSelectHelper.this.getUserRoleId(id));
+            users.add(newUser);
+        }
+        c.close();
+        return users;
     }
 
 
     public SalesLog getSalesHelper() {
+        Cursor c = super.getSales();
+        SalesLog salesLog = new SalesLogImpl();
+        while (c.moveToNext()){
+            int id = c.getInt(c.getColumnIndex("ID"));
+            Sale sale = super.getSaleById(id);
+            salesLog.addSale(sale);
+        }
+        c.close();
 
     }
 
 
     public Sale getSaleByIdHelper(int saleId) {
+        Cursor c = super.getSaleById(saleId);
+        while (c.moveToNext()) {
+            int id = c.getInt(c.getColumnIndex("ID"));
+            int userId = c.getInt(c.getColumnIndex("USERID"));
+            BigDecimal price = new BigDecimal((c.getString(c.getColumnIndex("TOTALPRICE"))));
+            Sale sale = new SaleImpl();
+            sale.setId(id);
+            sale.setUser(super.getUserDetails(userId));
+            sale.setTotalPrice(price);
+            return sale;
+        }
+        c.close();
+
 
     }
 
 
     public List<Sale> getSalesToUserHelper(int userId) {
-
+        Cursor c = super.getSalesToUser(userId);
+        List<Sale> sales = new ArrayList<>();
+        while (c.moveToNext()) {
+            int id = c.getInt(c.getColumnIndex("ID"));
+            int usersId = c.getInt(c.getColumnIndex("USERID"));
+            BigDecimal price = new BigDecimal((c.getString(c.getColumnIndex("TOTALPRICE"))));
+            Sale sale = new SaleImpl();
+            sale.setId(id);
+            sale.setUser(super.getUserDetails(userId));
+            sale.setTotalPrice(price);
+            sales.add(sale);
+        }
+        c.close();
+        return sales;
     }
 
 
-    public void getItemizedSaleByIdHelper(int saleId, Sale sale) throws InvalidIdException {
-
+    public void getItemizedSaleByIdHelper(int saleId, Sale sale){
+        Cursor c = super.getItemizedSaleById(saleId);
+        while (c.moveToNext()) {
+            sale.setId(c.getInt(c.getColumnIndex("SALEID")));
+            HashMap<Item, Integer> itemMap = new HashMap<>();
+            itemMap.put(super.getItem(c.getInt(c.getColumnIndex("ITEMID")),
+                    new Integer(c.getInt(c.getColumnIndex("QUANTITY")));
+            sale.setItemMap(itemMap);
+        }
+        c.close();
     }
 
 
-    public void getItemizedSalesHelper(SalesLog salesLog){
-
+    public void getItemizedSalesHelper(SalesLog salesLog) {
+        Cursor c = super.getItemizedSales();
+        while (c.moveToNext()) {
+            ItemizedSaleImpl sale = new ItemizedSaleImpl();
+            int saleId = c.getInt(c.getColumnIndex("SALEID"));
+            super.getItemizedSaleById(saleId);
+            salesLog.addSale(sale);
+        }
+        c.close();
     }
 
 
     public List<Integer> getUserAccountsHelper(int userId)  {
-
+        Cursor c = super.getUserAccounts(userId);
+        List<Integer> accountIds = new ArrayList<>();
+        while (c.moveToNext()) {
+            accountIds.add(c.getInt(c.getColumnIndex("ID")));
+        }
+        c.close();
+        return accountIds;
     }
 
 
     public Account getAccountDetailsHelper(int accountId) {
-
-
-
+        Cursor c = super.getAccountDetails(accountId);
+        List<Integer> itemIdList = new ArrayList<Integer>();
+        List<Integer> quantityList = new ArrayList<Integer>();
+        while (c.moveToNext()) {
+            itemIdList.add(c.getInt(c.getColumnIndex("ITEMID")));
+            quantityList.add(c.getInt(c.getColumnIndex("QUANTITY"));
+        }
+        c.close();
+        return new Account(accountId, itemIdList, quantityList);
     }
- */
 }
 
