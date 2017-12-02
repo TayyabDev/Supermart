@@ -12,9 +12,9 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
     public DatabaseAndroidUpdateHelper(Context context) {
         super(context);
     }
-    public boolean updateInventoryQuantity(int itemId, int quantity){
-        // update the quantity and return if its succesful
-        return updateInventoryQuantity(quantity, itemId);
+    public boolean updateInventoryQuantity(int quantity, int itemId){
+        // update the quantity and return if its succesfull
+        return super.updateInventoryQuantity(quantity, itemId);
     }
 
 

@@ -13,30 +13,29 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ItemId"
-        android:textSize="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        />
+        android:layout_marginTop="20dp"
+        android:text="Item Name"
+        android:textSize="20dp" />
 
     <EditText
+        android:id="@+id/editItemName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editItemId"
-        />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Quantity"
-        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:text="Quantity"
+        android:textSize="20dp" />
 
     <EditText
+        android:id="@+id/editQuantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editQuantity"/>
+        android:inputType="number" />
 
     <Button
         android:id="@+id/buttonConfirm"

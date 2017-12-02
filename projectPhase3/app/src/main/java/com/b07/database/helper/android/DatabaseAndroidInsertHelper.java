@@ -95,9 +95,9 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
     public long insertItemizedSale(int saleId, int itemId, int quantity, Context context) throws DatabaseInsertException, SQLException {
         long itemizedId = -1;
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-        List<Item> itemslist = sel.getAllItemsHelper();
+        List<Item> itemsList = sel.getAllItemsHelper();
         SalesLog salesLog = sel.getSalesHelper();
-        for (Item item : itemslist) {
+        for (Item item : itemsList) {
             if (item.getId() == itemId) {
                 for (Sale sale : salesLog.getSales()) {
                     if (sale.getId() == saleId) {
