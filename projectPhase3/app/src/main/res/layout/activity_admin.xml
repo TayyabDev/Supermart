@@ -9,13 +9,13 @@
     android:padding="20dp"
     android:background="@color/colorPrimaryDark">
 
+
     <TextView
         android:id="@+id/textWelcomeAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Welcome Admin! Please select one of the following options."
         android:textSize="20sp" />
-
 
     <Button
         android:id="@+id/buttonAddOrEdit"
@@ -39,14 +39,14 @@
         android:text="View the Inventory" />
 
     <Button
-        android:id="@+id/buttonInventory"
+        android:id="@+id/buttonRestockInventory"
         style="?attr/buttonStyle"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:text="RESTOCK INVENTORY"
+        android:background="@color/colorPrimary"
         android:drawableLeft="@mipmap/inventory"
+        android:text="RESTOCK INVENTORY"
         android:textAlignment="center" />
 
     <Button
@@ -56,23 +56,18 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:drawableLeft="@mipmap/sales"
+        android:layout_marginBottom="30dp"
         android:text="See the sales" />
 
-    <TextView
-        android:id="@+id/textViewHereAreStats"
+    <Button
+        android:id="@+id/buttonAddNewItem"
+        style="?attr/buttonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-        android:text="Here are some quick stats about the store!"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/textViewStats"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Stats" />
+        android:background="@color/colorPrimary"
+        android:drawableLeft="@mipmap/additemtodatabase"
+        android:text="Add new item to database" />
 
 
 </LinearLayout>

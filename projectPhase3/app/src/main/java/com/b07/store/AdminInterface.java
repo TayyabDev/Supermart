@@ -284,17 +284,22 @@ public class AdminInterface {
    * @throws SQLException
    * @throws DatabaseInsertException
    */
-  public int addItem(String itemName, int price)
+  public int addItem(String itemName, BigDecimal price)
       throws DatabaseInsertException, SQLException, InvalidInputException {
     int itemId = -1;
-    // convert the price to big decimal
-    BigDecimal itemPrice = new BigDecimal(price);
-
     // insert item into database
-    itemId = DatabaseInsertHelper.insertItem(itemName, itemPrice);
-
-
+    itemId = DatabaseInsertHelper.insertItem(itemName, price);
     return itemId;
+  }
+
+  public int addItem(String itemName, BigDecimal price, Context context){
+      int itemId = -1;
+      // insert item into database
+      DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
+      itemId = (int) ins.insertItem(itemName, price);
+
+      // return the item's id
+      return itemId;
   }
 
 
