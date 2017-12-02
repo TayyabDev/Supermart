@@ -10,6 +10,12 @@
     android:padding="10dp">
 
 
+    <TextView
+        android:id="@+id/textSelectItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please select an item to add it to your cart!" />
+
     <ListView
         android:id="@+id/listItems"
         android:layout_width="match_parent"

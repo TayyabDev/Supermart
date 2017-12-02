@@ -154,6 +154,20 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         return items;
     }
 
+    public int getInventoryQuantity(int itemId) {
+        // initialize quantity and search inventory for it
+        int quantity = -1;
+        List<Item> itemList = getAllItemsHelper();
+        for (Item item : itemList) {
+            if (item.getId() == itemId) {
+                // connect to database and get the inventory quantity once we have found the item
+                quantity = super.getInventoryQuantity(itemId);
+                return quantity;
+            }
+        }
+        // quantity of -1  will be returned if invalid item Id
+        return quantity;
+    }
 
 /*
 
@@ -187,11 +201,6 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
 
     public Inventory getInventoryHelper() {
-
-    }
-
-
-    public int getInventoryQuantityHelper(int itemId) {
 
     }
 

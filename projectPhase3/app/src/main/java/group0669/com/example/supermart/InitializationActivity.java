@@ -59,12 +59,18 @@ public class InitializationActivity extends AppCompatActivity implements View.On
                         ins.insertRole("CUSTOMER");
 
                         // insert items
-                        ins.insertItem("FISHING_ROD", new BigDecimal("450.00"));
-                        ins.insertItem("SKATES", new BigDecimal("450.00"));
-                        ins.insertItem("HOCKEY_STICK", new BigDecimal("450.00"));
-                        ins.insertItem("PROTEIN_BAR", new BigDecimal("450.00"));
-                        ins.insertItem("RUNNING_SHOES", new BigDecimal("450.00"));
+                        int fishingRodId = (int) ins.insertItem("FISHING_ROD", new BigDecimal("450.00"));
+                        int skatesId = (int) ins.insertItem("SKATES", new BigDecimal("200.00"));
+                        int hockeyStickId = (int) ins.insertItem("HOCKEY_STICK", new BigDecimal("100.00"));
+                        int proteinBarId = (int) ins.insertItem("PROTEIN_BAR", new BigDecimal("5.00"));
+                        int runningShoesId = (int) ins.insertItem("RUNNING_SHOES", new BigDecimal("70.00"));
 
+                        // insert inventory quantities, default 3
+                        ins.insertInventoryHelper(fishingRodId, 10, this);
+                        ins.insertInventoryHelper(skatesId, 10, this);
+                        ins.insertInventoryHelper(hockeyStickId, 10, this);
+                        ins.insertInventoryHelper(proteinBarId, 10, this);
+                        ins.insertInventoryHelper(runningShoesId, 10, this);
 
                         // go to login page
                         startActivity(new Intent(this, LoginActivity.class));
