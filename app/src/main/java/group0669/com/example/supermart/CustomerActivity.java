@@ -26,7 +26,6 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
     Button buttonAddItem;
     Button buttonRemoveItem;
     Button buttonCheckShoppingCart;
-
     Button buttonCheckOut;
 
     @Override
@@ -89,7 +88,8 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.buttonAddItem:
-                startActivity(new Intent(this, AddItemActivity.class));
+                Intent intent = new Intent(this, AddItemActivity.class);
+                startActivityForResult(intent, 1);
                 break;
 
 
@@ -104,6 +104,16 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
             case R.id.buttonCheckOut:
                 startActivity(new Intent(this, CheckOutActivity.class));
                 break;
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // if request code is 1 then add item to cart
+        if(requestCode == 1 && resultCode == RESULT_OK){
+            System.out.println(data.getStringExtra("itemName") + data.getIntExtra("quantity", 0));
 
         }
     }
