@@ -44,6 +44,16 @@
             android:textSize="20dp" />
 
         <EditText
+            android:id="@+id/editConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:hint="Confirm password"
+            android:inputType="textPassword"
+            android:textSize="20dp" />
+
+        <EditText
             android:id="@+id/editAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
