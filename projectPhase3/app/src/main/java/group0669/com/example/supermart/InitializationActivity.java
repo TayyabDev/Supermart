@@ -11,10 +11,12 @@ import com.b07.database.DatabaseDriverAndroid;
 import com.b07.database.helper.DatabaseInsertHelper;
 import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 
+import java.math.BigDecimal;
+
 public class InitializationActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button buttonInitialize;
-    EditText editName, editAge, editAddress, editPassword;
+    EditText editName, editAge, editAddress, editPassword, editConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,7 @@ public class InitializationActivity extends AppCompatActivity implements View.On
         editAge = (EditText) findViewById(R.id.editAge);
         editAddress = (EditText) findViewById(R.id.editAddress);
         editPassword = (EditText) findViewById(R.id.editPassword);
-
+        editConfirmPassword = findViewById(R.id.editConfirmPassword);
 
         buttonInitialize = (Button) findViewById(R.id.buttonInitialize);
         buttonInitialize.setOnClickListener(this);
@@ -38,27 +40,37 @@ public class InitializationActivity extends AppCompatActivity implements View.On
         switch (view.getId()){
             case R.id.buttonInitialize:
                 try{
+                    // check if passwords match
+                    if(editPassword.getText().toString().equals(editConfirmPassword.getText().toString())) {
+                        // initialize the database
+                        DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(this);
 
-                    // initialize the database
-                    DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(this);
+                        // insert get activity_admin role
+                        DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(this);
+                        int adminRoleId = (int) ins.insertRole("ADMIN");
 
-                    // insert get activity_admin role
-                    DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(this);
-                    int adminRoleId = (int) ins.insertRole("ADMIN");
+                        // insert the user into the database
+                        int adminId = (int) ins.insertNewUser(editName.getText().toString(), Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), editPassword.getText().toString());
 
-                    // insert the activity_admin into the database
-                    int adminId = (int) ins.insertNewUser(editName.getText().toString(), Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), editPassword.getText().toString());
+                        // establish user as admin
+                        ins.insertUserRole(adminId, adminRoleId);
 
-                    // establish user as activity_admin
-                    ins.insertUserRole(adminId, adminRoleId);
+                        // insert customer role into database
+                        ins.insertRole("CUSTOMER");
 
-                    // insert activity_customer role into database
-                    ins.insertRole("CUSTOMER");
+                        // insert items
+                        ins.insertItem("FISHING_ROD", new BigDecimal("450.00"));
+                        ins.insertItem("SKATES", new BigDecimal("450.00"));
+                        ins.insertItem("HOCKEY_STICK", new BigDecimal("450.00"));
+                        ins.insertItem("PROTEIN_BAR", new BigDecimal("450.00"));
+                        ins.insertItem("RUNNING_SHOES", new BigDecimal("450.00"));
 
-                    // go to login page
-                    startActivity(new Intent(this, LoginActivity.class));
 
-                    break;
+                        // go to login page
+                        startActivity(new Intent(this, LoginActivity.class));
+
+                        break;
+                    }
                 } catch(Exception e){
                     e.printStackTrace();
                 }

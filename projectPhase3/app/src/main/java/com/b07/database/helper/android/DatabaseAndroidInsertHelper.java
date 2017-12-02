@@ -6,6 +6,7 @@ import com.b07.database.DatabaseDriverAndroid;
 import com.b07.database.DatabaseInserter;
 import com.b07.enumerators.Roles;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -42,6 +43,15 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
         return userRoleId;
     }
 
+    public long insertItem(String name, BigDecimal price){
+        // insert item into database if price is >= 0, else return 0
+        if(price.compareTo(new BigDecimal("0.00")) == 0 || price.compareTo(new BigDecimal("0.00")) == 1){
+            return super.insertItem(name, price);
+        } else{
+            return 0;
+        }
+
+    }
 
 
 

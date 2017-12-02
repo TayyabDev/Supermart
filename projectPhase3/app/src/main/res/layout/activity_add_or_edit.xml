@@ -13,32 +13,31 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Would you like to add an user or edit one?"
-        android:textSize="18dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableStart="@mipmap/add_user"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorPrimary"
-        style="?attr/buttonStyle"
         android:layout_marginBottom="30dp"
-        android:text="ADD AN USER"
+        android:layout_marginTop="30dp"
+        android:text="Pleaes select one of the options."
+        android:textSize="18dp" />
+
+    <Button
         android:id="@+id/buttonAddUser"
-        />
+        style="?attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"
+        android:drawableStart="@mipmap/add_user"
+        android:text="ADD A USER" />
 
 
     <Button
+        android:id="@+id/buttonEditUser"
+        style="?attr/buttonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@mipmap/edit"
+        android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp"
         android:background="@color/colorPrimary"
-        style="?attr/buttonStyle"
-        android:layout_marginBottom="30dp"
-        android:text="Eidt AN USER"
-        android:id="@+id/buttonEditUser"
-        />
+        android:drawableStart="@mipmap/edit"
+        android:text="Edit a user" />
 </LinearLayout>

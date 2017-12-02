@@ -101,6 +101,60 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     public String getPasswordHelper(int userId)  {
         return super.getPassword(userId);
     }
+    public Item getItemHelper(int itemId) throws InvalidIdException {
+        // intitialize item info
+        int id = 0;
+        String name = null;
+        BigDecimal price = null;
+
+        // get cursor and search for the item's info
+        Cursor c = super.getItem(itemId);
+        while(c.moveToNext()){
+            id = c.getInt(c.getColumnIndex("ID"));
+            name = c.getString(c.getColumnIndex("NAME"));
+            price = new BigDecimal(c.getString(c.getColumnIndex("PRICE")));
+        }
+        c.close();
+
+        // create item and return if item was found
+        if(id > 0){
+            Item item = new ItemImpl();
+            item.setId(id);
+            item.setPrice(price);
+            item.setName(name);
+            return item;
+        } else {
+            // item not in database so throw exception
+            throw new InvalidIdException("Item not in database.");
+        }
+
+    }
+
+    public List<Item> getAllItemsHelper() throws SQLException {
+        Cursor c = super.getAllItems();
+        // initialize list of items to return
+        List<Item> items = new ArrayList<>();
+        while (c.moveToNext()) {
+            // get the information about the current item
+            int id = c.getInt(c.getColumnIndex("ID"));
+            String name = c.getString(c.getColumnIndex("NAME"));
+            BigDecimal price = new BigDecimal(c.getString(c.getColumnIndex("PRICE")));
+
+            // create the item
+            Item item = new ItemImpl();
+            item.setId(id);
+            item.setName(name);
+            item.setPrice(price);
+
+            // add the current item to the list of items
+            items.add(item);
+        }
+        // close cursor and return list of items
+        c.close();
+        return items;
+    }
+
+
 /*
 
 
@@ -129,9 +183,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     }
 
 
-    public Item getItemHelper(int itemId)  {
 
-    }
 
 
     public Inventory getInventoryHelper() {
