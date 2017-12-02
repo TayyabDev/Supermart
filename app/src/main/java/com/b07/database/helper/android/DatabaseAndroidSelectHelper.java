@@ -60,9 +60,16 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         }
         c.close();
         // get users role id
-        int roleId = getUserRole(userId);
-        // construct user and return
-        user = createUser(id, name, age, address, roleId);
+        if(id > 0){
+            int roleId = getUserRole(userId);
+            // construct user and return
+            if(roleId > 0){
+                user = createUser(id, name, age, address, roleId);
+            }
+
+        }
+
+
         return user;
 
     }
