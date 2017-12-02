@@ -11,8 +11,11 @@ import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidInputException;
 import com.b07.exceptions.InvalidQuantityException;
 import com.b07.inventory.Item;
+import com.b07.store.Sale;
+import com.b07.store.SalesLog;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,9 +92,30 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
         }
         return saleId;
     }
-    public long insertItemizedSale(int saleId, int itemId, int quantity){
-        int itemizedSaleId = -1;
+    public long insertItemizedSale(int saleId, int itemId, int quantity, Context context) throws DatabaseInsertException, SQLException {
+        long itemizedId = -1;
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+        List<Item> itemslist = sel.getAllItemsHelper();
+        SalesLog salesLog = sel.getSalesHelper();
+        for (Item item : itemslist) {
+            if (item.getId() == itemId) {
+                for (Sale sale : salesLog.getSales()) {
+                    if (sale.getId() == saleId) {
+                        if (quantity >= 0 & quantity <= DatabaseSelectHelper.getInventoryQuantity(itemId)) {
+                            itemizedId =
+                                    super.insertItemizedSale(saleId, itemId, quantity);
+                            return itemizedId;
+                        }
+                    }
+                }
+            }
+        }
+        throw new DatabaseInsertException("Check the value of sale/item/quantity");
+    }
 
+    public long insertAccount(int accountId, boolean active){
+        // not made yet
+        return 1;
     }
 
 
