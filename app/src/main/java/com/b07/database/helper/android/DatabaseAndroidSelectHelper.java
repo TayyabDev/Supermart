@@ -223,6 +223,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     }
 
     public User getUserDetailsHelper(int userId) {
+        User user = null;
         if (checkUserId(userId)) {
             Cursor c = super.getUserDetails(userId);
             // initialize the users info
@@ -240,6 +241,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
             int roleId = getUserRoleId(userId);
             return createUser(id, name , age, address, roleId);
         }
+        return user;
     }
 
     public List<User> getUsersDetailsHelper() {
@@ -307,12 +309,13 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     }
 
 
-    public void getItemizedSaleByIdHelper(int saleId, Sale sale){
+    public void getItemizedSaleByIdHelper(int saleId, Sale sale) throws InvalidIdException {
         Cursor c = super.getItemizedSaleById(saleId);
         while (c.moveToNext()) {
             sale.setId(c.getInt(c.getColumnIndex("SALEID")));
             HashMap<Item, Integer> itemMap = new HashMap<>();
-            itemMap.put(getItemHelper(c.getInt(c.getColumnIndex("ITEMID"))));
+            itemMap.put(getItemHelper(c.getInt(c.getColumnIndex("ITEMID"))),
+                    Integer.parseInt(c.getString(c.getColumnIndex("QUANTITY"))));
             sale.setItemMap(itemMap);
         }
         c.close();
