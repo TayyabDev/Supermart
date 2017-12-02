@@ -10,10 +10,12 @@ import android.view.View;
 
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.CustomerNotLoggedInException;
+import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidRoleException;
 import com.b07.store.ShoppingCart;
 import com.b07.users.Customer;
@@ -47,7 +49,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
         try {
             customer = (Customer) sel.getUser(userId);
         } catch (InvalidRoleException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "Something went wrong. Perhaps you are not an customer?", Toast.LENGTH_LONG).show();
+        } catch (InvalidIdException e) {
+            Toast.makeText(this, "Something went wrong. Perhaps someone else is using the app?", Toast.LENGTH_LONG).show();
         }
 
         final TextView welcomeUser = (TextView) findViewById(R.id.textWelcomeUser);
