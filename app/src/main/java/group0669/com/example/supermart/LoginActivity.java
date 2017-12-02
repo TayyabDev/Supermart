@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 
@@ -56,7 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
                         break;
                     } else {
-                        System.out.println("Wrong password.");
+                        // show a message when the password is incorrect
+                        Toast.makeText(this, "Wrong username or password. Please try again.", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (InvalidRoleException e) {
