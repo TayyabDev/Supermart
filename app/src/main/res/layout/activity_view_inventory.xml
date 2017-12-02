@@ -14,21 +14,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Here is what we have in the inventory:"
-        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:text="Here is what we have in the inventory:"
+        android:textSize="25dp" />
 
 
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonBack"
-        android:drawableStart="@mipmap/back"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorPrimary"
-        style="?attr/buttonStyle"
-        android:text="Back"
-        />
 </LinearLayout>
