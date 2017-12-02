@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class ViewInventoryActivity extends AppCompatActivity implements View.OnClickListener{
+public class ViewInventoryActivity extends AppCompatActivity {
 
 
 
@@ -15,12 +15,10 @@ public class ViewInventoryActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_inventory);
 
+
+
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
 
-        }
-    }
+
 }
