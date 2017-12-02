@@ -267,7 +267,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid
         if (priceCheck == itemIdCheck == itemExist == true) {
             for (Item item : itemidlist) {
                 if (itemId == item.getId()) {
-                    boolean complete = DatabaseUpdater.updateItemPrice(price, itemId);
+                    boolean complete = super.updateItemPrice(price, itemId);
                     complete.close();
                     return complete;
                 }
