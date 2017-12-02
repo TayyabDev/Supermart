@@ -8,6 +8,7 @@ import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.DatabaseUpdateHelper;
 import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
+import com.b07.database.helper.android.DatabaseAndroidUpdateHelper;
 import com.b07.exceptions.DatabaseInsertException;
 import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidInputException;
@@ -94,6 +95,17 @@ public class AdminInterface {
     // try restocking the inventory
     return DatabaseUpdateHelper.updateInventoryQuantity(quantity, itemId);
   }
+
+  public boolean restockInventory(Item item, int quantity, Context context) {
+    // get current quantity of item
+    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+    int currentQuantity = sel.getInventoryQuantity(item.getId());
+
+    // restock the inventory with the new quantity
+    DatabaseAndroidUpdateHelper upd =  new DatabaseAndroidUpdateHelper(context);
+    return upd.updateInventoryQuantity(currentQuantity + quantity, item.getId());
+  }
+
 
   /**
    * Create a new activity_customer with the information provided.
