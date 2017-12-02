@@ -103,7 +103,7 @@ public class AdminInterface {
 
     // restock the inventory with the new quantity
     DatabaseAndroidUpdateHelper upd =  new DatabaseAndroidUpdateHelper(context);
-    return upd.updateInventoryQuantity(currentQuantity + quantity, item.getId());
+    return upd.updateInventoryQuantity(currentQuantity + quantity, item.getId(), context);
   }
 
 
