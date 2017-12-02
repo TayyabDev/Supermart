@@ -4,10 +4,16 @@ import android.content.Context;
 
 import com.b07.database.DatabaseDriverAndroid;
 import com.b07.database.DatabaseInserter;
+import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.enumerators.Roles;
+import com.b07.exceptions.DatabaseInsertException;
+import com.b07.exceptions.InvalidIdException;
+import com.b07.exceptions.InvalidInputException;
+import com.b07.inventory.Item;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Tayyab on 2017-12-01.
@@ -51,6 +57,26 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
             return 0;
         }
 
+    }
+
+    public long insertInventoryHelper(int itemId, int quantity, Context context) throws InvalidIdException, InvalidInputException {
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+        List<Item> items = sel.getAllItemsHelper();
+        // if the price user input is a negative number, throw an invalid input
+        // exception
+        if (quantity >= 0) {
+            // check if the itemId is already exist in our database
+            for (Item item : items) {
+                if (item.getId() == itemId) {
+                    // insert item into inventory with quantity and return the id
+                    return super.insertInventory(itemId, quantity);
+                }
+            }
+            throw new InvalidIdException("The item is invalid.");
+            // if the input is correct, use database function
+        } else {
+            throw new InvalidInputException("The quantity is invalid");
+        }
     }
 
 

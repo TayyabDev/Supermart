@@ -35,12 +35,13 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         List<Item> items = sel.getAllItemsHelper();
 
         // get a list with name of each item
-        List<String> itemsNames = new ArrayList<>();
+        List<String> itemInformation = new ArrayList<>();
         for(Item item : items){
-            itemsNames.add(item.getName());
+            itemInformation.add(item.getName() + "\t\t Quantity: " + sel.getInventoryQuantity(item.getId()));
         }
+        // set list of items name to the listView using adapter
         listItems = findViewById(R.id.listItems);
-        adapter = new ArrayAdapter<String>(listItems.getContext(), android.R.layout.simple_list_item_1, itemsNames);
+        adapter = new ArrayAdapter<String>(listItems.getContext(), android.R.layout.simple_list_item_1, itemInformation);
         listItems.setAdapter(adapter);
 
 
