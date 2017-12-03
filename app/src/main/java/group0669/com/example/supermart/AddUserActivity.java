@@ -77,7 +77,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                     Toast.makeText(this, "Customer created with id: " + customerId, Toast.LENGTH_LONG).show();
                     finish();
                 }
-                }
+            }
         }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,5 +104,5 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         }
         return super.onContextItemSelected(item);
     }
-    }
+}
 
