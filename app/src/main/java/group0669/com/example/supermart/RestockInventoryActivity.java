@@ -51,19 +51,25 @@ public class RestockInventoryActivity extends AppCompatActivity implements View.
                 for(Item item : itemList){
                     // once we find item restock the inventory
                     if(item.getName().equals(editItemName.getText().toString())){
-                        System.out.println(item.getName());
-
-                        // restock inventory
-                        restocked = adminInterface.restockInventory(item, Integer.parseInt(editQuantity.getText().toString()), this);
-                        Toast.makeText(this, "Item was restocked!", Toast.LENGTH_SHORT).show();
-                        finish();
+                        // restock inventory if user has entered a quantity
+                        if(editQuantity.getText().toString().length() > 0){
+                            restocked = adminInterface.restockInventory(item, Integer.parseInt(editQuantity.getText().toString()), this);
+                            if(restocked){
+                                Toast.makeText(this, "Item was restocked!", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        } else {
+                            // tell user to enter quantity
+                            Toast.makeText(this, "Please enter a quantity", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
                     }
                 }
                 // if item was not restocked notify user
                 if(!restocked){
                     Toast.makeText(this, "Item was not restocked!", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-                finish();
 
         }
     }
