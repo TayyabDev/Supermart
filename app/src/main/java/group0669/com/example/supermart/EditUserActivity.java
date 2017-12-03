@@ -59,12 +59,16 @@ public class EditUserActivity extends AppCompatActivity implements View.OnClickL
             case R.id.buttonUpdate:
                 // update the user with the given information
                 if(editUserID.getText().toString().length() > 0){
-                    boolean edited = adminInterface.editUser(Integer.parseInt(editUserID.getText().toString()),
-                            editUsername.getText().toString(),Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), this);
-                    if(edited){
+                    boolean edited = false;
+                    try {
+                        adminInterface.editUser(Integer.parseInt(editUserID.getText().toString()),
+                                editUsername.getText().toString(),Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(), this);
+
                         Toast.makeText(this, "User has been edited!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "User was not edited.", Toast.LENGTH_SHORT).show();
+                    } catch (InvalidIdException e) {
+                        e.printStackTrace();
+                    } catch (InvalidRoleException e) {
+                        e.printStackTrace();
                     }
                     finish();
 

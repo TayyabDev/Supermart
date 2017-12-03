@@ -238,27 +238,6 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
     }
 
-    public User getUserDetailsHelper(int userId) {
-        User user = null;
-        if (checkUserId(userId)) {
-            Cursor c = super.getUserDetails(userId);
-            // initialize the users info
-            int id = -1;
-            String name = "";
-            int age = -1;
-            String address = "";
-            while (c.moveToNext()) {
-                id = c.getInt(c.getColumnIndex("ID"));
-                name = c.getString(c.getColumnIndex("NAME"));
-                age =  c.getInt(c.getColumnIndex("AGE"));
-                address = c.getString(c.getColumnIndex("ADDRESS"));
-            }
-            c.close();
-            int roleId = getUserRoleId(userId);
-            return createUser(id, name , age, address, roleId);
-        }
-        return user;
-    }
 
     public List<User> getUsersDetailsHelper() {
         Cursor c = super.getUsersDetails();
@@ -276,7 +255,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     }
 
 
-    public SalesLog getSalesHelper() {
+    public SalesLog getSalesHelper() throws InvalidIdException, InvalidRoleException {
         Cursor c = super.getSales();
         SalesLog salesLog = new SalesLogImpl();
         List<Sale> saleList = new ArrayList<>();
@@ -291,7 +270,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     }
 
 
-    public Sale getSaleByIdHelper(int saleId) {
+    public Sale getSaleByIdHelper(int saleId) throws InvalidIdException, InvalidRoleException {
         Cursor c = super.getSaleById(saleId);
         Sale sale = new SaleImpl();
         while (c.moveToNext()) {
@@ -299,7 +278,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
             int userId = c.getInt(c.getColumnIndex("USERID"));
             BigDecimal price = new BigDecimal((c.getString(c.getColumnIndex("TOTALPRICE"))));
             sale.setId(id);
-            sale.setUser(getUserDetailsHelper(userId));
+            sale.setUser(getUser(userId));
             sale.setTotalPrice(price);
         }
         c.close();
@@ -307,7 +286,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     }
 
 
-    public List<Sale> getSalesToUserHelper(int userId) {
+    public List<Sale> getSalesToUserHelper(int userId) throws InvalidIdException, InvalidRoleException {
         Cursor c = super.getSalesToUser(userId);
         List<Sale> sales = new ArrayList<>();
         Sale sale = new SaleImpl();
@@ -316,7 +295,7 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
             int usersId = c.getInt(c.getColumnIndex("USERID"));
             BigDecimal price = new BigDecimal((c.getString(c.getColumnIndex("TOTALPRICE"))));
             sale.setId(id);
-            sale.setUser(getUserDetailsHelper(userId));
+            sale.setUser(getUser(userId));
             sale.setTotalPrice(price);
             sales.add(sale);
         }
