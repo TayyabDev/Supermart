@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 public class AddOrEditActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button buttonAddUser, buttonEditUser;
+    Button buttonAddUser, buttonEditUser,buttonCreateAccount;
     int adminId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,8 @@ public class AddOrEditActivity extends AppCompatActivity implements View.OnClick
         buttonAddUser.setOnClickListener(this);
         buttonEditUser = (Button) findViewById(R.id.buttonEditUser);
         buttonEditUser.setOnClickListener(this);
+        buttonCreateAccount = (Button) findViewById(R.id.buttonCreateAccount);
+        buttonCreateAccount.setOnClickListener(this);
     }
 
     @Override
@@ -41,6 +43,11 @@ public class AddOrEditActivity extends AppCompatActivity implements View.OnClick
                 intentEdit.putExtra("adminId", adminId);
                 startActivity(intentEdit);
                 break;
+            case R.id.buttonCreateAccount:
+                startActivity(new Intent(this, AddAccountActivity.class));
+                break;
+
+
 
         }
 

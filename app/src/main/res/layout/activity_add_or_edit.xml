@@ -40,4 +40,15 @@
         android:background="@color/colorPrimary"
         android:drawableStart="@mipmap/edit"
         android:text="Edit a user" />
+
+    <Button
+        android:id="@+id/buttonCreateAccount"
+        style="?attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"
+        android:drawableStart="@mipmap/additemtodatabase"
+        android:text="Create an Account" />
 </LinearLayout>

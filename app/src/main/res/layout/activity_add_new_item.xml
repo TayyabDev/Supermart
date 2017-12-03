@@ -34,7 +34,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Item Name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"/>
 
         <EditText
             android:id="@+id/editNewItemPrice"
@@ -42,7 +44,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Price"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="30dp"/>
 
         <Button
             android:id="@+id/buttonAddNewItem"
@@ -51,7 +54,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:drawableLeft="@mipmap/additemtodatabase"
-            android:text="Add" />
+            android:text="Add"
+            android:layout_marginTop="30dp"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
