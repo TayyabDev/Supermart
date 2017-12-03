@@ -309,15 +309,14 @@ public class AdminInterface {
       return itemId;
   }
 
-  public boolean editUser(int userId, String name, int age, String address, Context context){
+  public boolean editUser(int userId, String name, int age, String address, Context context) throws InvalidIdException, InvalidRoleException {
     DatabaseAndroidUpdateHelper upd = new DatabaseAndroidUpdateHelper(context);
     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
     // update users name
-    if (sel.getUserDetailsHelper(userId) != null) {
+    if (sel.getUser(userId) != null) {
       boolean editName = upd.updateUserNameHelper(name, userId, context);
       boolean editAge = upd.updateUserAgeHelper(userId, age, context);
       boolean editAddress = upd.updateUserAddressHelper(address,userId, context);
-        System.out.println(editName + " " +  editAge +" " + editAddress);
       return editName && editAge && editAddress;
     }
     return false;

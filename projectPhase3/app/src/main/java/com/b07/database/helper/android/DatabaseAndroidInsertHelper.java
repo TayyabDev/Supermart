@@ -10,6 +10,7 @@ import com.b07.exceptions.DatabaseInsertException;
 import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidInputException;
 import com.b07.exceptions.InvalidQuantityException;
+import com.b07.exceptions.InvalidRoleException;
 import com.b07.inventory.Item;
 import com.b07.store.Sale;
 import com.b07.store.SalesLog;
@@ -105,7 +106,7 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
         }
         return saleId;
     }
-    public long insertItemizedSale(int saleId, int itemId, int quantity, Context context) throws DatabaseInsertException, SQLException {
+    public long insertItemizedSale(int saleId, int itemId, int quantity, Context context) throws DatabaseInsertException, SQLException, InvalidIdException, InvalidRoleException {
         long itemizedId = -1;
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
         List<Item> itemsList = sel.getAllItemsHelper();
