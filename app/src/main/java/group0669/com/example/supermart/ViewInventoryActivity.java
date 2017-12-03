@@ -39,10 +39,10 @@ public class ViewInventoryActivity extends AppCompatActivity {
         // SIDE NOTE: I learned how to create a simple_list_item_2 with the help of this youtube video: https://www.youtube.com/watch?v=QsO1_doWcak
         final List<String []> itemInformation = new ArrayList<>();
         for (Item item : items) {
-            // get item name with it's id and then the inventory quantity
+            // get item name with it's id and then the inventory quantity, followed by its price
             String [] current = new String [2];
             current[0] = item.getName();
-            current[1] = "Item ID: " + item.getId() + "\t Quantity: " + Integer.toString(sel.getInventoryQuantity(item.getId()));
+            current[1] = "Item ID: " + item.getId() + "\t Quantity: " + Integer.toString(sel.getInventoryQuantity(item.getId())) + "\t Price: $" + item.getPrice().toString();
 
             // add the two arrays to the list of item information
             itemInformation.add(current);

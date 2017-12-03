@@ -294,12 +294,16 @@ public class AdminInterface {
 
   public int addItem(String itemName, BigDecimal price, Context context) throws InvalidInputException, InvalidIdException {
       int itemId = -1;
-      // insert item into database
-      DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
-      itemId = (int) ins.insertItem(itemName, price);
 
       // insert item into database
-      ins.insertInventoryHelper(itemId, 0, context);
+      DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
+      itemId = (int) ins.insertItem(itemName, price, context);
+
+      // insert item into inventory if itemid > 0 (meaning it has been inserted into database)
+      if(itemId > 0){
+        ins.insertInventoryHelper(itemId, 0, context);
+      }
+
 
       // return the item's id
       return itemId;
