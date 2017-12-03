@@ -32,6 +32,52 @@ public class InitializationActivity extends AppCompatActivity implements View.On
         buttonInitialize = (Button) findViewById(R.id.buttonInitialize);
         buttonInitialize.setOnClickListener(this);
 
+        editName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editName.getText().length() <=  3) {
+                    editName.setError("The input name is too short");
+                }
+
+            }
+        });
+
+        editAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editAge.getText().toString().equals("0")) {
+                    editAge.setError("Please input a valid age");
+                }
+
+            }
+        });
+
+        editPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editPassword.getText().length() < 8) {
+                    editPassword.setError("The password is too short");
+                }
+            }
+        });
+
+        editConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!editConfirmPassword.getText().toString().equals(editPassword.getText().toString())) {
+                    editConfirmPassword.setError("Two different passwords");
+                }
+            }
+        });
+
+        editAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editAddress.getText().length() < 1) {
+                    editAddress.setError("Please input a valid address");
+                }
+            }
+        });
 
     }
 
