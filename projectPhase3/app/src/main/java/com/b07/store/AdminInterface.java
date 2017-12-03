@@ -312,12 +312,14 @@ public class AdminInterface {
   public boolean editUser(int userId, String name, int age, String address, Context context){
     DatabaseAndroidUpdateHelper upd = new DatabaseAndroidUpdateHelper(context);
     // update users name
+    /**
+     *
     boolean editName = upd.updateUserName(name, userId);
     boolean editAge = upd.updateUserAge(userId, age);
-    boolean editAddress= upd.updateUserAddress(userId, age);
+    boolean editAddress= upd.updateUserAddress(userId, address);
     return editName  && editAge && editAddress;
-
-  }
-
-
+     }
+     */
+    return false;
+}
 }
