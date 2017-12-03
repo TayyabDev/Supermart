@@ -46,14 +46,18 @@ public class AddNewItemActivity extends AppCompatActivity implements View.OnClic
                 try {
                     itemId = adminInterface.addItem(editNewItemName.getText().toString(), new BigDecimal(editNewItemPrice.getText().toString()), this);
                 } catch (InvalidInputException e) {
-                    e.printStackTrace();
+                    Toast.makeText(this, "Check input.", Toast.LENGTH_SHORT).show();
                 } catch (InvalidIdException e) {
-                    e.printStackTrace();
+                    Toast.makeText(this, "Check item id.", Toast.LENGTH_SHORT).show();
+
                 }
-                if(itemId != -1){
+                if(itemId > 0){
                     Toast.makeText(this, "Item inserted with id: "+itemId, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Item not inserted", Toast.LENGTH_SHORT).show();
+                } else if(itemId == 0){
+                    Toast.makeText(this, "Item already in database.", Toast.LENGTH_SHORT).show();
+                } else if(itemId == -1){
+                    Toast.makeText(this, "Please enter a valid price!.", Toast.LENGTH_SHORT).show();
+
                 }
                 finish();
 
