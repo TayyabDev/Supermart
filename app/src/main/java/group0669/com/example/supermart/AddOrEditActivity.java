@@ -34,7 +34,9 @@ public class AddOrEditActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intent);
                 break;
             case R.id.buttonEditUser:
-                startActivity(new Intent(this, EditUserActivity.class));
+                Intent intentEdit = new Intent(this, EditUserActivity.class);
+                intentEdit.putExtra("adminId", adminId);
+                startActivity(intentEdit);
                 break;
 
         }

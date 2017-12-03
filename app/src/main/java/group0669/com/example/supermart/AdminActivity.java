@@ -108,11 +108,12 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
+            // give user toast thats hes logging out
+            Toast.makeText(this, "Succesfully logged out!", Toast.LENGTH_SHORT).show();
             // go to login page
             startActivity(intent);
             finish();
         }
-
         return super.onContextItemSelected(item);
     }
 }
