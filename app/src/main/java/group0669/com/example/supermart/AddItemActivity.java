@@ -35,6 +35,7 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+
         // initialize the list of items
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
         // get list of items
@@ -91,5 +92,5 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
+    }
 
-}

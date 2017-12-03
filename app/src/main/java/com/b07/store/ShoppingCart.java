@@ -1,8 +1,11 @@
 package com.b07.store;
 
+import android.content.Context;
+
 import com.b07.database.helper.DatabaseInsertHelper;
 import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.DatabaseUpdateHelper;
+import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.CustomerNoAccountException;
 import com.b07.exceptions.CustomerNotLoggedInException;
 import com.b07.exceptions.DatabaseInsertException;
@@ -62,6 +65,34 @@ public class ShoppingCart {
     }
   }
 
+  public ShoppingCart(Customer customer, Context context) throws CustomerNotLoggedInException {
+    // initialize the tax rate and activity_customer
+    this.customer = customer;
+
+    cart = new HashMap<Item, Integer>();
+    total = new BigDecimal("0.00");
+
+    // if customer not logged in throw exception
+    if (customer == null) {
+      throw new CustomerNotLoggedInException("Customer not logged in");
+    } else {
+      // check if activity_customer has any accounts
+      DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+      List<Integer> customerAccountIds = sel.getUserAccountsHelper(customer.getId());
+
+      // if activity_customer has any account
+      if (customerAccountIds.size() > 0) {
+        this.hasAccount = true;
+        // get the most recent account of the activity_customer
+        this.customerAccountId = customerAccountIds.get(customerAccountIds.size() - 1);
+      } else {
+        this.hasAccount = false;
+      }
+    }
+  }
+
+
+
   /**
    * . restore the shopping cart with the previous account
    * 
@@ -111,7 +142,7 @@ public class ShoppingCart {
   public void addItem(Item item, int quantity) throws SQLException, ItemNotFoundException,
       InvalidQuantityException, DatabaseInsertException, InvalidInputException {
     // check if the quantity is valid
-    if (quantity >= 0) {
+    if (quantity > 0) {
       boolean itemFound = false;
       for (Item currentItem : DatabaseSelectHelper.getAllItems()) {
         if (currentItem.getName().equals(item.getName())) {
@@ -152,6 +183,55 @@ public class ShoppingCart {
       throw new InvalidQuantityException("The quantity entered is invalid!");
     }
   }
+  public void addItem(Item item, int quantity, Context context) throws SQLException, ItemNotFoundException,
+          InvalidQuantityException, DatabaseInsertException, InvalidInputException {
+    // check if the quantity is valid
+    if (quantity > 0) {
+      boolean itemFound = false;
+      // check if item is valid
+      DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+      for (Item currentItem : sel.getAllItemsHelper()) {
+        if (currentItem.getName().equals(item.getName())) {
+          itemFound = true;
+          // check if item is already in the cart
+          if (cart.containsKey(currentItem)) {
+            // multiply the price of the item * quantity
+            BigDecimal priceBefore =
+                    BigDecimal.valueOf(cart.get(currentItem)).multiply(currentItem.getPrice());
+
+            // add the quantity of the item to the current quantity
+            cart.replace(currentItem, cart.get(currentItem) + quantity);
+            BigDecimal priceAfter = BigDecimal.valueOf(cart.get(currentItem))
+                    .multiply(currentItem.getPrice()).setScale(2);
+
+            // update the total
+            total = total.add(priceAfter.subtract(priceBefore));
+          } else {
+            // otherwise just add the item normally
+            cart.put(currentItem, quantity);
+            BigDecimal priceAfter = BigDecimal.valueOf(cart.get(currentItem))
+                    .multiply(currentItem.getPrice()).setScale(2, BigDecimal.ROUND_UP);
+
+            // update the total
+            total = total.add(priceAfter).setScale(2, BigDecimal.ROUND_UP);
+          }
+          // exit the loop since we have added the item.
+          break;
+        }
+
+      }
+      if (!itemFound) {
+        throw new ItemNotFoundException("The item could not be found!");
+      }
+
+    } else {
+      // if quantity is invalid throw an exception
+      throw new InvalidQuantityException("The quantity entered is invalid!");
+    }
+  }
+
+
+
 
   /**
    * Remove the quantity given of the item from items. If the number becomes zero, remove it
@@ -253,6 +333,14 @@ public class ShoppingCart {
   public List<Item> getItems() {
     Set<Item> keySet = cart.keySet();
     return new ArrayList<Item>(keySet);
+  }
+
+  public int getQuantity(Item item){
+    return cart.get(item);
+  }
+
+  public HashMap<Item, Integer> getCart(){
+      return this.cart;
   }
 
 
