@@ -3,13 +3,9 @@
     xmlns:app = "http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item
-        android:id="@+id/nav_slideshow"
-        android:icon="@drawable/ic_menu_slideshow"
-        android:title="Slideshow"
-        app:showAsAction="always" />
-    <item
-        android:icon="@mipmap/supermart"
-        android:title="Logo"
+        android:id="@+id/logout_button"
+        android:icon="@mipmap/logout"
+        android:title="Logout"
         app:showAsAction="always"/>
 
 </menu>
