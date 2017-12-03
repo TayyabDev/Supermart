@@ -9,15 +9,8 @@
     android:padding="10dp">
 
 
-
-    <Button
+    <ListView
+        android:id="@+id/listItems"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonSave"
-        android:drawableStart="@mipmap/save"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorPrimary"
-        style="?attr/buttonStyle"
-        android:text="SAVE"
-        />
+        android:layout_height="match_parent" />
 </LinearLayout>

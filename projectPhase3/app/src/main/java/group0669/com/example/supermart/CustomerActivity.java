@@ -88,28 +88,47 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+        Intent intent;
+        List<Item> items;
+        String [] itemNames;
+        int [] itemQuantities;
+
         switch (view.getId()){
             case R.id.buttonRestoreShoppingCart:
                 startActivity(new Intent(this, RestoreShoppingCartActivity.class));
                 break;
 
             case R.id.buttonAddItem:
-                Intent intent = new Intent(this, AddItemActivity.class);
+                intent = new Intent(this, AddItemActivity.class);
                 startActivityForResult(intent, 1);
                 break;
 
 
             case R.id.buttonRemoveItem:
-                startActivity(new Intent(this, RemoveItemActivity.class));
+                intent = new Intent(this, RemoveItemActivity.class);
+                items = sc.getItems();
+                // create two new arrays for item names and quantities
+                itemNames = new String [items.size()];
+                itemQuantities = new int [items.size()];
+
+                // populate each array with its respective data
+                for(int i = 0; i < itemNames.length; i++){
+                    itemNames[i] = items.get(i).getName();
+                    itemQuantities[i] = sc.getQuantity(items.get(i));
+                }
+
+                intent.putExtra("itemNames", itemNames);
+                intent.putExtra("itemQuantities", itemQuantities);
+                startActivityForResult(intent, 2);
                 break;
 
             case R.id.buttonCheckShoppingCart:
-                Intent intentCheckShoppingCart = new Intent(this, CheckShoppingCartActivity.class);
+                intent = new Intent(this, CheckShoppingCartActivity.class);
 
-                List<Item> items = sc.getItems();
+                items = sc.getItems();
                 // create two new arrays for item names and quantities
-                String [] itemNames = new String [items.size()];
-                int [] itemQuantities = new int [items.size()];
+                itemNames = new String [items.size()];
+                itemQuantities = new int [items.size()];
 
                 // populate each array with its respective data
                 for(int i = 0; i < itemNames.length; i++){
@@ -117,9 +136,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 itemQuantities[i] = sc.getQuantity(items.get(i));
             }
 
-                intentCheckShoppingCart.putExtra("itemNames", itemNames);
-                intentCheckShoppingCart.putExtra("itemQuantities", itemQuantities);
-                startActivity(intentCheckShoppingCart);
+                intent.putExtra("itemNames", itemNames);
+                intent.putExtra("itemQuantities", itemQuantities);
+                startActivity(intent);
                 break;
 
             case R.id.buttonCheckOut:
@@ -161,6 +180,35 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                     } break;      // break from loop since we are done
                 }
             }
+        } else if (requestCode == 2 && resultCode == RESULT_OK){
+            System.out.println(sc.getItems() +" testttt");
+            // get item name
+            String itemName = data.getStringExtra("itemName");
+            // get quantity
+            int quantity = data.getIntExtra("quantity", 0);
+            System.out.println(itemName  +  quantity);
+            // search for item and add it to cart once found
+            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
+            List<Item> itemList = sel.getAllItemsHelper();
+            for(Item item : itemList){
+                // add item to cart with quantity
+                if(item.getName().equals(itemName)){
+                    try {
+                        sc.removeItem(item, quantity);
+                        Toast.makeText(this, "Item removed from cart.", Toast.LENGTH_SHORT).show();
+                    } catch (SQLException e) {
+                        Toast.makeText(this, "Error with SQL", Toast.LENGTH_SHORT).show();
+                    } catch (ItemNotFoundException e) {
+                        Toast.makeText(this, "Item could not be found.", Toast.LENGTH_SHORT).show();
+                    } catch (InvalidQuantityException e) {
+                        Toast.makeText(this, "Quantity specified was invalid.", Toast.LENGTH_SHORT).show();
+                    } catch (DatabaseInsertException e) {
+                        Toast.makeText(this, "Error inserting.", Toast.LENGTH_SHORT).show();
+                    } catch (InvalidInputException e) {
+                        Toast.makeText(this, "Error in input", Toast.LENGTH_SHORT).show();
+                    } break;      // break from loop since we are done
+                }
+            }
         }
     }
     @Override
@@ -175,7 +223,6 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
         int i = item.getItemId();
         System.out.println(i);
         if(i == R.id.logout_button){
-            System.out.println("bobmom");
             // if user clicks logout button then logout and clear the activity stack
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

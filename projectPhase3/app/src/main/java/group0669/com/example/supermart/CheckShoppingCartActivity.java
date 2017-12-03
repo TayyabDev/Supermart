@@ -67,6 +67,9 @@ public class CheckShoppingCartActivity extends AppCompatActivity  {
             };
             // set the listview adapter to the adapter we have just made
             listItems.setAdapter(adapter);
+
+
+
         }
     }
     @Override

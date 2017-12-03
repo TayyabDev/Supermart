@@ -209,6 +209,7 @@ public class ShoppingCart {
           } else {
             // otherwise just add the item normally
             cart.put(currentItem, quantity);
+            System.out.println(cart.get(currentItem));
             BigDecimal priceAfter = BigDecimal.valueOf(cart.get(currentItem))
                     .multiply(currentItem.getPrice()).setScale(2, BigDecimal.ROUND_UP);
 
@@ -256,15 +257,16 @@ public class ShoppingCart {
           itemFound = true;
 
           // multiply the price of the item * quantity
-          BigDecimal priceBefore = BigDecimal.valueOf(cart.get(item)).multiply(item.getPrice());
+          System.out.println(cart.get(item));
+          BigDecimal priceBefore = BigDecimal.valueOf(cart.get(currentItem)).multiply(item.getPrice());
 
           // replace the quantity of the item to the current quantity
-          cart.replace(item, cart.get(item) - quantity);
-          BigDecimal priceAfter = BigDecimal.valueOf(cart.get(item)).multiply(item.getPrice());
+          cart.replace(currentItem, cart.get(currentItem) - quantity);
+          BigDecimal priceAfter = BigDecimal.valueOf(cart.get(currentItem)).multiply(item.getPrice());
 
-          if (cart.get(item) == 0) {
+          if (cart.get(currentItem) == 0) {
             // if item quantity 0 or less remove it from the items
-            cart.remove(item);
+            cart.remove(currentItem);
             total = total.subtract(priceBefore);
           } else {
             // update the total
