@@ -8,10 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.b07.store.DatabaseDriverExtender;
-
-import java.sql.Connection;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button buttonLogin, buttonInitialize;
@@ -27,8 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonInitialize = findViewById(R.id.buttonInitialize);
         buttonInitialize.setOnClickListener(this);
         viewPager = findViewById(R.id.viewPager);
-        ImageSwipeAdapter imageSwipeAdapter = new ImageSwipeAdapter(this);
-        viewPager.setAdapter(imageSwipeAdapter);
+        ImageSwipeActivity imageSwipeActivity = new ImageSwipeActivity(this);
+        viewPager.setAdapter(imageSwipeActivity);
     }
 
 
