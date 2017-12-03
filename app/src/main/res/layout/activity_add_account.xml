@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="group0669.com.example.supermart.AddAccountActivity"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="What is the userId you want to create an account for?"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        />
+
+    <EditText
+        android:id="@+id/editUserIdForAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="UserId"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        />
+
+    <Button
+        android:id="@+id/buttonCreateAccount"
+        style="?attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:drawableLeft="@mipmap/additemtodatabase"
+        android:text="create"
+        android:layout_marginTop="30dp"/>
+</LinearLayout>
