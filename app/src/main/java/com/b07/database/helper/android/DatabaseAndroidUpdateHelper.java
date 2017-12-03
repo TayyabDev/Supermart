@@ -35,7 +35,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         return false;
     }
 
-    public  boolean updateRoleName(String name, int id, Context context) {
+    public  boolean updateRoleNameHelper(String name, int id, Context context) {
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
         List<Integer> roleidlist = sel.getRoleIdsHelper();
         // check if name is appropriate (not null or empty)
@@ -56,7 +56,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         // if role name not be updated then return false;
         return false;
     }
-    public boolean updateUserName(String name, int userId, Context context)  {
+    public boolean updateUserNameHelper(String name, int userId, Context context)  {
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
         List<User> userList = sel.getUsersDetailsHelper();
 
@@ -80,7 +80,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         return false;
     }
 
-    public boolean updateUserAge(int age, int userId, Context context) {
+    public boolean updateUserAgeHelper(int age, int userId, Context context) {
         // perform check for appropriate values
         boolean ageCheck = age >= 0;
         boolean userIdCheck = positiveInt(userId);
@@ -101,7 +101,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         return false;
     }
 
-    public boolean updateUserRole(int roleId, int userId, Context context) {
+    public boolean updateUserRoleHelper(int roleId, int userId, Context context) {
         // perform checks
         boolean roleIdCheck = positiveInt(roleId);
         boolean userIdCheck = positiveInt(userId);
@@ -123,7 +123,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         return false;
     }
 
-    public boolean updateItemName(String name, int itemId, Context context) {
+    public boolean updateItemNameHelper(String name, int itemId, Context context) {
         // perform checks
         boolean nameCheck = goodString(name);
         boolean itemIdCheck = positiveInt(itemId);
@@ -145,7 +145,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         return false;
     }
 
-    public boolean updateItemPrice(BigDecimal price, int itemId, Context context) {
+    public boolean updateItemPriceHelper(BigDecimal price, int itemId, Context context) {
         // perform checks
         boolean priceCheck = (price.doubleValue() > 0);
         boolean itemIdCheck = positiveInt(itemId);
@@ -193,7 +193,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         return complete;
     }
 
-    public boolean updateUserAddress(String address, int userId, Context context){
+    public boolean updateUserAddressHelper(String address, int userId, Context context){
         // perform check for appropriate values
         boolean addressCheck = goodString(address);
         boolean userIdCheck = positiveInt(userId);
