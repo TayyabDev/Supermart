@@ -24,20 +24,20 @@ import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.inventory.Item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AddItemActivity extends AppCompatActivity {
 
-    Button buttonSave;
     ListView listItems;
     ListAdapter adapter;
-
+    HashMap<String, Item> itemNameToItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-
+        itemNameToItem = new HashMap<>();
         // initialize the list of items
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
         // get list of items
@@ -47,6 +47,7 @@ public class AddItemActivity extends AppCompatActivity {
         List<String> itemInformation = new ArrayList<>();
         for(Item item : items){
             itemInformation.add(item.getName());
+            itemNameToItem.put(item.getName(), item);
         }
         // set list of items name to the listView using adapter
         listItems = findViewById(R.id.listItems);
@@ -67,23 +68,33 @@ public class AddItemActivity extends AppCompatActivity {
                         quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
                         a_builder.setView(quantity);
 
-                        // set message of the dialog box and determine what happens when user confirms quantity
-                        a_builder.setMessage("Please select a quantity").setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        a_builder.setTitle("Please enter a quantity of the item");
+
+                        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(AddItemActivity.this);
+                        final int inventoryQuantity = sel.getInventoryQuantity(itemNameToItem.get(itemName).getId());
+
+                        // give user the quantity of the item and determien waht happens when user selects confirm
+                        a_builder.setMessage("The item quantity is: " + inventoryQuantity).setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent();
-                                // get the item user selected and quantity specified
-                                intent.putExtra("itemName", itemName);
-                                intent.putExtra("quantity", Integer.parseInt(quantity.getText().toString()));
+                                // check if quanttiy is valid
+                                if (Integer.parseInt(quantity.getText().toString()) > 0 && Integer.parseInt(quantity.getText().toString()) <= inventoryQuantity) {
+                                    Intent intent = new Intent();
+                                    // get the item user selected and quantity specified
+                                    intent.putExtra("itemName", itemName);
+                                    intent.putExtra("quantity", Integer.parseInt(quantity.getText().toString()));
 
-                                // send back to customer activity
-                                setResult(RESULT_OK, intent);
-                                finish();
+                                    // send back to customer activity
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(AddItemActivity.this, "Please enter a valid quantity!", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                               dialogInterface.cancel();
+                                dialogInterface.cancel();
                             }
                         });
                         AlertDialog alert = a_builder.create();
@@ -119,5 +130,4 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
-    }
-
+}
