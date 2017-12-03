@@ -3,10 +3,14 @@ package com.b07.database.helper.android;
 import android.content.Context;
 
 import com.b07.database.DatabaseDriverAndroid;
+import com.b07.database.DatabaseUpdater;
+import com.b07.database.helper.DatabaseDriverHelper;
+import com.b07.exceptions.InvalidStringException;
 import com.b07.inventory.Item;
 import com.b07.users.User;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -188,6 +192,28 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         // return if password was updated
         return complete;
     }
+
+    public boolean updateUserAddress(String address, int userId, Context context){
+        // perform check for appropriate values
+        boolean addressCheck = goodString(address);
+        boolean userIdCheck = positiveInt(userId);
+        boolean addressLength = address.length() <= 100;
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+        boolean userIdExist = userExists(userId, context);
+        List<User> userIdList = sel.getUsersDetailsHelper();
+
+        if (addressCheck == userIdCheck == addressLength == userIdExist == true) {
+            for (User user : userIdList) {
+                if (userId == user.getId()) {
+
+                    boolean complete = super.updateUserAddress(address, userId);
+                    return complete;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * check if a name is in a correct format.
      *
@@ -260,6 +286,7 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
 
         return idExists;
     }
+
 }
 
 
