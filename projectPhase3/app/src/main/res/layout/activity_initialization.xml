@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:text="Welcome to the database intialization page! Please fill out the following information and we'll create an Admin account for you. "
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:layout_marginBottom="20dp"/>
 
         <EditText
             android:id="@+id/editName"
@@ -29,7 +30,8 @@
             android:ems="10"
             android:hint="Name"
             android:inputType="textPersonName"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"/>
 
         <EditText
             android:id="@+id/editPassword"
@@ -38,7 +40,8 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"/>
 
         <EditText
             android:id="@+id/editConfirmPassword"
@@ -47,7 +50,8 @@
             android:ems="10"
             android:hint="Confirm password"
             android:inputType="textPassword"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"/>
 
         <EditText
             android:id="@+id/editAge"
@@ -56,7 +60,8 @@
             android:ems="10"
             android:hint="Age"
             android:inputType="number"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"/>
 
         <EditText
             android:id="@+id/editAddress"
@@ -65,7 +70,8 @@
             android:ems="10"
             android:hint="Address"
             android:inputType="textPersonName"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_marginBottom="20dp"/>
 
         <Button
             android:id="@+id/buttonInitialize"
