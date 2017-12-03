@@ -23,13 +23,6 @@ public class DatabaseDriverAndroid extends SQLiteOpenHelper {
     super(context, DATABASE_NAME, null, 1);
   }
 
-  protected boolean updateUserPassword(String password, int id) {
-    SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-    ContentValues contentValues = new ContentValues();
-    contentValues.put("PASSWORD", password);
-    return sqLiteDatabase.update("USERPW",contentValues,"USERID = ?",
-            new String[] {String.valueOf(id)}) > 0;
-  }
 
   @Override
   public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -405,7 +398,7 @@ public class DatabaseDriverAndroid extends SQLiteOpenHelper {
     sqLiteDatabase.close();
     return result;
   }
-
+  //
   protected boolean updateUserAddress(String address, int id) {
     SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
     ContentValues contentValues = new ContentValues();
@@ -464,6 +457,14 @@ public class DatabaseDriverAndroid extends SQLiteOpenHelper {
             new String[] {String.valueOf(accountId)}) > 0;
     sqLiteDatabase.close();
     return result;
+  }
+
+  protected boolean updateUserPassword(String password, int id) {
+    SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+    ContentValues contentValues = new ContentValues();
+    contentValues.put("PASSWORD", password);
+    return sqLiteDatabase.update("USERPW",contentValues,"USERID = ?",
+            new String[] {String.valueOf(id)}) > 0;
   }
 
 }
