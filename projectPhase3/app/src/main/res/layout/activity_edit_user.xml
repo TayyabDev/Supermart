@@ -11,6 +11,19 @@
     >
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User ID"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/editUserID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:text="Username"
@@ -47,14 +60,13 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/buttonUpdate"
+        style="?attr/buttonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonNext"
-        android:drawableStart="@mipmap/next"
         android:layout_marginTop="30dp"
         android:background="@color/colorPrimary"
-        style="?attr/buttonStyle"
-        android:text="Next"
-        />
+        android:drawableStart="@mipmap/next"
+        android:text="Update" />
 
 </LinearLayout>

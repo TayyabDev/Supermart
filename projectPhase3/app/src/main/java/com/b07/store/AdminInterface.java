@@ -317,6 +317,7 @@ public class AdminInterface {
       boolean editName = upd.updateUserNameHelper(name, userId, context);
       boolean editAge = upd.updateUserAgeHelper(userId, age, context);
       boolean editAddress = upd.updateUserAddressHelper(address,userId, context);
+        System.out.println(editName + " " +  editAge +" " + editAddress);
       return editName && editAge && editAddress;
     }
     return false;
