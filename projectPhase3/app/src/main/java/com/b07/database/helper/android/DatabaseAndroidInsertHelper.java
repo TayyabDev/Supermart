@@ -39,7 +39,7 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
     public long insertNewUser(String name, int age, String address, String password){
         long userId  = -1;
         // check if input parameters are valid
-        if(name != null && age >= 0 && address != null && password != null && password.length() <= 64){
+        if(name != null && age >= 0 && address != null && address.length() <= 100 && password != null && password.length() <= 64){
             // insert user into database
             userId =  super.insertNewUser(name, age, address, password);
         }
