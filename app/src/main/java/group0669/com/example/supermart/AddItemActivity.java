@@ -73,7 +73,7 @@ public class AddItemActivity extends AppCompatActivity {
                         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(AddItemActivity.this);
                         final int inventoryQuantity = sel.getInventoryQuantity(itemNameToItem.get(itemName).getId());
 
-                        // give user the quantity of the item and determien waht happens when user selects confirm
+                        // give user the quantity of the item and determine happens when user selects confirm
                         a_builder.setMessage("The item quantity is: " + inventoryQuantity).setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -121,7 +121,7 @@ public class AddItemActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             // give user toast thats hes logging out
-            Toast.makeText(this, "Succesfully logged out!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Successfully logged out!", Toast.LENGTH_SHORT).show();
             // go to login page
             startActivity(intent);
             finish();
