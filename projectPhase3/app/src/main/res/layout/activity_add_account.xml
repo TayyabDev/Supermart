@@ -14,19 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="What is the userId you want to create an account for?"
-        android:textStyle="bold"
+        android:text="Please enter the user ID of the person you'd like to create an account for."
         android:textSize="20dp"
-        />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/editUserIdForAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="UserId"
-        android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-        />
+        android:layout_marginTop="30dp"
+        android:hint="User ID"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/buttonCreateAccount"
