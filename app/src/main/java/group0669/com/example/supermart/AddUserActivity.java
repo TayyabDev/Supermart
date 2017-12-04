@@ -12,16 +12,24 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
+import com.b07.exceptions.DatabaseInsertException;
 import com.b07.exceptions.InvalidIdException;
+import com.b07.exceptions.InvalidInputException;
 import com.b07.exceptions.InvalidRoleException;
 import com.b07.store.AdminInterface;
 import com.b07.users.Admin;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+
 public class AddUserActivity extends AppCompatActivity implements View.OnClickListener {
 
+  String [] roleNames;
   Button buttonNext;
   EditText editUsername, editAge, editAddress, editPassword, editConfirmPassword;
   AdminInterface adminInterface;
+  Spinner spinnerRoleType;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +66,18 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     buttonNext = findViewById(R.id.buttonNext);
     buttonNext.setOnClickListener(this);
 
-    Spinner spinnerRoleType = (Spinner) findViewById(R.id.spinnerRoleType);
+
+    // get the roles
+    List<Integer> roles = sel.getRoleIdsHelper();
+    roleNames = new String [roles.size()];
+    for(Integer roleId : roles){
+      roleNames[roleId - 1] = sel.getRoleName(roleId);
+    }
+
+    // cast our role names to a string array and give user a spinner to select user role
+    spinnerRoleType = (Spinner) findViewById(R.id.spinnerRoleType);
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddUserActivity.this,
-        android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.role_type));
+        android.R.layout.simple_list_item_1, roleNames);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinnerRoleType.setAdapter(adapter);
 
@@ -102,12 +119,23 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
       case R.id.buttonNext:
         // check if passwords are equal
         if (editPassword.getText().toString().equals(editConfirmPassword.getText().toString())) {
-          // create customer and close activity
-          int customerId = adminInterface.createCustomer(editUsername.getText().toString(),
-              Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(),
-              editPassword.getText().toString(), this);
-          Toast.makeText(this, "Customer created with id: " + customerId, Toast.LENGTH_LONG).show();
-          finish();
+          // get the indicated role ID
+          String roleName = spinnerRoleType.getSelectedItem().toString();
+
+          // construct user based on role type
+          if (roleName.equals("CUSTOMER")) {
+            int customerId = adminInterface.createCustomer(editUsername.getText().toString(),
+                    Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(),
+                    editPassword.getText().toString(), this);
+            Toast.makeText(this, "Customer created with id: " + customerId, Toast.LENGTH_LONG).show();
+            finish();
+          }else if(roleName.equals("ADMIN")){
+              int adminId = adminInterface.createAdmin(editUsername.getText().toString(), Integer.parseInt(editAge.getText().toString()),
+                      editAddress.getText().toString() , editPassword.getText().toString(), this);
+
+            Toast.makeText(this, "Admin created with id: " + adminId, Toast.LENGTH_LONG).show();
+            finish();
+          }
         }
     }
   }
@@ -124,7 +152,6 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     int i = item.getItemId();
     System.out.println(i);
     if (i == R.id.logout_button) {
-      System.out.println("bobmom");
       // if user clicks logout button then logout and clear the activity stack
       Intent intent = new Intent(this, LoginActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

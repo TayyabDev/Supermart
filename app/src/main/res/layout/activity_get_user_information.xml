@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Id"
+        android:text="Please enter the User's ID"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:textSize="20dp"
