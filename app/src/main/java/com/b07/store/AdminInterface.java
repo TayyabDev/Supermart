@@ -30,7 +30,7 @@ public class AdminInterface {
   private Inventory inventory;
 
   /**
-   * A public constructor for EmployeeInterface.
+   * A public constructor for AdminInterface.
    * 
    * @param inventory inventory object.
    */
@@ -40,7 +40,7 @@ public class AdminInterface {
   }
 
   /**
-   * A public constructor for EmployeeInterface.
+   * A public constructor for AdminInterface.
    * 
    * @param inventory inventory object.
    */
@@ -51,7 +51,7 @@ public class AdminInterface {
   /**
    * set the current employee.
    * 
-   * @param admin employee object.
+   * @param admin admin object.
    * @throws SQLException thrown if something goes wrong with the query.
    * @throws InvalidIdException thrown if the id is invalid.
    */
@@ -96,6 +96,13 @@ public class AdminInterface {
     return DatabaseUpdateHelper.updateInventoryQuantity(quantity, itemId);
   }
 
+  /**
+   * Restick the inventory of a given item and quantity.
+   * @param item item in the store.
+   * @param quantity the quantity that needs to be restocked.
+   * @param context the context of the state of the application.
+   * @return True if operation was successful, falase otherwise.
+   */
   public boolean restockInventory(Item item, int quantity, Context context) {
     // get current quantity of item
     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
@@ -140,6 +147,15 @@ public class AdminInterface {
     return customerId;
   }
 
+  /**
+   * Create a new customer for the store.
+   * @param name name of customer.
+   * @param age age of customer.
+   * @param address address of customer.
+   * @param password password of customer.
+   * @param context the context of the state of the application.
+   * @return the id of the customer.
+   */
   public int createCustomer(String name, int age, String address, String password, Context context) {
     // try inserting the activity_customer into the database. an exception will be raised if not possible
     DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
@@ -198,6 +214,16 @@ public class AdminInterface {
     return employeeId;
   }
 
+  /**
+   * Creater a new account for a user.
+   * @param userId the Id of the user.
+   * @return the Account that was just created.
+   * @throws SQLException if an SQL error occurs.
+   * @throws InvalidInputException if an input error occurs.
+   * @throws DatabaseInsertException if an insert error occurs.
+   * @throws InvalidRoleException if an invalid role error occurs.
+   * @throws InvalidIdException if an invalid id error occurs.
+   */
   public Account createAccount(int userId) throws SQLException, InvalidInputException,
       DatabaseInsertException, InvalidRoleException, InvalidIdException {
     return DatabaseSelectHelper.getAccountDetails(DatabaseInsertHelper.insertAccount(userId));
@@ -275,7 +301,13 @@ public class AdminInterface {
   }
 
 
-
+  /**
+   * Get a string of all the sales that took place
+   * @param context the context of the state of the application.
+   * @return A string that shows all the sales
+   * @throws InvalidIdException if an invalid Id error occurs
+   * @throws InvalidRoleException if an invalid role error occrus
+   */
   public String viewBooks(Context context) throws InvalidIdException, InvalidRoleException {
     String statement = "";
 
@@ -352,6 +384,15 @@ public class AdminInterface {
     return itemId;
   }
 
+  /**
+   * Add an item to the store.
+   * @param itemName the name of the item.
+   * @param price the price of the item.
+   * @param context the context of the state of the application.
+   * @return the item id if the newly created item
+   * @throws InvalidInputException if an invalid input occurs
+   * @throws InvalidIdException if an invalid Id error occurs
+   */
   public int addItem(String itemName, BigDecimal price, Context context) throws InvalidInputException, InvalidIdException {
       int itemId = -1;
 
@@ -369,6 +410,17 @@ public class AdminInterface {
       return itemId;
   }
 
+  /**
+   * Edit a user's information.
+   * @param userId the Id of the user.
+   * @param name name of the user.
+   * @param age age of the user.
+   * @param address address of the user.
+   * @param context the context of the state of the application.
+   * @return True if operation was successful, false otherwise.
+   * @throws InvalidIdException if an invalid Id error occurs.
+   * @throws InvalidRoleException if an invalid Role error occurs.
+   */
   public boolean editUser(int userId, String name, int age, String address, Context context) throws InvalidIdException, InvalidRoleException {
     DatabaseAndroidUpdateHelper upd = new DatabaseAndroidUpdateHelper(context);
     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
@@ -381,6 +433,14 @@ public class AdminInterface {
     }
     return false;
   }
+
+  /**
+   * Get a list of all inacctive accounts for a given user.
+   * @param userId the id of the user.
+   * @param context the context of the state of the application.
+   * @return A list that has all the inactive accounts
+   * @throws InvalidIdException If an invalid Id error occurs.
+   */
   public List<Account> getInactiveAccounts(int userId, Context context) throws InvalidIdException {
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
         // get inactive accounts
@@ -393,6 +453,13 @@ public class AdminInterface {
         return userInactiveAccounts;
     }
 
+  /**
+   * Get a list of all active accounts for a given user.
+   * @param userId the is of the user.
+   * @param context the context of the state of the application.
+   * @return A list that has all the active accounts.
+   * @throws InvalidIdException If an invalid Id error occurs.
+   */
     public List<Account> getActiveAccounts(int userId, Context context) throws InvalidIdException {
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
         // get inactive accounts

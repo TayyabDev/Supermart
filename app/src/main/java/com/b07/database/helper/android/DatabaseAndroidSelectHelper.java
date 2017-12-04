@@ -39,6 +39,11 @@ import java.util.List;
  */
 
 public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
+
+    /**
+     * The public contructor for the class
+     * @param context the context of the state of the application
+     */
     public DatabaseAndroidSelectHelper(Context context) {
         super(context);
     }

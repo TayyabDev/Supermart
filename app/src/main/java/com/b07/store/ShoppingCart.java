@@ -92,6 +92,12 @@ public class ShoppingCart {
         }
     }
 
+  /**
+   * Restore the most recent session for a customer
+   * @param context the context of the state of the application
+   * @return True if operation was successful, false otherwise.
+   * @throws InvalidIdException If an invalid Id error occurs.
+   */
     public boolean restoreShoppingCart(Context context) throws InvalidIdException {
         // clear cart
         this.clearCart();
@@ -201,6 +207,17 @@ public class ShoppingCart {
         }
     }
 
+  /**
+   * Add an item to the cart
+   * @param item item in the store
+   * @param quantity the amount of the item
+   * @param context the context of the state of the application
+   * @throws SQLException if an SQL error occurs
+   * @throws ItemNotFoundException If an item is not found
+   * @throws InvalidQuantityException If and invalid quantity  entered
+   * @throws DatabaseInsertException If a database insert error occurs
+   * @throws InvalidInputException if an Invalid input error occurs.
+   */
     public void addItem(Item item, int quantity, Context context) throws SQLException, ItemNotFoundException,
             InvalidQuantityException, DatabaseInsertException, InvalidInputException {
         // check if the quantity is valid
@@ -306,21 +323,38 @@ public class ShoppingCart {
     }
 
 
-    public Customer getCustomer() {
+  /**
+   * Get the customer of the cart
+   * @return return the customer using the cart
+   */
+  public Customer getCustomer() {
         return this.customer;
     }
 
-    public BigDecimal getTotal() {
+  /**
+   * get the total of the cart
+   * @return total of the cart
+   */
+  public BigDecimal getTotal() {
         // return the total * tax rate
         return this.total.multiply(getTaxRate()).setScale(2, BigDecimal.ROUND_UP);
     }
-    public BigDecimal getTotalWithoutTax() {
+
+  /**
+   * the total of the cart without tax
+   * @return total without tax
+   */
+  public BigDecimal getTotalWithoutTax() {
         // return the total * tax rate
         return this.total;
     }
 
 
-    public BigDecimal getTaxRate() {
+  /**
+   * get the taxrate
+   * @return taxrate
+   */
+  public BigDecimal getTaxRate() {
         return ShoppingCart.TAXRATE;
     }
 
@@ -334,6 +368,13 @@ public class ShoppingCart {
         total = new BigDecimal("0.00");
     }
 
+  /**
+   * Update the account
+   * @throws SQLException if an SQL error occurs
+   * @throws DatabaseInsertException if a database insert error occurs
+   * @throws InvalidInputException if an invalid input error occurs
+   * @throws InvalidQuantityException if an invalid quantity error occurs
+   */
     public void updateAccount() throws SQLException, DatabaseInsertException, InvalidInputException,
             InvalidQuantityException {
         if (hasActiveAccount) {
@@ -345,6 +386,12 @@ public class ShoppingCart {
         }
     }
 
+  /**
+   * Check if customer has an active account.
+   * @param context the context of the state of the application
+   * @return true if there is an active account, false otherwise.
+   * @throws InvalidIdException
+   */
     public boolean customerHasActiveAccount(Context context) throws InvalidIdException {
         // search database for customers inactive accounts
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
@@ -355,6 +402,12 @@ public class ShoppingCart {
         }
     }
 
+  /**
+   * check if customer has an inactive account
+   * @param context the context of the state of the application
+   * @return true if a inactive account exists, falase otherwise
+   * @throws InvalidIdException if an invalid id error occurs.
+   */
     public boolean customerHasInactiveAccount(Context context) throws InvalidIdException {
         // search database for customers inactive accounts
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
@@ -365,6 +418,13 @@ public class ShoppingCart {
         }
     }
 
+  /**
+   * get the customer's active account.
+   * @param context the contetext of the state of the application.
+   * @return the id of the active account.
+   * @throws InvalidIdException if an invalid id error occurs.
+   * @throws CustomerNoAccountException if the customer does not have an account.
+   */
     private int getCustomerActiveAccountId(Context context) throws InvalidIdException, CustomerNoAccountException {
         // get customers active accounts
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
@@ -382,6 +442,13 @@ public class ShoppingCart {
 
     }
 
+  /**
+   * get the customer's inactive account
+   * @param context the context of the state of the application
+   * @return the id of the inactive account
+   * @throws InvalidIdException if an invalid id error occurs
+   * @throws CustomerNoAccountException if customer does not have an account
+   */
     private int getCustomerInactiveAccountId(Context context) throws InvalidIdException, CustomerNoAccountException {
         // get customers active accounts
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
@@ -399,7 +466,16 @@ public class ShoppingCart {
     }
 
 
-
+  /**
+   * update the account with information about the cart
+   * @param context the context of the state of the application
+   * @return true if operation was successful, false otherwise
+   * @throws SQLException if SQL error occurs
+   * @throws DatabaseInsertException if database insert error occurs
+   * @throws InvalidInputException if and invalid input error occurs
+   * @throws InvalidQuantityException if an invalid quantity is enterede
+   * @throws InvalidIdException if an invalid id error occurs
+   */
     public boolean updateAccount(Context context) throws SQLException, DatabaseInsertException, InvalidInputException,
             InvalidQuantityException, InvalidIdException {
 
@@ -461,10 +537,19 @@ public class ShoppingCart {
     return new ArrayList<Item>(keySet);
   }
 
+  /**
+   * get the quantity of the item in the cart
+   * @param item the item in the cart
+   * @return the quantity of the item
+   */
   public int getQuantity(Item item){
     return cart.get(item);
   }
 
+  /**
+   * Get everything in the cart
+   * @return a HashMap with the item and quantity
+   */
   public HashMap<Item, Integer> getCart(){
       return this.cart;
   }
@@ -528,6 +613,18 @@ public class ShoppingCart {
   }
 
 
+  /**
+   * Perform a checkout of the shopping cart
+   * @param shoppingCart the shopping cart that holds all the items
+   * @param context the context of the state of the application
+   * @return true if operation was successful, false otherwise.
+   * @throws SQLException if SQL error occurs
+   * @throws DatabaseInsertException if Database insert error occurs
+   * @throws InvalidQuantityException if an invalid quantity is enetered
+   * @throws InvalidInputException if an invalid input is entered
+   * @throws InvalidRoleException if an invalid role is used
+   * @throws InvalidIdException if an  invalid id is used
+   */
   public boolean checkOut(ShoppingCart shoppingCart, Context context) throws SQLException, DatabaseInsertException,
           InvalidQuantityException, InvalidInputException, InvalidRoleException, InvalidIdException {
     boolean checkedOut = false;

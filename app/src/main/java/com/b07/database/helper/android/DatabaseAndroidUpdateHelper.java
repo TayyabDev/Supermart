@@ -20,6 +20,10 @@ import java.util.List;
 
 public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
 
+    /**
+     * The public constructor for the class
+     * @param context the context of the state of the application
+     */
     public DatabaseAndroidUpdateHelper(Context context) {
         super(context);
     }

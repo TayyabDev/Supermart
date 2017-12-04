@@ -29,6 +29,10 @@ import java.util.List;
 public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
 
 
+    /**
+     * A public contructor for the class
+     * @param context the context of the current state of the application
+     */
     public DatabaseAndroidInsertHelper(Context context) {
         super(context);
     }
