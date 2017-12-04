@@ -42,7 +42,7 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
     Button buttonRemoveItem;
     Button buttonCheckShoppingCart;
     Button buttonCheckOut;
-
+    TextView textTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +76,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
         } catch (CustomerNotLoggedInException e) {
             e.printStackTrace();
         }
-        System.out.println(sc.getItems());
 
+        textTotal = findViewById(R.id.textTotal);
+        textTotal.setText("Your total is: $" + sc.getTotal());
         buttonRestoreShoppingCart = (Button) findViewById(R.id.buttonRestoreShoppingCart);
         buttonRestoreShoppingCart.setOnClickListener(this);
         buttonAddItem = (Button) findViewById(R.id.buttonAddItem);
@@ -142,6 +143,7 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
 
                 intent.putExtra("itemNames", itemNames);
                 intent.putExtra("itemQuantities", itemQuantities);
+                intent.putExtra("total", sc.getTotal());
                 startActivity(intent);
                 break;
 
@@ -152,8 +154,8 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 // set title of alert dialog
                 a_builder.setTitle("Confirm your checkout");
 
-                // give user the quantity of the item and determine happens when user selects confirm
-                a_builder.setMessage("Your total is : " + sc.getTotal()).setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                // give user the total and ask him to confirm
+                a_builder.setMessage("Your total is: $" + sc.getTotal() + " after tax.").setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                             // try checking out
@@ -173,16 +175,20 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                             } catch (InvalidInputException e) {
                                 e.printStackTrace();
                             } finally {
+                                // give user message if checkout was successful or not
                                 if(checkedOut){
                                     Toast.makeText(CustomerActivity.this, "You have successfully checked out!", Toast.LENGTH_LONG).show();
                                 } else {
                                     Toast.makeText(CustomerActivity.this, "Checkout not successful. Check your cart!", Toast.LENGTH_LONG).show();
                                 }
+                                // update the total
+                                updateTotal();
                             }
                         }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        // if user cancels then close dialog box
                         dialogInterface.cancel();
                     }
                 });
@@ -253,6 +259,8 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         }
+        // update the total if we have added or removed an amount from the cart
+        updateTotal();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -277,5 +285,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
             finish();
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void updateTotal(){
+        textTotal.setText("Your total is: $" + sc.getTotal());
     }
 }
