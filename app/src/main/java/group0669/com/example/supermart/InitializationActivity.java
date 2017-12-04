@@ -91,7 +91,7 @@ public class InitializationActivity extends AppCompatActivity implements View.On
                 }
             }
         });
-        
+
     }
 
     @Override

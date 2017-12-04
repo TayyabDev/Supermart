@@ -5,7 +5,9 @@ import android.content.Context;
 import com.b07.database.helper.DatabaseInsertHelper;
 import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.DatabaseUpdateHelper;
+import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
+import com.b07.database.helper.android.DatabaseAndroidUpdateHelper;
 import com.b07.exceptions.CustomerNoAccountException;
 import com.b07.exceptions.CustomerNotLoggedInException;
 import com.b07.exceptions.DatabaseInsertException;
@@ -322,7 +324,6 @@ public class ShoppingCart {
             cart.get(item));
       }
     }
-
   }
 
 
@@ -402,5 +403,53 @@ public class ShoppingCart {
     }
     return checkedOut;
   }
+
+
+  public boolean checkOut(ShoppingCart shoppingCart, Context context) throws SQLException, DatabaseInsertException,
+          InvalidQuantityException, InvalidInputException, InvalidRoleException, InvalidIdException {
+    boolean checkedOut = false;
+
+    // check if activity_customer is logged in
+    if (shoppingCart.getCustomer().equals(customer)) {
+      boolean sufficientInventory = true;
+      // check inventory for all the objects
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+      for (Item item : this.getItems()) {
+        // if the quantity of current item is less than the users indicated quantity,
+        // operation
+        // fails.
+        if (sel.getInventoryQuantity(item.getId()) < cart.get(item)) {
+          sufficientInventory = false;
+          return false;
+        }
+      }
+      if (sufficientInventory) {
+        DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
+          DatabaseAndroidUpdateHelper upd = new DatabaseAndroidUpdateHelper(context);
+
+        // since there is enough inventory, we can proceed with the sale
+        for (Item item : cart.keySet()) {
+          // insert the sale using the quantity * price
+          BigDecimal currentPrice = BigDecimal.valueOf(cart.get(item)).multiply(item.getPrice());
+          int saleId = (int) ins.insertSale(customer.getId(), currentPrice);
+
+          // insert the itemized sale now
+          ins.insertItemizedSale(saleId, item.getId(), cart.get(item), context);
+          // update the table
+          int newQuantity =
+                  sel.getInventoryQuantity(item.getId()) - cart.get(item);
+          upd.updateInventoryQuantity(newQuantity, item.getId(), context);
+
+          // set checkout to true since we have completed the sales
+
+        }
+        // clear cart and exit
+        checkedOut = true;
+        shoppingCart.clearCart();
+      }
+    }
+    return checkedOut;
+  }
+
 
 }

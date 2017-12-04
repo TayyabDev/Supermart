@@ -106,6 +106,7 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
         }
         return saleId;
     }
+
     public long insertItemizedSale(int saleId, int itemId, int quantity, Context context) throws DatabaseInsertException, SQLException, InvalidIdException, InvalidRoleException {
         long itemizedId = -1;
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
@@ -115,9 +116,8 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
             if (item.getId() == itemId) {
                 for (Sale sale : salesLog.getSales()) {
                     if (sale.getId() == saleId) {
-                        if (quantity >= 0 & quantity <= DatabaseSelectHelper.getInventoryQuantity(itemId)) {
-                            itemizedId =
-                                    super.insertItemizedSale(saleId, itemId, quantity);
+                        if (quantity >= 0 & quantity <= sel.getInventoryQuantity(itemId)) {
+                            itemizedId = super.insertItemizedSale(saleId, itemId, quantity);
                             return itemizedId;
                         }
                     }

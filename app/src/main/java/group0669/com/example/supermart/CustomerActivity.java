@@ -1,16 +1,20 @@
 package group0669.com.example.supermart;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -132,9 +136,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
 
                 // populate each array with its respective data
                 for(int i = 0; i < itemNames.length; i++){
-                itemNames[i] = items.get(i).getName();
-                itemQuantities[i] = sc.getQuantity(items.get(i));
-            }
+                    itemNames[i] = items.get(i).getName();
+                    itemQuantities[i] = sc.getQuantity(items.get(i));
+                 }
 
                 intent.putExtra("itemNames", itemNames);
                 intent.putExtra("itemQuantities", itemQuantities);
@@ -142,9 +146,48 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.buttonCheckOut:
-                startActivity(new Intent(this, CheckOutActivity.class));
-                break;
+                // create alert dialog to ask user to confirm checkout
+                AlertDialog.Builder a_builder = new AlertDialog.Builder(CustomerActivity.this);
 
+                // set title of alert dialog
+                a_builder.setTitle("Confirm your checkout");
+
+                // give user the quantity of the item and determine happens when user selects confirm
+                a_builder.setMessage("Your total is : " + sc.getTotal()).setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                            // try checking out
+                            boolean checkedOut = false;
+                            try {
+                               checkedOut = sc.checkOut(sc, CustomerActivity.this);
+                            } catch (InvalidIdException e) {
+                                e.printStackTrace();
+                            } catch (InvalidRoleException e) {
+                                e.printStackTrace();
+                            } catch (InvalidQuantityException e) {
+                                e.printStackTrace();
+                            } catch (DatabaseInsertException e) {
+                                e.printStackTrace();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            } catch (InvalidInputException e) {
+                                e.printStackTrace();
+                            } finally {
+                                if(checkedOut){
+                                    Toast.makeText(CustomerActivity.this, "You have successfully checked out!", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(CustomerActivity.this, "Checkout not successful. Check your cart!", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                AlertDialog alert = a_builder.create();
+                alert.show();
         }
     }
 
