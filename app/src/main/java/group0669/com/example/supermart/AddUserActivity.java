@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     Button buttonNext;
     EditText editUsername, editAge, editAddress, editPassword, editConfirmPassword;
     AdminInterface adminInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,12 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         editConfirmPassword = findViewById(R.id.editConfirmPassword);
         buttonNext = findViewById(R.id.buttonNext);
         buttonNext.setOnClickListener(this);
+
+        Spinner spinnerRoleType = (Spinner) findViewById(R.id.spinnerRoleType);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddUserActivity.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.role_type));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRoleType.setAdapter(adapter);
 
     }
 
