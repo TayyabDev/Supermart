@@ -24,17 +24,23 @@ public class CheckShoppingCartActivity extends AppCompatActivity  {
 
     ListView listItems;
     ArrayAdapter<String []> adapter;
+    TextView textShoppingTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_shopping_cart);
 
-        // get the cart's item names and quantites from previous activity
+        // get the cart's item names and quantities and total from previous activity
         Bundle customerData = getIntent().getExtras();
+
+        // get total
+        textShoppingTotal = findViewById(R.id.textShoppingTotal);
+        textShoppingTotal.setText("Total after tax: " + customerData.get("total"));
+
+        // get item names and quantities
         String[] itemNames = customerData.getStringArray("itemNames");
         int[] itemQuantities = customerData.getIntArray("itemQuantities");
-
         // SIDE NOTE: I learned how to create a simple_list_item_2 with the help of this youtube video: https://www.youtube.com/watch?v=QsO1_doWcak
         final List<String[]> cartDisplay = new ArrayList<>();
         if (itemNames != null && itemQuantities != null) {

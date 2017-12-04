@@ -23,6 +23,7 @@ import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.inventory.Item;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,13 +69,17 @@ public class AddItemActivity extends AppCompatActivity {
                         quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
                         a_builder.setView(quantity);
 
-                        a_builder.setTitle("Please enter a quantity of the item");
+                        a_builder.setTitle("Please enter a quantity of the item you would like to add");
 
+                        // get inventory quantity and price of item
                         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(AddItemActivity.this);
                         final int inventoryQuantity = sel.getInventoryQuantity(itemNameToItem.get(itemName).getId());
+                        final BigDecimal price = itemNameToItem.get(itemName).getPrice();
+
 
                         // give user the quantity of the item and determine happens when user selects confirm
-                        a_builder.setMessage("The item quantity is: " + inventoryQuantity).setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        a_builder.setMessage("The price of item is $"+ price + "\nThe inventory quantity is " + inventoryQuantity).setCancelable(false).setPositiveButton
+                                ("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // check if quanttiy is valid

@@ -89,6 +89,7 @@
         android:text="CHECKOUT" />
 
     <TextView
+        android:id="@+id/textTotal"
         android:layout_width="361dp"
         android:layout_height="72dp"
         android:layout_gravity="center_vertical"
