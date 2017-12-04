@@ -137,19 +137,26 @@ public class ShoppingCart {
                 if (currentItem.getName().equals(item.getName())) {
                     itemFound = true;
                     // check if item is already in the cart
-                    if (cart.containsKey(currentItem)) {
+                    boolean cartContainsItem = false;
+                    for(Item cartItem : this.getItems()) {
+                      if(cartItem.getId() == item.getId()) {
+                        cartContainsItem = true;
                         // multiply the price of the item * quantity
                         BigDecimal priceBefore =
-                                BigDecimal.valueOf(cart.get(currentItem)).multiply(currentItem.getPrice());
+                                BigDecimal.valueOf(cart.get(cartItem)).multiply(cartItem.getPrice());
 
                         // add the quantity of the item to the current quantity
-                        cart.replace(currentItem, cart.get(currentItem) + quantity);
-                        BigDecimal priceAfter = BigDecimal.valueOf(cart.get(currentItem))
+                        cart.replace(cartItem, cart.get(cartItem) + quantity);
+                        BigDecimal priceAfter = BigDecimal.valueOf(cart.get(cartItem))
                                 .multiply(currentItem.getPrice()).setScale(2);
 
                         // update the total
                         total = total.add(priceAfter.subtract(priceBefore));
-                    } else {
+                        
+                        break;
+                      }
+                    }
+                    if(!cartContainsItem) {
                         // otherwise just add the item normally
                         cart.put(currentItem, quantity);
                         System.out.println(cart.get(currentItem));
@@ -159,8 +166,7 @@ public class ShoppingCart {
                         // update the total
                         total = total.add(priceAfter).setScale(2, BigDecimal.ROUND_UP);
                     }
-                    // exit the loop since we have added the item.
-                    break;
+                    
                 }
 
             }
@@ -193,7 +199,7 @@ public class ShoppingCart {
         if (quantity >= 0) {
             boolean itemFound = false;
             for (Item currentItem : this.getItems()) {
-                if (currentItem.getName().equals(item.getName())) {
+                if (currentItem.getId() == item.getId()) {
                     // found item
                     itemFound = true;
 

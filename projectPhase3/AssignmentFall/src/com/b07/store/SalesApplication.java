@@ -8,6 +8,7 @@ import com.b07.inventory.Item;
 import com.b07.users.Account;
 import com.b07.users.Admin;
 import com.b07.users.Customer;
+import com.b07.users.User;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
@@ -37,7 +38,7 @@ public class SalesApplication {
         if (argv.length > 0 && argv[0].equals("-1")) {
           DatabaseDriverExtender.initialize(connection);
 
-          // get the name,age, and address of the activity_admin
+          // get the name,age, and address of the admin
           System.out.println("Input your name");
           String name = br.readLine();
           System.out.println("Input your age");
@@ -47,21 +48,21 @@ public class SalesApplication {
           System.out.println("Enter the password you would like to use");
           String password = br.readLine();
 
-          // insert the role of activity_admin into the dataabase and get the roleid
+          // insert the role of admin into the dataabase and get the roleid
           int adminRoleId = DatabaseInsertHelper.insertRole("ADMIN");
 
-          // insert the activity_admin into the database and get the id
+          // insert the admin into the database and get the id
           int adminId = DatabaseInsertHelper.insertNewUser(name, age, address, password);
-          // establish the activity_admin relationsihp
+          // establish the admin relationsihp
 
           DatabaseInsertHelper.insertUserRole(adminId, adminRoleId);
 
-          // store the activity_admin account
+          // store the admin account
           Admin admin = new Admin(adminId, name, age, address, true);
 
-          System.out.println("Your activity_admin ID is: " + admin.getId());
+          System.out.println("Your Admin ID is: " + admin.getId());
 
-          // insert activity_customer into the roleid's
+          // insert customer into the roleid's
           DatabaseInsertHelper.insertRole("CUSTOMER");
 
           // now populate the database with items and get the item id's
@@ -83,12 +84,12 @@ public class SalesApplication {
         } else {
           // list the options
           System.out.println("Please choose from one of the following options:");
-          System.out.println("1 - AdminActivity Login");
-          System.out.println("2 - CustomerActivity Login");
+          System.out.println("1 - Admin Login");
+          System.out.println("2 - Customer Login");
           System.out.println("0 - Exit");
           int choice = Integer.parseInt(br.readLine());
 
-          // if user doesnt select valid option keep prompting
+          // if user doesn't select valid option keep prompting
           while (!(choice == 1 || choice == 2 || choice == 0)) {
             System.out.println("Please select a valid option.");
             choice = Integer.parseInt(br.readLine());
@@ -96,98 +97,105 @@ public class SalesApplication {
 
           if (choice == 1) {
             // ask user for id and password
-            System.out.println("Welcome to the AdminActivity Login!");
+            System.out.println("Welcome to the Admin Login!");
             System.out.println("Please enter your id");
             int id = Integer.parseInt(br.readLine());
             System.out.println("Please enter your password");
             String password = br.readLine();
 
-            // check if id is for an AdminActivity
+            // check if user exists
+            try {
+              User user = DatabaseSelectHelper.getUserDetails(id);
+            } catch(InvalidIdException e ) {
+              System.out.println("User ID is not in the database.");
+              System.exit(0);;
+            }
+            // check if user is admin in database
             if (DatabaseSelectHelper.getRoleName(DatabaseSelectHelper.getUserRoleId(id))
                 .equals("ADMIN")) {
               // check if password is correct
               Admin admin = (Admin) DatabaseSelectHelper.getUserDetails(id);
               if (admin.authenticate(password)) {
-                // if password was correct then we can access the AdminActivity interface
+                // if password was correct then we can access the Admin interface
                 AdminInterface adminInterface =
                     new AdminInterface(admin, DatabaseSelectHelper.getInventory());
                 System.out.println("Login successful! Welcome " + admin.getName()
                     + ", please choose from one of the following options:");
-                System.out.println("1. Authenticate new activity_admin");
-                System.out.println("2. Make new activity_customer");
+                System.out.println("1. Authenticate new admin");
+                System.out.println("2. Make new customer");
                 System.out.println("3. Make new account");
-                System.out.println("4. Make new activity_admin");
+                System.out.println("4. Make new admin");
                 System.out.println("5. Restock inventory");
                 System.out.println("6. View the sales");
                 System.out.println("7. Exit");
 
                 int adminInterfaceChoice = 0;
-                // keep looping until AdminActivity wants to exit the AdminActivity portal
+                // keep looping until Admin wants to exit the Admin portal
                 while (adminInterfaceChoice != 7) {
                   adminInterfaceChoice = Integer.parseInt(br.readLine());
-                  // user wants to authenticate new AdminActivity
+                  // user wants to authenticate new Admin
                   if (adminInterfaceChoice == 1) {
-                    // ask for id and password for the new AdminActivity
+                    // ask for id and password for the new Admin
                     System.out.println("What is the Admins id");
                     int authId = Integer.parseInt(br.readLine());
 
                     System.out.println("What is the Admins password");
                     String authPassword = br.readLine();
 
-                    // authenticate the new AdminActivity if possible
+                    // authenticate the new Admin if possible
                     if (DatabaseSelectHelper.getRoleName(DatabaseSelectHelper.getUserRoleId(authId))
-                        .equals("AdminActivity")) {
+                        .equals("Admin")) {
                       Admin authAdmin = (Admin) DatabaseSelectHelper.getUserDetails(id);
                       if (authAdmin.authenticate(authPassword)) {
-                        System.out.println("AdminActivity authenticated.");
+                        System.out.println("Admin authenticated.");
                       } else {
                         System.out.println("Invalid password");
                       }
                     } else {
-                      System.out.println("Not an AdminActivity");
+                      System.out.println("Not an Admin");
                     }
                   } else if (adminInterfaceChoice == 2) {
-                    // ask for new activity_customer info
-                    System.out.println("What is the name of the activity_customer");
+                    // ask for new customer info
+                    System.out.println("What is the name of the customer");
                     String newName = br.readLine();
-                    System.out.println("What is the age of the activity_customer");
+                    System.out.println("What is the age of the customer");
                     int newAge = Integer.parseInt(br.readLine());
-                    System.out.println("What is the address of the activity_customer");
+                    System.out.println("What is the address of the customer");
                     String newAddress = br.readLine();
                     System.out.println("Enter a password");
                     String newPassword = br.readLine();
 
-                    // now create the activity_customer
+                    // now create the customer
                     int newId =
                         adminInterface.createCustomer(newName, newAge, newAddress, newPassword);
 
-                    System.out.println("New activity_customer created, with id of " + newId);
+                    System.out.println("New customer created, with id of " + newId);
                   } else if (adminInterfaceChoice == 3) {
-                    System.out.println("What is the activity_customer's id?");
+                    System.out.println("What is the customer's id?");
                     int customerId = Integer.parseInt(br.readLine());
 
-                    // try creating account for the activity_customer
+                    // try creating account for the customer
                     try {
                       Account customerAccount = adminInterface.createAccount(customerId);
                       System.out.println("The new account ID is " + customerAccount.getId());
                     } catch (InvalidIdException e) {
                       System.out.println("The ID you entered is invalid!");
-                    }
+                    } 
 
                   } else if (adminInterfaceChoice == 4) {
-                    System.out.println("What is the name of the AdminActivity");
+                    System.out.println("What is the name of the Admin");
                     String newName = br.readLine();
-                    System.out.println("What is the age of the AdminActivity");
+                    System.out.println("What is the age of the Admin");
                     int newAge = Integer.parseInt(br.readLine());
-                    System.out.println("What is the address of the AdminActivity");
+                    System.out.println("What is the address of the Admin");
                     String newAddress = br.readLine();
                     System.out.println("Enter a password");
                     String newPassword = br.readLine();
 
-                    // now create the AdminActivity
+                    // now create the Admin
                     int newId =
                         adminInterface.createAdmin(newName, newAge, newAddress, newPassword);
-                    System.out.println("New AdminActivity created with id " + newId);
+                    System.out.println("New Admin created with id " + newId);
                   } else if (adminInterfaceChoice == 5) {
                     // add skates and hockey sticks to the database for purpose of restocking
 
@@ -220,12 +228,12 @@ public class SalesApplication {
                 System.out.println("Wrong password. Try again.");
               }
             } else {
-              // user not AdminActivity
-              System.out.println("Not an AdminActivity.");
+              // user not Admin
+              System.out.println("Not an Admin.");
             }
 
           } else if (choice == 2) {
-            System.out.println("Welcome to the activity_customer portal!");
+            System.out.println("Welcome to the customer portal!");
             boolean validCustomer = false;
 
             while (!validCustomer) {
@@ -233,13 +241,22 @@ public class SalesApplication {
               int id = Integer.parseInt(br.readLine());
               System.out.println("Please enter your password");
               String password = br.readLine();
-              // check if user is activity_customer
+              
+           // check if user exists
+              try {
+                User user = DatabaseSelectHelper.getUserDetails(id);
+              } catch(InvalidIdException e ) {
+                System.out.println("User ID is not in the database.");
+                System.exit(0);;
+              }
+              
+              // check if user is customer
               if (DatabaseSelectHelper.getRoleName(DatabaseSelectHelper.getUserRoleId(id))
                   .equals("CUSTOMER")) {
                 // check if password is correct
                 Customer customer = (Customer) DatabaseSelectHelper.getUserDetails(id);
                 if (customer.authenticate(password)) {
-                  // if password correct then open activity_customer menu
+                  // if password correct then open customer menu
                   validCustomer = true;
                   System.out.println("Login succesful! Welcome " + customer.getName() + "!");
                   System.out.println(
@@ -255,14 +272,16 @@ public class SalesApplication {
                   System.out.println("2. Add a quantity of an item to the cart");
                   System.out.println("3. Check total price of items in the cart");
                   System.out.println("4. Remove a quantity of an item from the cart");
-                  System.out.println("5. check out");
-                  System.out.println("6. Exit");
+                  System.out.println("5. Check out");
+                  System.out.println("6. Save cart for future use.");
+                  System.out.println("7. Exit");
 
                   int customerChoice = -1;
-                  // keep looping until activity_customer wants to exit (by entering 6)
-                  while (customerChoice != 6) {
-                    customerChoice = Integer.parseInt(br.readLine());
-
+                  // keep looping until customer wants to exit (by entering 6)
+                  while (customerChoice != 7) {
+                    try { 
+                      customerChoice = Integer.parseInt(br.readLine());
+                    
                     if (customerChoice == 1) {
                       // print the items in cart
                       List<Item> itemsList = sc.getItems();
@@ -323,10 +342,10 @@ public class SalesApplication {
                       // tell user the total
                       System.out.println("Your total is: " + sc.getTotal());
                       if (sc.checkOut(sc)) {
-                        // if checkout is succesful, let user know
+                        // if checkout is successful, let user know
                         System.out.println("Thank you for shopping! Your purchase is complete.");
                       } else {
-                        // if not successfull then let user know
+                        // if not successful then let user know
                         System.out
                             .println("We do not have enough inventory space. Please try again.");
                       }
@@ -343,21 +362,36 @@ public class SalesApplication {
                       }
                     } else if (customerChoice == 6) {
                       // exit and clear the cart
-                      sc.updateAccount();
+                      if(sc.updateAccount()) {
+                        System.out.println("Cart saved for future use.");
+                      } else {
+                        System.out.println("Cart could not be saved. Contact admin to create a new account.");
+                      }
+                      
+                    } else if(customerChoice == 7) {
                       System.out.println("Ok.....exiting...");
                     }
+                    }      
+                catch(NumberFormatException e ) {
+                  System.out.println("Please select a valid option!");
+                }
                   }
                 }
-              } else {
-                System.out.println("Not a activity_customer.");
+               else {
+                System.out.println("Invalid password.");
               }
             }
           }
+        
+          }
         }
-
       }
+    }
+ 
 
-    } catch (Exception e) {
+      
+
+     catch (Exception e) {
       e.printStackTrace();
     } finally {
       try {

@@ -85,9 +85,11 @@ public class DatabaseSelectHelper extends DatabaseSelector {
       check = (results.getInt("ID")) == userId;
     } catch (SQLException e) {
       e.printStackTrace();
-    }
-    connection.close();
+    } finally {
+      connection.close();
     results.close();
+    }
+    
     return check;
   }
 
@@ -589,6 +591,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     while (results.next()) {
       activeList.add(results.getInt("ID"));
     }
+    results.close();
     connection.close();
     
     return activeList;
@@ -603,14 +606,13 @@ public class DatabaseSelectHelper extends DatabaseSelector {
   public static List<Integer> getUserInactiveAccounts(int userId) throws SQLException {
     Connection connection = DatabaseDriverHelper.connectOrCreateDataBase();
     ResultSet results = DatabaseSelector.getUserInactiveAccounts(userId, connection);
-    
-    connection.close();
-    
     List<Integer> inactiveList = new ArrayList<Integer>();
     // make sure this is correct
     while (results.next()) {
       inactiveList.add(results.getInt("ID"));
     }
+    results.close();
+    connection.close();
     
     return inactiveList;
     

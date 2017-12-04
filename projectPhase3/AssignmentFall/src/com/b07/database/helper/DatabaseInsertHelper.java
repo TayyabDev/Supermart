@@ -248,7 +248,6 @@ public class DatabaseInsertHelper extends DatabaseInserter {
    * @param userId of a customer
    * @return accountId.
    * @throws DatabaseInsertException on failure
-   * @throws InvalidRoleException on invalid role input
    * @throws InvalidIdException on invalid userId input
    * @throws SQLException on failure
    */
@@ -259,14 +258,15 @@ public class DatabaseInsertHelper extends DatabaseInserter {
     List<User> userslist = DatabaseSelectHelper.getUsersDetails();
     for (User user : userslist) {
       if (user.getId() == userId) {
+        // insert the account for the user
         Connection connection = DatabaseDriverHelper.connectOrCreateDataBase();
-        accountId = DatabaseInserter.insertAccount(userId, connection);
+        accountId = DatabaseInserter.insertAccount(userId, true, connection);
         connection.close();
         return accountId;
       }
     }
     // else throw an exception
-    throw new InvalidRoleException("This is an invalid userId");
+    throw new InvalidIdException("This is an invalid userId");
 
   }
 
