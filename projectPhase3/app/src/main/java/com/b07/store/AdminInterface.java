@@ -214,6 +214,30 @@ public class AdminInterface {
     return employeeId;
   }
 
+  public int createAdmin(String name, int age, String address, String password, Context context) {
+    // try inserting the user into the database. an exception will be raised if not possible
+    DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
+
+    int adminId = (int) ins.insertNewUser(name, age, address, password);
+    // initialize select helper
+    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+
+    // search for admin role id
+    List<Integer> roleIds = sel.getRoleIdsHelper();
+
+    for(Integer roleId : roleIds){
+      // once we have found customer role id, establish user as customer
+      if(sel.getRoleName(roleId).equals("ADMIN")){
+        ins.insertUserRole(adminId, roleId);
+        // give user a message with the user id
+        return adminId;
+      }
+    }
+    return adminId;
+  }
+
+
+
   /**
    * Creater a new account for a user.
    * @param userId the Id of the user.
