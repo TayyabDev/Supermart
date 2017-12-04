@@ -80,6 +80,16 @@ public class InitializationActivity extends AppCompatActivity implements View.On
             }
         });
 
+        editConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editAddress.getText().toString().length() > 100) {
+                    editConfirmPassword.setError("Address is too long! Must be less than 100 characters");
+                }
+            }
+        });
+
+
         editAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
