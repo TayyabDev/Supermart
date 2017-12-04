@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     viewPager.setAdapter(imageSwipeActivity);
 
     Timer timer = new Timer();
-    timer.scheduleAtFixedRate(new myTimerTask(), 2000, 4000);
+    timer.scheduleAtFixedRate(new myTimerTask(), 4000, 4000);
   }
 
 
