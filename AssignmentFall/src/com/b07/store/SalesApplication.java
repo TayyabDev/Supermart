@@ -226,12 +226,12 @@ public class SalesApplication {
                     System.out.println("What is the user Id");
                     int userId = Integer.parseInt(br.readLine());
                     List<Integer> activeAccounts = DatabaseSelectHelper.getUserActiveAccounts(userId);
-                    System.out.println("Here are all active the user haa " + activeAccounts + " now.");
+                    System.out.println("Here are all active the user has " + activeAccounts + " now.");
                   } else if (adminInterfaceChoice == 8) {
                     System.out.println("What is the user Id");
                     int userId = Integer.parseInt(br.readLine());
                     List<Integer> inactiveAccounts = DatabaseSelectHelper.getUserInactiveAccounts(userId);
-                    System.out.println("Here are all active the user haa " + inactiveAccounts + " now.");
+                    System.out.println("Here are all active the user has " + inactiveAccounts + " now.");
                   }
                 }
               } else {
