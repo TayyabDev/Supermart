@@ -39,6 +39,14 @@ public class AddNewItemActivity extends AppCompatActivity implements View.OnClic
         buttonAddNewItem = findViewById(R.id.buttonAddNewItem);
         buttonAddNewItem.setOnClickListener(this);
 
+        editNewItemName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editNewItemName.getText().length() <  1) {
+                    editNewItemName.setError("The input name is not valid");
+                }
+            }
+        });
     }
 
     @Override
