@@ -58,7 +58,7 @@ public class EditUserActivity extends AppCompatActivity implements View.OnClickL
         editUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (editUsername.getText().length() <=  3) {
+                if (editUsername.getText().length() < 1) {
                     editUsername.setError("The input name is too short");
                 }
 
@@ -68,21 +68,16 @@ public class EditUserActivity extends AppCompatActivity implements View.OnClickL
         editAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (editAge.getText().toString().equals("0")) {
-                    editAge.setError("Please input a valid age");
+                if(editAge.getText().toString().length() > 0){
+                    if (Integer.parseInt(editAge.getText().toString()) < 13) {
+                        editAge.setError("User must be 13 to use the application.");
+                    }
                 }
+
 
             }
         });
 
-        editAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (editAddress.getText().length() < 100) {
-                    editAddress.setError("Please input a valid address");
-                }
-            }
-        });
     }
 
     @Override

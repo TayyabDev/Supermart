@@ -22,4 +22,6 @@ public interface Sale extends Serializable{
   public HashMap<Item, Integer> getItemMap();
 
   public void setItemMap(HashMap<Item, Integer> itemMap);
+
+
 }

@@ -306,26 +306,24 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
 
     public void getItemizedSaleByIdHelper(int saleId, Sale sale) throws InvalidIdException {
         Cursor c = super.getItemizedSaleById(saleId);
-        while (c.moveToNext()) {
-            sale.setId(c.getInt(c.getColumnIndex("SALEID")));
-            HashMap<Item, Integer> itemMap = new HashMap<>();
-            itemMap.put(getItemHelper(c.getInt(c.getColumnIndex("ITEMID"))),
-                    Integer.parseInt(c.getString(c.getColumnIndex("QUANTITY"))));
-            sale.setItemMap(itemMap);
+        HashMap<Item, Integer> itemMap = new HashMap<>();
+        while(c.moveToNext()){
+            // get current item
+            itemMap.put(getItemHelper(c.getInt(c.getColumnIndex("ITEMID"))), c.getInt(c.getColumnIndex("QUANTITY")));
+            System.out.println(c.getInt(c.getColumnIndex("ITEMID")) + " " + c.getInt(c.getColumnIndex("QUANTITY")));
         }
         c.close();
+
+        // set the item map to the sales item map
+        sale.setItemMap(itemMap);
+
     }
 
 
     public void getItemizedSalesHelper(SalesLog salesLog) throws InvalidIdException {
-        Cursor c = super.getItemizedSales();
-        while (c.moveToNext()) {
-            ItemizedSaleImpl sale = new ItemizedSaleImpl();
-            int saleId = c.getInt(c.getColumnIndex("SALEID"));
-            this.getItemizedSaleByIdHelper(saleId, sale);
-            salesLog.addSale(sale);
+        for(Sale sale : salesLog.getSales()){
+            getItemizedSaleByIdHelper(sale.getId(),sale);
         }
-        c.close();
     }
 
 

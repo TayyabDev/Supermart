@@ -67,11 +67,45 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         buttonNext = findViewById(R.id.buttonNext);
         buttonNext.setOnClickListener(this);
 
+
+
+
         Spinner spinnerRoleType = (Spinner) findViewById(R.id.spinnerRoleType);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(AddUserActivity.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.role_type));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRoleType.setAdapter(adapter);
+
+
+        editUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editUsername.getText().length() < 1) {
+                    editUsername.setError("The input name is too short");
+                }
+
+            }
+        });
+
+        editAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(editAge.getText().toString().length() > 0){
+                    if (Integer.parseInt(editAge.getText().toString()) < 13) {
+                        editAge.setError("User must be 13 to use the application.");
+                    }
+                }
+            }
+        });
+
+        editAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editAddress.getText().length() > 100) {
+                    editAddress.setError("Address must be less than 100 characters.");
+                }
+            }
+        });
 
     }
 
@@ -113,5 +147,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         }
         return super.onContextItemSelected(item);
     }
+
+
 }
 

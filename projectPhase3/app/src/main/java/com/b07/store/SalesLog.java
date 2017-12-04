@@ -12,4 +12,5 @@ public interface SalesLog extends Serializable{
 
 
   public void addSale(Sale sale);
+
 }
