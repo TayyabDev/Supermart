@@ -46,9 +46,12 @@ public class InitializationActivity extends AppCompatActivity implements View.On
         editAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (editAge.getText().toString().equals("0")) {
-                    editAge.setError("Please input a valid age");
+                if(editAge.getText().toString().length() > 0){
+                    if (Integer.parseInt(editAge.getText().toString()) < 13) {
+                        editAge.setError("You must be at least 13 year's old to use this application.");
+                    }
                 }
+
 
             }
         });
