@@ -107,14 +107,17 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()){
             case R.id.buttonRestoreShoppingCart:
                 try {
+                    // restore shopping cart
                     if(sc.restoreShoppingCart(this)){
                         Toast.makeText(this, "Your items have been restored", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Your items were not restored.", Toast.LENGTH_SHORT).show();
                     }
                 } catch (InvalidIdException e) {
-                    e.printStackTrace();
+                    Toast.makeText(this, "Your items were not restored.", Toast.LENGTH_SHORT).show();
                 }
+                // update total text view
+                updateTotal();
                 break;
 
             case R.id.buttonAddItem:

@@ -7,24 +7,40 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class ViewSaleActivity extends AppCompatActivity implements View.OnClickListener{
+import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
+import com.b07.exceptions.InvalidIdException;
+import com.b07.exceptions.InvalidRoleException;
+import com.b07.store.AdminInterface;
 
+import org.w3c.dom.Text;
 
+public class ViewSaleActivity extends AppCompatActivity{
+    TextView textStatement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_sale);
 
+        // get the inventory object to initialize an admin interface
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
+        AdminInterface adminInterface = new AdminInterface(sel.getInventoryHelper());
+
+        // set text view to the statement
+        textStatement = findViewById(R.id.textStatement);
+        try {
+            textStatement.setText(adminInterface.viewBooks(this));
+        } catch (InvalidIdException e) {
+            e.printStackTrace();
+        } catch (InvalidRoleException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-        }
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -37,7 +53,6 @@ public class ViewSaleActivity extends AppCompatActivity implements View.OnClickL
         int i = item.getItemId();
         System.out.println(i);
         if(i == R.id.logout_button){
-            System.out.println("bobmom");
             // if user clicks logout button then logout and clear the activity stack
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
