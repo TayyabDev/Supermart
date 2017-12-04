@@ -69,5 +69,13 @@
         android:drawableLeft="@mipmap/additemtodatabase"
         android:text="Add new item to database" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonUserInformation"
+        android:background="@color/colorPrimary"
+        android:text="Get User Information"
+        />
+
 
 </LinearLayout>
