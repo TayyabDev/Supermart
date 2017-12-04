@@ -54,6 +54,35 @@ public class EditUserActivity extends AppCompatActivity implements View.OnClickL
         buttonUpdate = (Button) findViewById(R.id.buttonUpdate);
 
         buttonUpdate.setOnClickListener(this);
+
+        editUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editUsername.getText().length() <=  3) {
+                    editUsername.setError("The input name is too short");
+                }
+
+            }
+        });
+
+        editAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editAge.getText().toString().equals("0")) {
+                    editAge.setError("Please input a valid age");
+                }
+
+            }
+        });
+
+        editAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editAddress.getText().length() < 100) {
+                    editAddress.setError("Please input a valid address");
+                }
+            }
+        });
     }
 
     @Override
