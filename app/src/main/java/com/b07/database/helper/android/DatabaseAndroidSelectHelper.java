@@ -317,12 +317,12 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
     }
 
 
-    public void getItemizedSalesHelper(SalesLog salesLog) {
+    public void getItemizedSalesHelper(SalesLog salesLog) throws InvalidIdException {
         Cursor c = super.getItemizedSales();
         while (c.moveToNext()) {
             ItemizedSaleImpl sale = new ItemizedSaleImpl();
             int saleId = c.getInt(c.getColumnIndex("SALEID"));
-            super.getItemizedSaleById(saleId);
+            this.getItemizedSaleByIdHelper(saleId, sale);
             salesLog.addSale(sale);
         }
         c.close();

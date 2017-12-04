@@ -5,12 +5,20 @@ import java.util.HashMap;
 import com.b07.inventory.Item;
 
 public class DailyDeals {
+    private HashMap<String, HashMap<Item, BigDecimal>> dayToDiscount;
 
-  private HashMap<String, HashMap<Item, BigDecimal>> discount = new HashMap<String, HashMap<Item, BigDecimal>>();
-      
+    public DailyDeals(HashMap<String, HashMap<Item, BigDecimal>> dayToDiscount){
+        this.dayToDiscount = new HashMap<>();
+    }
+    public DailyDeals(){
+        this.dayToDiscount = new HashMap<>();
+    }
+
+
   public HashMap<String, HashMap<Item, BigDecimal>> getItemMap() {
-        return discount;
+        return dayToDiscount;
       }
       
   }
+
 

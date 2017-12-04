@@ -232,7 +232,7 @@ public class AdminInterface {
     for (Sale sale : salesLog.getSales()) {
       // get the itemized sale
       // add the activity_customer name
-      statement += "CustomerActivity: " + sale.getUser().getName() + "\n";
+      statement += "Customer: " + sale.getUser().getName() + "\n";
 
       // add the purchase number
       statement += "Purchase Number: " + sale.getId() + "\n";
@@ -273,6 +273,70 @@ public class AdminInterface {
     statement += "TOTAL SALES: " + totalSales;
     return statement;
   }
+
+  public String viewBooks(Context context) throws InvalidIdException, InvalidRoleException {
+    String statement = "";
+
+    // create a hashmap to store the quantity of each item sold
+    HashMap<Item, Integer> totalItemsSold = new HashMap<Item, Integer>();
+
+    // create int to store total sales
+    BigDecimal totalSales = new BigDecimal("0.00");
+
+    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+    // get the sales log
+    SalesLog salesLog = sel.getSalesHelper();
+    // get the itemized sales
+    SalesLog itemizedSalesLog = new SalesLogImpl();
+    sel.getItemizedSalesHelper(itemizedSalesLog);
+
+    // loop through all the sales in saleslog
+    for (Sale sale : salesLog.getSales()) {
+      // get the itemized sale
+      // add the activity_customer name
+      statement += "Customer: " + sale.getUser().getName() + "\n";
+
+      // add the purchase number
+      statement += "Purchase Number: " + sale.getId() + "\n";
+
+      // add the total purchase price to string and totalSales counter
+      statement += "Total Purchase Price: " + sale.getTotalPrice() + "\n";
+      totalSales = totalSales.add(sale.getTotalPrice());
+
+      // add the itemized breakdown
+      statement += "Itemized Breakdown: ";
+
+      for (Sale itemizedSale : itemizedSalesLog.getSales()) {
+        if (itemizedSale.getId() == sale.getId()) {
+          List<Item> itemList = new ArrayList<>(itemizedSale.getItemMap().keySet());
+          statement += itemList.get(0).getName() + ": "
+                  + itemizedSale.getItemMap().get(itemList.get(0)) + "\n";
+
+          // check if the item is already defined the total items hashmap
+          if (totalItemsSold.get(itemList.get(0)) != null) {
+            totalItemsSold.put(itemList.get(0), totalItemsSold.get(itemList.get(0))
+                    + itemizedSale.getItemMap().get(itemList.get(0)));
+          } else {
+            totalItemsSold.put(itemList.get(0), itemizedSale.getItemMap().get(itemList.get(0)));
+          }
+        }
+      }
+
+
+      // add the divider line to seperate customers
+      statement += "----------------------------------------------------------------\n";
+    }
+    // now add the total quantites of each item to the string
+    for (Item item : totalItemsSold.keySet()) {
+      statement += "Number " + item.getName() + " Sold: " + totalItemsSold.get(item) + "\n";
+    }
+
+    // now add the total sum to the string
+    statement += "TOTAL SALES: " + totalSales;
+    return statement;
+  }
+
+
 
 
   /**
