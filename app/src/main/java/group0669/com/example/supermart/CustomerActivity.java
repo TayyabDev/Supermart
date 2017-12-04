@@ -103,6 +103,7 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
         List<Item> items;
         String [] itemNames;
         int [] itemQuantities;
+        AlertDialog.Builder a_builder;
 
         switch (view.getId()){
             case R.id.buttonRestoreShoppingCart:
@@ -168,7 +169,7 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 // check if customer has items in his cart 
                 if(sc.getItems().size() > 0) {
                     // create alert dialog to ask user to confirm checkout
-                    AlertDialog.Builder a_builder = new AlertDialog.Builder(CustomerActivity.this);
+                    a_builder = new AlertDialog.Builder(CustomerActivity.this);
 
                     // set title of alert dialog
                     a_builder.setTitle("Confirm your checkout");
@@ -216,31 +217,35 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     Toast.makeText(this, "Please select some items first!", Toast.LENGTH_SHORT).show();
                 }
+                break;
+
             case R.id.buttonSave:
-                // show alert dialog if customer has account
+                // show alert dialog if customer has account and has some items
+                if(sc.getItems().size() > 0) {
+
                     // create alert dialog to ask user to confirm checkout
-                    AlertDialog.Builder a_builder = new AlertDialog.Builder(CustomerActivity.this);
+                    a_builder = new AlertDialog.Builder(CustomerActivity.this);
 
                     // set title of alert dialog
                     a_builder.setTitle("Save your cart's items for future use.");
 
                     // give user message and ask him to confirm
                     a_builder.setMessage("Please note that this can only be done once per account. You will have to" +
-                            "contact an Admin to create a new account if you'd like to save your cart again").setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            " contact an Admin to create a new account if you'd like to save your cart again").setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             // if user confirms then save cart
-                            try{
+                            try {
                                 boolean update = sc.updateAccount(CustomerActivity.this);
-                                if(update){
+                                if (update) {
                                     Toast.makeText(CustomerActivity.this, "Items saved", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(CustomerActivity.this, "Items not saved", Toast.LENGTH_SHORT).show();
                                 }
-                            } catch(Exception e) {
+                            } catch (Exception e) {
                                 Toast.makeText(CustomerActivity.this, "Contact admin to make a new account. You have already saved once.", Toast.LENGTH_SHORT).show();
                             }
-                            
+
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -251,6 +256,10 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                     });
                     AlertDialog alert = a_builder.create();
                     alert.show();
+                } else {
+                    Toast.makeText(this, "Please select some items first!", Toast.LENGTH_SHORT).show();
+                }
+                break;
 
         }
 
