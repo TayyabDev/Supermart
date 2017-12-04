@@ -50,4 +50,6 @@ public class ImageSwipeActivity extends PagerAdapter {
     View view = (View) object;
     viewPager.removeView(view);
   }
+
+
 }
