@@ -226,22 +226,29 @@ public class ShoppingCart {
             // check if item is valid
             DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
             for (Item currentItem : sel.getAllItemsHelper()) {
-                if (currentItem.getName().equals(item.getName())) {
+                if (currentItem.getId() == item.getId()) {
                     itemFound = true;
-                    // check if item is already in the cart
-                    if (cart.containsKey(currentItem)) {
-                        // multiply the price of the item * quantity
-                        BigDecimal priceBefore =
-                                BigDecimal.valueOf(cart.get(currentItem)).multiply(currentItem.getPrice());
+                    boolean itemInCart = false;
+                    for (Item cartItem : this.getItems()) {
+                        // check if item is already in the cart
+                        if (cartItem.getId() == item.getId()) {
+                            itemInCart = true;
+                            // multiply the price of the item * quantity
+                            BigDecimal priceBefore =
+                                    BigDecimal.valueOf(cart.get(cartItem)).multiply(cartItem.getPrice());
 
-                        // add the quantity of the item to the current quantity
-                        cart.replace(currentItem, cart.get(currentItem) + quantity);
-                        BigDecimal priceAfter = BigDecimal.valueOf(cart.get(currentItem))
-                                .multiply(currentItem.getPrice()).setScale(2);
+                            // add the quantity of the item to the current quantity
+                            cart.replace(cartItem, cart.get(cartItem) + quantity);
+                            BigDecimal priceAfter = BigDecimal.valueOf(cart.get(cartItem))
+                                    .multiply(cartItem.getPrice()).setScale(2);
 
-                        // update the total
-                        total = total.add(priceAfter.subtract(priceBefore));
-                    } else {
+                            // update the total
+                            total = total.add(priceAfter.subtract(priceBefore));
+                            // exit the loop since we have added the item.
+                            break;
+                        }
+                    }
+                    if (!itemInCart) {
                         // otherwise just add the item normally
                         cart.put(currentItem, quantity);
                         System.out.println(cart.get(currentItem));
@@ -250,12 +257,11 @@ public class ShoppingCart {
 
                         // update the total
                         total = total.add(priceAfter).setScale(2, BigDecimal.ROUND_UP);
+                        break;
                     }
-                    // exit the loop since we have added the item.
-                    break;
                 }
 
-            }
+                }
             if (!itemFound) {
                 throw new ItemNotFoundException("The item could not be found!");
             }
@@ -497,35 +503,6 @@ public class ShoppingCart {
             return false;
         }
     }
-
-        /*
-         *
-
-        if (hasActiveAccount) {
-            // check if account is active
-            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-            List<Integer> userActiveAccounts = sel.getUserActiveAccountsHelper(customer.getId());
-
-            if(userActiveAccounts.contains(customerAccountId)){
-                DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
-                for (Item item : this.getItems()) {
-                    // insert account line
-                    try {
-                        ins.insertAccountLine(customerAccountId, item.getId(), this.getQuantity(item), context);
-                    } catch (InvalidIdException e) {
-                        // expected if trying to change item quantity
-                    }
-
-                }
-                // update account status since we are done with it now
-                DatabaseAndroidUpdateHelper upd = new DatabaseAndroidUpdateHelper(context);
-                upd.updateAccountStatus(customerAccountId, false, context);
-
-            }
-            */
-
-
-
 
   /**
    * Get all the items in the cart.
