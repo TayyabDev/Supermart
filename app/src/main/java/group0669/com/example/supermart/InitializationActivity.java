@@ -91,17 +91,7 @@ public class InitializationActivity extends AppCompatActivity implements View.On
                 }
             }
         });
-
-
-        editAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (editAddress.getText().length() < 100) {
-                    editAddress.setError("Please input a valid address");
-                }
-            }
-        });
-
+        
     }
 
     @Override
