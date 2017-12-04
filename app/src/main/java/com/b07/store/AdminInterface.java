@@ -306,15 +306,13 @@ public class AdminInterface {
       totalSales = totalSales.add(sale.getTotalPrice());
 
       // add the itemized breakdown
-      statement += "Itemized Breakdown: ";
+      statement += "Itemized Breakdown: " ;
 
       for(Item item : sale.getItemMap().keySet()){
-          if(statement.substring(statement.length() - 2).equals("\n")){
-              statement += "                    ";
-          }
-          statement += item.getName() + ": " + sale.getItemMap().get(item) + "\n";
+          statement += item.getName() + ": " + sale.getItemMap().get(item) + "\n" + "                                        ";
       }
       // add the divider line to seperate customers
+        statement = statement.substring(0, statement.length()- 40);
       statement += "----------------------------------------------------------------\n";
     }
     // now add the total quantites of each item to the string
