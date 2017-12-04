@@ -381,5 +381,31 @@ public class AdminInterface {
     }
     return false;
   }
+  public List<Account> getInactiveAccounts(int userId, Context context) throws InvalidIdException {
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+        // get inactive accounts
+        List<Integer> userInactiveAccountIds = sel.getUserInactiveAccountsHelper(userId);
+        List<Account> userInactiveAccounts = new ArrayList<>();
+        for(Integer current : userInactiveAccountIds){
+            userInactiveAccounts.add(sel.getAccountDetailsHelper(current));
+        }
+
+        return userInactiveAccounts;
+    }
+
+    public List<Account> getActiveAccounts(int userId, Context context) throws InvalidIdException {
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+        // get inactive accounts
+        List<Integer> userActiveAccountIds = sel.getUserActiveAccountsHelper(userId);
+        List<Account> userActiveAccounts = new ArrayList<>();
+        for(Integer current : userActiveAccountIds){
+            userActiveAccounts.add(sel.getAccountDetailsHelper(current));
+        }
+
+        return userActiveAccounts;
+    }
+
+
+
 
 }
