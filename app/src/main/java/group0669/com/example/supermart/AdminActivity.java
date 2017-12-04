@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,9 +93,9 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
             case R.id.buttonAddNewItem:
                 startActivity(new Intent(this, AddNewItemActivity.class));
                 break;
-            case R.id.buttonGetInformation:
+            case R.id.buttonUserInformation:
                 AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-                View myView = getLayoutInflater().inflate(R.layout.activity_get_user_information,null);
+                View myView = (LayoutInflater.from(AdminActivity.this)).inflate(R.layout.activity_get_user_information,null);
                 final EditText editUserInformaion = (EditText) myView.findViewById(R.id.editUserID);
                 Button getInformation = (Button) myView.findViewById(R.id.buttonGetInformation);
 
@@ -104,6 +105,7 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
                         if (!editUserInformaion.getText().toString().isEmpty()){
                             Toast.makeText(AdminActivity.this, "Getting Information",
                                     Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(AdminActivity.this, UserInformationActivity.class));
 
                         }  else{
                             Toast.makeText(AdminActivity.this, "Wrong User Id",
