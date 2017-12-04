@@ -1,103 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="10dp"
+  android:background="@color/colorPrimaryDark"
+  android:orientation="vertical"
+  tools:context="group0669.com.example.supermart.AddUserActivity"
+  >
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="Name"
+    android:textSize="20dp"/>
+
+  <EditText
+    android:id="@+id/editUsername"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context="group0669.com.example.supermart.AddUserActivity"
-    android:orientation="vertical"
-    android:padding="10dp"
+    android:layout_height="wrap_content"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="Age"
+    android:textSize="20dp"/>
+
+  <EditText
+    android:id="@+id/editAge"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="number"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="Address"
+    android:textSize="20dp"/>
+
+  <EditText
+    android:id="@+id/editAddress"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="Password"
+    android:textSize="20dp"/>
+
+  <EditText
+    android:id="@+id/editPassword"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textPassword"/>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="Confirm Password"
+    android:textSize="20dp"/>
+
+  <EditText
+    android:id="@+id/editConfirmPassword"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textPassword"/>
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="Role Type"
+    android:textSize="20dp"
+    />
+  <Spinner
+    android:id="@+id/spinnerRoleType"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
     >
+  </Spinner>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Name"
-        android:textSize="20dp" />
-
-    <EditText
-        android:id="@+id/editUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:text="Age"
-        android:textSize="20dp"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/editAge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number" />
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:text="Address"
-        android:textSize="20dp"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/editAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:text="Password"
-        android:textSize="20dp"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/editPassword"
-        android:layout_width="match_parent"
-        android:inputType="textPassword"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:text="Confirm Password"
-        android:textSize="20dp"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/editConfirmPassword"
-        android:layout_width="match_parent"
-        android:inputType="textPassword"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Role Type"
-        android:layout_marginTop="10dp"
-        android:textSize="20dp"
-        />
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerRoleType"
-        android:layout_marginBottom="10dp"
-        >
-    </Spinner>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonNext"
-        android:drawableStart="@mipmap/next"
-        android:background="@color/colorPrimary"
-        style="?attr/buttonStyle"
-        android:text="Next"
-        />
+  <Button
+    android:id="@+id/buttonNext"
+    style="?attr/buttonStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:drawableStart="@mipmap/next"
+    android:text="Next"
+    />
 
 
 </LinearLayout>

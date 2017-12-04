@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="10dp"
+  android:background="@color/colorPrimaryDark"
+  android:orientation="vertical"
+  tools:context="group0669.com.example.supermart.AddItemActivity">
+
+
+  <TextView
+    android:id="@+id/textSelectItem"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context="group0669.com.example.supermart.AddItemActivity"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:layout_height="wrap_content"
+    android:text="Please select an item to add it to your cart!"/>
 
+  <ListView
+    android:id="@+id/listItems"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textSelectItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Please select an item to add it to your cart!" />
-
-    <ListView
-        android:id="@+id/listItems"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-    </ListView>
+  </ListView>
 
 </LinearLayout>
