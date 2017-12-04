@@ -30,7 +30,9 @@
         <activity android:name=".AdminActivity" />
         <activity android:name=".InitializationActivity" />
         <activity android:name=".AddNewItemActivity" />
-        <activity android:name=".AddAccountActivity"></activity>
+        <activity android:name=".AddAccountActivity" />
+        <activity android:name=".GetUserInformationActivity" />
+        <activity android:name=".UserInformationActivity"></activity>
     </application>
 
 </manifest>

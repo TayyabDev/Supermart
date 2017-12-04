@@ -1,13 +1,14 @@
 package group0669.com.example.supermart;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
     Button buttonViewSale;
     Button buttonRestockInventory;
     Button buttonAddNewItem;
+    Button buttonUserInformation;
     Admin admin;
 
     @Override
@@ -63,6 +65,8 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
         buttonRestockInventory.setOnClickListener(this);
         buttonAddNewItem = findViewById(R.id.buttonAddNewItem);
         buttonAddNewItem.setOnClickListener(this);
+        buttonUserInformation = (Button) findViewById(R.id.buttonUserInformation);
+        buttonUserInformation.setOnClickListener(this);
 
 
 
@@ -70,7 +74,7 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.buttonAddOrEdit:
                 Intent intent = new Intent(this, AddOrEditActivity.class);
                 intent.putExtra("adminId", admin.getId());
@@ -88,6 +92,32 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
             case R.id.buttonAddNewItem:
                 startActivity(new Intent(this, AddNewItemActivity.class));
                 break;
+            case R.id.buttonGetInformation:
+                AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
+                View myView = getLayoutInflater().inflate(R.layout.activity_get_user_information,null);
+                final EditText editUserInformaion = (EditText) myView.findViewById(R.id.editUserID);
+                Button getInformation = (Button) myView.findViewById(R.id.buttonGetInformation);
+
+                getInformation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!editUserInformaion.getText().toString().isEmpty()){
+                            Toast.makeText(AdminActivity.this, "Getting Information",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }  else{
+                            Toast.makeText(AdminActivity.this, "Wrong User Id",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                });
+                builder.setView(myView);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
+
         }
     }
 
