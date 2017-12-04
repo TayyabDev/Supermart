@@ -14,19 +14,15 @@
         android:id="@+id/textWelcomeUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:textSize="20dp"
+        android:background="@color/colorPrimaryDark"
         android:fontFamily="monospace"
         android:text="Welcome Customer!"
-        android:background="@color/colorPrimaryDark"
-        />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textSelectOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:fontFamily="monospace"
         android:text="Please select one of the following options for your shopping cart."
         android:textAlignment="textStart"
@@ -36,57 +32,68 @@
         android:id="@+id/buttonRestoreShoppingCart"
         style="?attr/buttonStyle"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorPrimary"
         android:layout_height="wrap_content"
-        android:fontFamily="monospace"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorPrimary"
         android:drawableLeft="@mipmap/shopcart"
+        android:fontFamily="monospace"
         android:text="RESTORE SHOPPING CART"
         android:textAlignment="center" />
 
     <Button
         android:id="@+id/buttonAddItem"
         style="?attr/buttonStyle"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:background="@color/colorPrimary"
         android:drawableStart="@mipmap/additem"
         android:fontFamily="monospace"
         android:text="ADD ITEM" />
 
     <Button
-        android:id="@+id/buttonRemoveItem"
-        style="?attr/buttonStyle"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:drawableStart="@mipmap/removeitem"
-        android:fontFamily="monospace"
-        android:text="REMOVE ITEM" />
-
-    <Button
         android:id="@+id/buttonCheckShoppingCart"
         style="?attr/buttonStyle"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:background="@color/colorPrimary"
         android:drawableStart="@mipmap/viewitems"
         android:fontFamily="monospace"
         android:text="View your cart" />
 
     <Button
-        android:id="@+id/buttonCheckOut"
+        android:id="@+id/buttonRemoveItem"
         style="?attr/buttonStyle"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorPrimary"
+        android:drawableStart="@mipmap/removeitem"
+        android:fontFamily="monospace"
+        android:text="REMOVE ITEM" />
+
+    <Button
+        android:id="@+id/buttonCheckOut"
+        style="?attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:background="@color/colorPrimary"
         android:drawableStart="@mipmap/checkout"
         android:fontFamily="monospace"
         android:text="CHECKOUT" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        style="?attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorPrimary"
+        android:drawableLeft="@mipmap/save"
+        android:fontFamily="monospace"
+        android:text="Save Cart" />
 
     <TextView
         android:id="@+id/textTotal"

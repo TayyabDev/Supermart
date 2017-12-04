@@ -14,6 +14,7 @@ import com.b07.exceptions.InvalidRoleException;
 import com.b07.inventory.Item;
 import com.b07.store.Sale;
 import com.b07.store.SalesLog;
+import com.b07.users.User;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -97,18 +98,25 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
         }
     }
 
-    public long insertSale(int userId, BigDecimal totalPrice) {
+    public long insertSale(int userId, BigDecimal totalPrice, Context context) {
         BigDecimal leastPrice = new BigDecimal("0");
         long saleId = -1;
         // if totalPrice is >= 0 then proceed check if user id is valid
         if (totalPrice.compareTo(leastPrice) >= 0) {
-            saleId = super.insertSale(userId, totalPrice);
+            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+            List<User> userList = sel.getUsersDetailsHelper();
+            for(User user : userList){
+                if(user.getId() == userId){
+                   return super.insertSale(userId, totalPrice);
+                }
+
+            }
+
         }
         return saleId;
     }
 
     public long insertItemizedSale(int saleId, int itemId, int quantity, Context context) throws DatabaseInsertException, SQLException, InvalidIdException, InvalidRoleException {
-        long itemizedId = -1;
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
         List<Item> itemsList = sel.getAllItemsHelper();
         SalesLog salesLog = sel.getSalesHelper();
@@ -117,8 +125,7 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
                 for (Sale sale : salesLog.getSales()) {
                     if (sale.getId() == saleId) {
                         if (quantity >= 0 & quantity <= sel.getInventoryQuantity(itemId)) {
-                            itemizedId = super.insertItemizedSale(saleId, itemId, quantity);
-                            return itemizedId;
+                            return super.insertItemizedSale(saleId, itemId, quantity);
                         }
                     }
                 }
@@ -127,10 +134,46 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
         throw new DatabaseInsertException("Check the value of sale/item/quantity");
     }
 
-    public long insertAccount(int accountId, boolean active){
-        // not made yet
-        return 1;
+    public int insertAccount(int userId, Context context) throws InvalidRoleException {
+        // check if the userId is a valid userId in database
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+        List<User> userList = sel.getUsersDetailsHelper();
+        for (User user : userList) {
+            if (user.getId() == userId) {
+                // once user has been found insert account as actie by setting active = true
+                return (int) super.insertAccount(userId, true);
+            }
+        }
+        // else throw an exception
+        throw new InvalidRoleException("This is an invalid userId");
+        }
+
+
+    public boolean insertAccountLine(int accountId, int itemId, int quantity, Context context) throws InvalidInputException, InvalidQuantityException, InvalidIdException {
+        // get list of all items if quantity >= 0
+        if (quantity >= 0) {
+            if (itemId > 0) {
+                if (accountId > 0) {
+                    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+                    List<Item> itemList = sel.getAllItemsHelper();
+                    for (Item item : itemList) {
+                        // if item is valid then
+                        if (item.getId() == itemId) {
+                            // insert the account line
+                            DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
+                            ins.insertAccountLine(accountId, itemId, quantity);
+                            return true;
+                        }
+                    }
+                } else {
+                    throw new InvalidIdException("Invalid Account ID!");
+                }
+            } else {
+                throw new InvalidIdException("Invalid Item ID!");
+            }
+        } else {
+            throw new InvalidQuantityException("Invalid quantity!");
+        }
+        return false;
     }
-
-
 }
