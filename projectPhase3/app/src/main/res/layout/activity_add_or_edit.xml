@@ -49,6 +49,6 @@
         android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp"
         android:background="@color/colorPrimary"
-        android:drawableStart="@mipmap/additemtodatabase"
+        android:drawableStart="@mipmap/create"
         android:text="Create an Account" />
 </LinearLayout>
