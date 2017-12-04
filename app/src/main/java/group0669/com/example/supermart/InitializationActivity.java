@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.b07.database.DatabaseDriverAndroid;
 import com.b07.database.helper.DatabaseInsertHelper;
@@ -55,8 +56,17 @@ public class InitializationActivity extends AppCompatActivity implements View.On
         editPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (editPassword.getText().length() < 8) {
-                    editPassword.setError("The password is too short");
+                if (editPassword.getText().length() < 1) {
+                    editPassword.setError("The password is too short. Must be at least 1 character.");
+                }
+            }
+        });
+
+        editPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (editPassword.getText().length() > 64) {
+                    editPassword.setError("The password is too long. Must be less than 64 characters.");
                 }
             }
         });
@@ -65,7 +75,7 @@ public class InitializationActivity extends AppCompatActivity implements View.On
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (!editConfirmPassword.getText().toString().equals(editPassword.getText().toString())) {
-                    editConfirmPassword.setError("Two different passwords");
+                    editConfirmPassword.setError("The passwords must match!");
                 }
             }
         });
@@ -100,6 +110,10 @@ public class InitializationActivity extends AppCompatActivity implements View.On
 
                         // establish user as admin
                         ins.insertUserRole(adminId, adminRoleId);
+
+                        // tell user the user id
+                        Toast.makeText(this, "Admin created! Your user ID is: " + adminId, Toast.LENGTH_SHORT).show();
+
 
                         // insert customer role into database
                         ins.insertRole("CUSTOMER");
