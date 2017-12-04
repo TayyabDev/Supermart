@@ -20,14 +20,12 @@
         <activity android:name=".AddItemActivity" />
         <activity android:name=".RemoveItemActivity" />
         <activity android:name=".CheckShoppingCartActivity" />
-        <activity android:name=".CheckOutActivity" />
         <activity android:name=".AddOrEditActivity" />
         <activity android:name=".AddUserActivity" />
         <activity android:name=".EditUserActivity" />
         <activity android:name=".RestockInventoryActivity" />
         <activity android:name=".ViewInventoryActivity" />
         <activity android:name=".ViewSaleActivity" />
-        <activity android:name=".RestoreShoppingCartActivity" />
         <activity android:name=".CustomerActivity" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".InitializationActivity" />
