@@ -284,7 +284,7 @@ public class AdminInterface {
 
     // create int to store total sales
     BigDecimal totalSales = new BigDecimal("0.00");
-
+    HashMap<Item, Integer> itemToQuantity;
     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
     // get the sales log
     SalesLog salesLog = sel.getSalesHelper();
@@ -309,7 +309,15 @@ public class AdminInterface {
       statement += "Itemized Breakdown: " ;
 
       for(Item item : sale.getItemMap().keySet()){
-          statement += item.getName() + ": " + sale.getItemMap().get(item) + "\n" + "                                        ";
+          String itemName = item.getName();
+          int quantity = sale.getItemMap().get(item);
+          statement += itemName + ": " + quantity + "\n" + "                                        ";
+          if(totalItemsSold.get(item.getName()) == null){
+              totalItemsSold.put(itemName, quantity);
+          } else {
+              totalItemsSold.put(itemName, totalItemsSold.get(itemName) + quantity);
+          }
+
       }
       // add the divider line to seperate customers
         statement = statement.substring(0, statement.length()- 40);
