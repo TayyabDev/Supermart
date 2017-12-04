@@ -312,8 +312,13 @@ public class ShoppingCart {
 
     public BigDecimal getTotal() {
         // return the total * tax rate
-        return this.total.multiply(TAXRATE).setScale(2, BigDecimal.ROUND_UP);
+        return this.total.multiply(getTaxRate()).setScale(2, BigDecimal.ROUND_UP);
     }
+    public BigDecimal getTotalWithoutTax() {
+        // return the total * tax rate
+        return this.total;
+    }
+
 
     public BigDecimal getTaxRate() {
         return ShoppingCart.TAXRATE;
@@ -545,11 +550,12 @@ public class ShoppingCart {
         DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(context);
           DatabaseAndroidUpdateHelper upd = new DatabaseAndroidUpdateHelper(context);
 
+          int saleId = (int) ins.insertSale(customer.getId(), getTotalWithoutTax(), context);
         // since there is enough inventory, we can proceed with the sale
         for (Item item : cart.keySet()) {
           // insert the sale using the quantity * price
           BigDecimal currentPrice = BigDecimal.valueOf(cart.get(item)).multiply(item.getPrice());
-          int saleId = (int) ins.insertSale(customer.getId(), currentPrice, context);
+
 
           // insert the itemized sale now
           ins.insertItemizedSale(saleId, item.getId(), cart.get(item), context);
