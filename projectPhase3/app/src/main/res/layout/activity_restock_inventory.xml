@@ -1,49 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="10dp"
+  android:background="@color/colorPrimaryDark"
+  android:orientation="vertical"
+  tools:context="group0669.com.example.supermart.RestockInventoryActivity"
+  >
+
+  <TextView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context="group0669.com.example.supermart.RestockInventoryActivity"
-    android:orientation="vertical"
-    android:padding="10dp"
-    >
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:text="Item Name"
+    android:textSize="20dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Item Name"
-        android:textSize="20dp" />
+  <EditText
+    android:id="@+id/editItemName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/editItemName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:text="Quantity"
+    android:textSize="20dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Quantity"
-        android:textSize="20dp" />
+  <EditText
+    android:id="@+id/editQuantity"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="number"/>
 
-    <EditText
-        android:id="@+id/editQuantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number" />
-
-    <Button
-        android:id="@+id/buttonConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Confirm"
-        android:drawableLeft="@mipmap/save"
-        android:layout_marginTop="40dp"/>
+  <Button
+    android:id="@+id/buttonConfirm"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="40dp"
+    android:background="@color/colorPrimary"
+    android:drawableLeft="@mipmap/save"
+    android:text="Confirm"/>
 
 </LinearLayout>
