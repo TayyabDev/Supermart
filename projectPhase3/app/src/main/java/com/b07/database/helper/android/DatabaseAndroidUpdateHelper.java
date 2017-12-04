@@ -7,6 +7,7 @@ import com.b07.database.DatabaseUpdater;
 import com.b07.database.helper.DatabaseDriverHelper;
 import com.b07.exceptions.InvalidStringException;
 import com.b07.inventory.Item;
+import com.b07.users.Account;
 import com.b07.users.User;
 
 import java.math.BigDecimal;
@@ -167,13 +168,24 @@ public class DatabaseAndroidUpdateHelper extends DatabaseDriverAndroid {
         return false;
     }
 
-    public boolean updateAccountStatus(int accountId, boolean active) {
+    public boolean updateAccountStatus(int accountId, boolean active, Context context) {
         // perform checks
         boolean complete = false;
         boolean accountIdCheck = positiveInt(accountId);
         if (accountIdCheck) {
             // if account id is valid then update the status
-            complete = super.updateAccountStatus(accountId, active);
+            try{
+                // try to get the account id
+                DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+                Account account = sel.getAccountDetailsHelper(accountId);
+                if(account != null){
+                    // update account status
+                    complete = super.updateAccountStatus(accountId, active);
+                }
+            } catch(Exception e){
+                return false;
+            }
+
         }
         return complete;
     }

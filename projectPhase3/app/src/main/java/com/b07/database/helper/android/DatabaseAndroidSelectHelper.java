@@ -351,5 +351,53 @@ public class DatabaseAndroidSelectHelper extends DatabaseDriverAndroid {
         c.close();
         return new Account(accountId, itemIdList, quantityList);
     }
+
+    public List<Integer> getUserActiveAccountsHelper(int userId) throws InvalidIdException {
+        // check if user id is valid
+        List<User> userList  = getUsersDetailsHelper();
+        for(User user : userList){
+            if(user.getId() == userId){
+                // get cursor with user's active accounts
+                Cursor c = super.getUserActiveAccounts(userId);
+
+                // construct new list and populate it with the user's accounts
+                List<Integer> userActiveAccounts = new ArrayList<>();
+
+                while(c.moveToNext()){
+                    userActiveAccounts.add(c.getInt(c.getColumnIndex("ID")));
+                }
+
+                // close cursor and return
+                c.close();
+                return userActiveAccounts;
+
+            }
+        }
+        throw new InvalidIdException("User ID is not valid!");
+    }
+
+    public List<Integer> getUserInactiveAccountsHelper(int userId) throws InvalidIdException {
+        // check if user id is valid
+        List<User> userList  = getUsersDetailsHelper();
+        for(User user : userList){
+            if(user.getId() == userId){
+                // get cursor with user's active accounts
+                Cursor c = super.getUserInactiveAccounts(userId);
+
+                // construct new list and populate it with the user's accounts
+                List<Integer> userInactiveAccounts = new ArrayList<>();
+
+                while(c.moveToNext()){
+                    userInactiveAccounts.add(c.getInt(c.getColumnIndex("ID")));
+                }
+
+                // close cursor and return
+                c.close();
+                return userInactiveAccounts;
+
+            }
+        }
+        throw new InvalidIdException("User ID is not valid!");
+    }
 }
 

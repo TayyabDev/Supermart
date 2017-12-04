@@ -42,6 +42,7 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
     Button buttonRemoveItem;
     Button buttonCheckShoppingCart;
     Button buttonCheckOut;
+    Button buttonSave;
     TextView textTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Something went wrong. Perhaps you are not an customer?", Toast.LENGTH_LONG).show();
         } catch (InvalidIdException e) {
             Toast.makeText(this, "Something went wrong. Perhaps someone else is using the app?", Toast.LENGTH_LONG).show();
+        } finally{
+            // close the helper or else it leaks database
+            sel.close();
         }
 
         final TextView welcomeUser = (TextView) findViewById(R.id.textWelcomeUser);
@@ -72,7 +76,7 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
 
         // make the shopping cart
         try {
-            sc = new ShoppingCart(customer, this);
+            sc = new ShoppingCart(customer);
         } catch (CustomerNotLoggedInException e) {
             e.printStackTrace();
         }
@@ -89,6 +93,8 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
         buttonCheckShoppingCart.setOnClickListener(this);
         buttonCheckOut = (Button) findViewById(R.id.buttonCheckOut);
         buttonCheckOut.setOnClickListener(this);
+        buttonSave = (Button) findViewById(R.id.buttonSave);
+        buttonSave.setOnClickListener(this);
     }
 
     @Override
@@ -100,7 +106,15 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
 
         switch (view.getId()){
             case R.id.buttonRestoreShoppingCart:
-                startActivity(new Intent(this, RestoreShoppingCartActivity.class));
+                try {
+                    if(sc.restoreShoppingCart(this)){
+                        Toast.makeText(this, "Your items have been restored", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Your items were not restored.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (InvalidIdException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case R.id.buttonAddItem:
@@ -148,20 +162,22 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.buttonCheckOut:
-                // create alert dialog to ask user to confirm checkout
-                AlertDialog.Builder a_builder = new AlertDialog.Builder(CustomerActivity.this);
+                // check if customer has items in his cart 
+                if(sc.getItems().size() > 0) {
+                    // create alert dialog to ask user to confirm checkout
+                    AlertDialog.Builder a_builder = new AlertDialog.Builder(CustomerActivity.this);
 
-                // set title of alert dialog
-                a_builder.setTitle("Confirm your checkout");
+                    // set title of alert dialog
+                    a_builder.setTitle("Confirm your checkout");
 
-                // give user the total and ask him to confirm
-                a_builder.setMessage("Your total is: $" + sc.getTotal() + " after tax.").setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    // give user the total and ask him to confirm
+                    a_builder.setMessage("Your total is: $" + sc.getTotal() + " after tax.").setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             // try checking out
                             boolean checkedOut = false;
                             try {
-                               checkedOut = sc.checkOut(sc, CustomerActivity.this);
+                                checkedOut = sc.checkOut(sc, CustomerActivity.this);
                             } catch (InvalidIdException e) {
                                 e.printStackTrace();
                             } catch (InvalidRoleException e) {
@@ -176,7 +192,7 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                                 e.printStackTrace();
                             } finally {
                                 // give user message if checkout was successful or not
-                                if(checkedOut){
+                                if (checkedOut) {
                                     Toast.makeText(CustomerActivity.this, "You have successfully checked out!", Toast.LENGTH_LONG).show();
                                 } else {
                                     Toast.makeText(CustomerActivity.this, "Checkout not successful. Check your cart!", Toast.LENGTH_LONG).show();
@@ -185,16 +201,56 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                                 updateTotal();
                             }
                         }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // if user cancels then close dialog box
-                        dialogInterface.cancel();
-                    }
-                });
-                AlertDialog alert = a_builder.create();
-                alert.show();
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // if user cancels then close dialog box
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert = a_builder.create();
+                    alert.show();
+                } else {
+                    Toast.makeText(this, "Please select some items first!", Toast.LENGTH_SHORT).show();
+                }
+            case R.id.buttonSave:
+                // show alert dialog if customer has account
+                    // create alert dialog to ask user to confirm checkout
+                    AlertDialog.Builder a_builder = new AlertDialog.Builder(CustomerActivity.this);
+
+                    // set title of alert dialog
+                    a_builder.setTitle("Save your cart's items for future use.");
+
+                    // give user message and ask him to confirm
+                    a_builder.setMessage("Please note that this can only be done once per account. You will have to" +
+                            "contact an Admin to create a new account if you'd like to save your cart again").setCancelable(false).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // if user confirms then save cart
+                            try{
+                                boolean update = sc.updateAccount(CustomerActivity.this);
+                                if(update){
+                                    Toast.makeText(CustomerActivity.this, "Items saved", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(CustomerActivity.this, "Items not saved", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch(Exception e) {
+                                Toast.makeText(CustomerActivity.this, "Contact admin to make a new account. You have already saved once.", Toast.LENGTH_SHORT).show();
+                            }
+                            
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // if user cancels then close dialog box
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert = a_builder.create();
+                    alert.show();
+
         }
+
     }
 
     @Override
@@ -230,7 +286,6 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         } else if (requestCode == 2 && resultCode == RESULT_OK){
-            System.out.println(sc.getItems() +" testttt");
             // get item name
             String itemName = data.getStringExtra("itemName");
             // get quantity
