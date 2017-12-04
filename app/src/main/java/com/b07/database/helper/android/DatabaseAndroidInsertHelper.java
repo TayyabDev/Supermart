@@ -56,8 +56,8 @@ public class DatabaseAndroidInsertHelper extends DatabaseDriverAndroid{
     }
 
     public long insertItem(String name, BigDecimal price, Context context){
-        // insert item into database if price is >= 0, else return 0
-        if(price.compareTo(new BigDecimal("0.00"))>= 0){
+        // check if price is >= 0
+        if(price.compareTo(new BigDecimal("0.00")) >= 0){
             // check if item is already in database
             DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
             List<Item> itemList = sel.getAllItemsHelper();
