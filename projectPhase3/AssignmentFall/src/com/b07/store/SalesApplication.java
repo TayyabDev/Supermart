@@ -127,11 +127,13 @@ public class SalesApplication {
                 System.out.println("4. Make new admin");
                 System.out.println("5. Restock inventory");
                 System.out.println("6. View the sales");
-                System.out.println("7. Exit");
+                System.out.println("7. Get active accounts");
+                System.out.println("8. Get inactive accounts");
+                System.out.println("9. Exit");
 
                 int adminInterfaceChoice = 0;
                 // keep looping until Admin wants to exit the Admin portal
-                while (adminInterfaceChoice != 7) {
+                while (adminInterfaceChoice != 9) {
                   adminInterfaceChoice = Integer.parseInt(br.readLine());
                   // user wants to authenticate new Admin
                   if (adminInterfaceChoice == 1) {
@@ -220,9 +222,18 @@ public class SalesApplication {
                   } else if (adminInterfaceChoice == 6) {
                     // get the sales string
                     System.out.println(adminInterface.viewBooks());
+                  } else if (adminInterfaceChoice == 7) {
+                    System.out.println("What is the user Id");
+                    int userId = Integer.parseInt(br.readLine());
+                    List<Integer> activeAccounts = DatabaseSelectHelper.getUserActiveAccounts(userId);
+                    System.out.println("Here are all active the user haa " + activeAccounts + " now.");
+                  } else if (adminInterfaceChoice == 8) {
+                    System.out.println("What is the user Id");
+                    int userId = Integer.parseInt(br.readLine());
+                    List<Integer> inactiveAccounts = DatabaseSelectHelper.getUserInactiveAccounts(userId);
+                    System.out.println("Here are all active the user haa " + inactiveAccounts + " now.");
                   }
                 }
-
               } else {
                 // user entered wrong passwoird
                 System.out.println("Wrong password. Try again.");

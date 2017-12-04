@@ -294,7 +294,5 @@ public class AdminInterface {
       }
 
       return userActiveAccounts;
-  }
-  
-
+  } 
 }
