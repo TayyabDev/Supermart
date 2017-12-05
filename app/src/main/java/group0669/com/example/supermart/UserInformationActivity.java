@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.store.AdminInterface;
-import com.b07.users.Admin;
 
 public class UserInformationActivity extends AppCompatActivity {
 
