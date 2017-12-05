@@ -24,7 +24,7 @@ public class SerializeDemo {
     out.writeObject(obj);
     out.close();
     fileOut.close();
-    System.out.printf("Serialized data is saved in" + filepath);
+    System.out.println("Serialized data is saved in" + filepath);
   }
 
   /**
