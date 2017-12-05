@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.b07.database.DatabaseDriverAndroid;
 import com.b07.database.DatabaseInserter;
-import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.enumerators.Roles;
 import com.b07.exceptions.DatabaseInsertException;
 import com.b07.exceptions.InvalidIdException;

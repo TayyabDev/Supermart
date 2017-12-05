@@ -2,7 +2,6 @@ package com.b07.users;
 
 import android.content.Context;
 
-import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.InvalidIdException;
 import com.b07.security.PasswordHelpers;
@@ -82,14 +81,11 @@ public abstract class User implements Serializable{
 
   /**
    * Get role id.
-   * 
+   *
    * @return role id of the user.
    * @throws SQLException thrown if something goes wrong with the query.
    * @throws InvalidIdException thrown if something goes wrong with the id.
    */
-  public int getRoleId() throws SQLException, InvalidIdException {
-    return DatabaseSelectHelper.getUserRoleId(this.id);
-  }
   public int getRoleId(Context context){
       DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
       return sel.getUserRoleId(this.getId());
@@ -103,14 +99,6 @@ public abstract class User implements Serializable{
    * @throws SQLException thrown if something goes wrong with the query.
    * @throws InvalidIdException thrown if something goes wrong with the id.
    */
-  public final boolean authenticate(String password) throws SQLException, InvalidIdException {
-    // get the hashed password from the database
-    String databasePassword = DatabaseSelectHelper.getPassword(this.id);
-    // check if the hashed password is equal to the input password
-    this.authenticated = PasswordHelpers.comparePassword(databasePassword, password);
-    return this.authenticated;
-  }
-
     public final boolean authenticate(String password, Context context) throws SQLException, InvalidIdException {
         // get the hashed password from the database
         DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
