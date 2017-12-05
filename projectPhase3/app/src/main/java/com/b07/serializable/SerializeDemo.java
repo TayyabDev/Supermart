@@ -16,7 +16,7 @@ import com.b07.users.Admin;
 public class SerializeDemo {
 
   // All data stored in the database should be outputted into a file called database_copy.ser
-  private static final String filepath = "database_copy.ser";
+  private static final String filepath = "/storage/emulated/0/Download/database_copy.ser";
 
   /**
    * Serializes the given object to the file at the filepath.
@@ -35,6 +35,7 @@ public class SerializeDemo {
       throw new SQLException();
     }
     FileOutputStream fileOut = new FileOutputStream(filepath);
+    System.out.println("test");
     ObjectOutputStream out = new ObjectOutputStream(fileOut);
     out.writeObject(obj);
     out.close();
@@ -66,7 +67,7 @@ public class SerializeDemo {
     in.close();
     fileIn.close();
     // clear the database
-    Path path = Paths.get("Inventory.db");
+    Path path = Paths.get("inventorymgmt.db");
     Files.delete(path);
     return deserialized;
   }

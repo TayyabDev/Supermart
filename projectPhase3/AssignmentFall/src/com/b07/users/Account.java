@@ -5,9 +5,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+public class Account implements Serializable {
 
-public class Account implements Serializable{
-  
   private static final long serialVersionUID = 2279704311689629160L;
   private int id;
   private List<Integer> itemIdList = new ArrayList<>();
@@ -26,16 +25,13 @@ public class Account implements Serializable{
     this.quantityList = quantityList;
   }
 
-
   public int getId() {
     return id;
   }
 
-
   public List<Integer> getItemIds() {
     return itemIdList;
   }
-
 
   public List<Integer> getItemQuantities() {
     return quantityList;

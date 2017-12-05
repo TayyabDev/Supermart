@@ -1,6 +1,6 @@
 package com.b07.store;
 
-
+import com.b07.database.helper.DatabaseDriverHelper;
 import com.b07.database.helper.DatabaseInsertHelper;
 import com.b07.database.helper.DatabaseSelectHelper;
 import com.b07.database.helper.DatabaseUpdateHelper;
@@ -12,8 +12,10 @@ import com.b07.exceptions.InvalidRoleException;
 import com.b07.exceptions.InvalidStringException;
 import com.b07.inventory.Inventory;
 import com.b07.inventory.Item;
+import com.b07.serializable.SerializeDemo;
 import com.b07.users.Account;
 import com.b07.users.Admin;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,7 +24,6 @@ import java.util.List;
 
 public class AdminInterface {
   private Admin currentAdmin;
-  @SuppressWarnings("unused")
   private Inventory inventory;
 
   /**
@@ -58,7 +59,8 @@ public class AdminInterface {
     String password = DatabaseSelectHelper.getPassword(id);
     // check the password in database matches
     boolean authenticated = admin.authenticate(password);
-    // if the employee set a password, we set current employee to it since it is authenticated
+    // if the employee set a password, we set current employee to it since it is
+    // authenticated
     if (authenticated) {
       this.currentAdmin = admin;
     }
@@ -86,13 +88,12 @@ public class AdminInterface {
    */
   public boolean restockInventory(Item item, int quantity)
       throws SQLException, InvalidQuantityException, InvalidInputException, InvalidIdException {
-	// get current quantity of item
-	    int currentQuantity = DatabaseSelectHelper.getInventoryQuantity(item.getId());
+    // get current quantity of item
+    int currentQuantity = DatabaseSelectHelper.getInventoryQuantity(item.getId());
 
-	    // restock the inventory with the new quantity
-	    return DatabaseUpdateHelper.updateInventoryQuantity(currentQuantity + quantity, item.getId());
+    // restock the inventory with the new quantity
+    return DatabaseUpdateHelper.updateInventoryQuantity(currentQuantity + quantity, item.getId());
   }
-
 
   /**
    * Create a new activity_customer with the information provided.
@@ -111,13 +112,15 @@ public class AdminInterface {
   public int createCustomer(String name, int age, String address, String password)
       throws DatabaseInsertException, SQLException, InvalidRoleException, InvalidIdException,
       InvalidInputException {
-    // try inserting the activity_customer into the database. an exception will be raised if not possible
+    // try inserting the activity_customer into the database. an exception will be
+    // raised if not possible
     int customerId = DatabaseInsertHelper.insertNewUser(name, age, address, password);
     // get the roleId's in the databases
     List<Integer> roleIds = DatabaseSelectHelper.getRoleIds();
     // search for the role id of activity_customer
     for (Integer roleId : roleIds) {
-      // once role id of activity_customer is found, establish the activity_customer as a activity_customer in the database
+      // once role id of activity_customer is found, establish the activity_customer
+      // as a activity_customer in the database
       if (DatabaseSelectHelper.getRoleName(roleId).equals("CUSTOMER")) {
         DatabaseInsertHelper.insertUserRole(customerId, roleId);
         break;
@@ -126,7 +129,6 @@ public class AdminInterface {
     // return the customers id
     return customerId;
   }
-
 
   /**
    * Create a new employee with the information provided.
@@ -145,14 +147,16 @@ public class AdminInterface {
   public int createAdmin(String name, int age, String address, String password)
       throws DatabaseInsertException, SQLException, InvalidRoleException, InvalidIdException,
       InvalidInputException {
-    // try inserting the employee into the database. an exception will be raised if not possible
+    // try inserting the employee into the database. an exception will be raised if
+    // not possible
     int employeeId = DatabaseInsertHelper.insertNewUser(name, age, address, password);
 
     // get the roleId's in the databases
     List<Integer> roleIds = DatabaseSelectHelper.getRoleIds();
     // search for the role id of employee
     for (Integer roleId : roleIds) {
-      // once role id of employee is found, establish the user an employee in the database
+      // once role id of employee is found, establish the user an employee in the
+      // database
       if (DatabaseSelectHelper.getRoleName(roleId).equals("EMPLOYEE")) {
         DatabaseInsertHelper.insertUserRole(employeeId, roleId);
         break;
@@ -191,7 +195,6 @@ public class AdminInterface {
     // get the itemized sales
     DatabaseSelectHelper.getItemizedSales(salesLog);
 
-
     // loop through all the sales in saleslog
     for (Sale sale : salesLog.getSales()) {
       // get the itemized sale
@@ -206,21 +209,21 @@ public class AdminInterface {
       totalSales = totalSales.add(sale.getTotalPrice());
 
       // add the itemized breakdown
-      statement += "Itemized Breakdown: " ;
+      statement += "Itemized Breakdown: ";
 
-      for(Item item : sale.getItemMap().keySet()){
-          String itemName = item.getName();
-          int quantity = sale.getItemMap().get(item);
-          statement += itemName + ": " + quantity + "\n" + "                                        ";
-          if(totalItemsSold.get(item.getName()) == null){
-              totalItemsSold.put(itemName, quantity);
-          } else {
-              totalItemsSold.put(itemName, totalItemsSold.get(itemName) + quantity);
-          }
+      for (Item item : sale.getItemMap().keySet()) {
+        String itemName = item.getName();
+        int quantity = sale.getItemMap().get(item);
+        statement += itemName + ": " + quantity + "\n" + "                                        ";
+        if (totalItemsSold.get(item.getName()) == null) {
+          totalItemsSold.put(itemName, quantity);
+        } else {
+          totalItemsSold.put(itemName, totalItemsSold.get(itemName) + quantity);
+        }
 
       }
       // add the divider line to seperate customers
-        statement = statement.substring(0, statement.length()- 40);
+      statement = statement.substring(0, statement.length() - 40);
       statement += "----------------------------------------------------------------\n";
     }
     // now add the total quantites of each item to the string
@@ -232,67 +235,127 @@ public class AdminInterface {
     return statement;
   }
 
-
-
   /**
    * Inserts any item into the database.
    * 
    * @param itemName the name of the item to be inserted
    * @return the id of the inserted item, -1 if item cold not be inserted
-   * @throws InvalidInputException
-   * @throws SQLException
-   * @throws DatabaseInsertException
+   * @throws InvalidInputException if item can not be inserted
+   * @throws SQLException if SQL error arises
+   * @throws DatabaseInsertException if item cannot be inserted
    */
   public int addItem(String itemName, BigDecimal price)
       throws DatabaseInsertException, SQLException, InvalidInputException {
-	  int itemId = -1;
+    int itemId = -1;
 
-      // insert item into database
-      itemId = DatabaseInsertHelper.insertItem(itemName, price);
+    // insert item into database
+    itemId = DatabaseInsertHelper.insertItem(itemName, price);
 
-      // insert item into inventory if itemid > 0 (meaning it has been inserted into database)
-      if(itemId > 0){
-        DatabaseInsertHelper.insertInventory(itemId, 0);
-      }
+    // insert item into inventory if itemid > 0 (meaning it has been inserted into
+    // database)
+    if (itemId > 0) {
+      DatabaseInsertHelper.insertInventory(itemId, 0);
+    }
 
-
-      // return the item's id
-      return itemId;
+    // return the item's id
+    return itemId;
   }
 
-  
-  public boolean editUser(int userId, String name, int age, String address) throws InvalidIdException, InvalidRoleException, SQLException, InvalidInputException, InvalidStringException {
-	    // update users name
-	    if (DatabaseSelectHelper.getUserDetails(userId) != null) {
-	      boolean editName = DatabaseUpdateHelper.updateUserName(name, userId);
-	      boolean editAge = DatabaseUpdateHelper.updateUserAge(userId, age);
-	      boolean editAddress = DatabaseUpdateHelper.updateUserAddress(address,userId);
-	      return editName && editAge && editAddress;
-	    }
-	    return false;
-	  }
-  
-
-  
-  public List<Account> getInactiveAccounts(int userId) throws InvalidIdException, SQLException, InvalidInputException {
-      // get inactive accounts
-      List<Integer> userInactiveAccountIds = DatabaseSelectHelper.getUserInactiveAccounts(userId);
-      List<Account> userInactiveAccounts = new ArrayList<>();
-      for(Integer current : userInactiveAccountIds){
-          userInactiveAccounts.add(DatabaseSelectHelper.getAccountDetails(current));
-      }
-
-      return userInactiveAccounts;
+  /**
+   * Edit a given users information.
+   * 
+   * @param userId id of user
+   * @param name new name of user
+   * @param age new age of user
+   * @param address new address of user
+   * @return if the user was edited succesfuly.
+   * @throws InvalidIdException if user id invalid
+   * @throws InvalidRoleException if user not given role yet
+   * @throws SQLException if sql eror
+   * @throws InvalidInputException if input error
+   * @throws InvalidStringException if any of the input strings are invalid
+   */
+  public boolean editUser(int userId, String name, int age, String address)
+      throws InvalidIdException, InvalidRoleException, SQLException, InvalidInputException,
+      InvalidStringException {
+    // update users name
+    if (DatabaseSelectHelper.getUserDetails(userId) != null) {
+      boolean editName = DatabaseUpdateHelper.updateUserName(name, userId);
+      boolean editAge = DatabaseUpdateHelper.updateUserAge(userId, age);
+      boolean editAddress = DatabaseUpdateHelper.updateUserAddress(address, userId);
+      return editName && editAge && editAddress;
+    }
+    return false;
   }
 
-  public List<Account> getActiveAccounts(int userId) throws InvalidIdException, SQLException, InvalidInputException {
-      // get inactive accounts
-      List<Integer> userActiveAccountIds = DatabaseSelectHelper.getUserActiveAccounts(userId);
-      List<Account> userActiveAccounts = new ArrayList<>();
-      for(Integer current : userActiveAccountIds){
-          userActiveAccounts.add(DatabaseSelectHelper.getAccountDetails(current));
-      }
+  /**
+   * Get inactive accounts of user.
+   * 
+   * @param userId id of user
+   * @return users inactive acounts
+   * @throws InvalidIdException if id invalid
+   * @throws SQLException if sql error
+   * @throws InvalidInputException if input goes wrong
+   */
+  public List<Account> getInactiveAccounts(int userId)
+      throws InvalidIdException, SQLException, InvalidInputException {
+    // get inactive accounts
+    List<Integer> userInactiveAccountIds = DatabaseSelectHelper.getUserInactiveAccounts(userId);
+    List<Account> userInactiveAccounts = new ArrayList<>();
+    for (Integer current : userInactiveAccountIds) {
+      userInactiveAccounts.add(DatabaseSelectHelper.getAccountDetails(current));
+    }
 
-      return userActiveAccounts;
-  } 
+    return userInactiveAccounts;
+  }
+
+  /**
+   * Get active accounts of user.
+   * 
+   * @param userId id of user
+   * @return users active accounts
+   * @throws InvalidIdException if user id invalid
+   * @throws SQLException if sql error
+   * @throws InvalidInputException if input goes worng
+   */
+  public List<Account> getActiveAccounts(int userId)
+      throws InvalidIdException, SQLException, InvalidInputException {
+    // get inactive accounts
+    List<Integer> userActiveAccountIds = DatabaseSelectHelper.getUserActiveAccounts(userId);
+    List<Account> userActiveAccounts = new ArrayList<>();
+    for (Integer current : userActiveAccountIds) {
+      userActiveAccounts.add(DatabaseSelectHelper.getAccountDetails(current));
+    }
+
+    return userActiveAccounts;
+  }
+
+  /**
+   * Serialize the database.
+   * 
+   * @throws IOException if file can not be found
+   */
+
+  public void serialize() throws IOException {
+    // check if admin is logged in
+    if (this.currentAdmin != null) {
+      // get copy of database and serialize
+      SerializeDemo.serialize(DatabaseDriverHelper.connectOrCreateDataBase());
+    }
+  }
+
+  /**
+   * Deserialize the database.
+   * 
+   * @throws IOException if file not found
+   * @throws ClassNotFoundException if class not found
+   * 
+   */
+  public void deserialize() throws ClassNotFoundException, IOException {
+    if (this.currentAdmin != null) {
+      SerializeDemo.deserialize();
+    }
+  }
+
+
 }

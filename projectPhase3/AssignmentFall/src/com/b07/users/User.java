@@ -1,17 +1,17 @@
 package com.b07.users;
 
 import com.b07.database.helper.DatabaseSelectHelper;
+
 import com.b07.exceptions.InvalidIdException;
 import com.b07.security.PasswordHelpers;
+import java.io.Serializable;
 import java.sql.SQLException;
 
-import java.io.Serializable;
 
+public abstract class User implements Serializable {
 
-public abstract class User implements Serializable{
-  
   private static final long serialVersionUID = 1472686819255975506L;
-  
+
   private int id;
   private String name;
   private int age;
@@ -21,7 +21,6 @@ public abstract class User implements Serializable{
   // don't serialize these into database
   private transient int roleId;
   private transient boolean authenticated;
-
 
   /**
    * Get id of the user.
@@ -87,7 +86,6 @@ public abstract class User implements Serializable{
   public int getRoleId() throws SQLException, InvalidIdException {
     return DatabaseSelectHelper.getUserRoleId(this.id);
   }
- 
 
   /**
    * Check if the user is authenticated.
@@ -105,5 +103,4 @@ public abstract class User implements Serializable{
     return this.authenticated;
   }
 
-   
 }
