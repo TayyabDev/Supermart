@@ -22,11 +22,11 @@
 
   <TextView
     android:id="@+id/textUserInformation"
-    android:textSize="18dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollHorizontally="false"
     android:scrollbarAlwaysDrawVerticalTrack="false"
-    android:text="TextView"/>
+    android:text="TextView"
+    android:textSize="20sp"/>
 
 </LinearLayout>
