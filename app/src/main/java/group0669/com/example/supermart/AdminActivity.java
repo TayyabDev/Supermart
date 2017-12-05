@@ -97,7 +97,7 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
         View myView = (LayoutInflater.from(AdminActivity.this))
             .inflate(R.layout.activity_get_user_information, null);
         final EditText editUserInformaion = (EditText) myView.findViewById(R.id.editUserID);
-        Button getInformation = (Button) myView.findViewById(R.id.buttonGetInformation);
+        final Button getInformation = (Button) myView.findViewById(R.id.buttonGetInformation);
 
         getInformation.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -105,7 +105,9 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
             if (!editUserInformaion.getText().toString().isEmpty()) {
               Toast.makeText(AdminActivity.this, "Getting Information",
                   Toast.LENGTH_SHORT).show();
-              startActivity(new Intent(AdminActivity.this, UserInformationActivity.class));
+              Intent intent = new Intent(AdminActivity.this, UserInformationActivity.class);
+              intent.putExtra("userID", editUserInformaion.getText().toString());
+              startActivity(intent);
 
             } else {
               Toast.makeText(AdminActivity.this, "Wrong User Id",
