@@ -2,6 +2,7 @@ package com.b07.store;
 
 import android.content.Context;
 import android.widget.Toast;
+import com.b07.database.DatabaseDriverAndroid;
 import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.database.helper.android.DatabaseAndroidUpdateHelper;
@@ -11,9 +12,11 @@ import com.b07.exceptions.InvalidInputException;
 import com.b07.exceptions.InvalidRoleException;
 import com.b07.inventory.Inventory;
 import com.b07.inventory.Item;
+import com.b07.serializable.SerializeDemo;
 import com.b07.users.Account;
 import com.b07.users.Admin;
 import com.b07.users.User;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -285,15 +288,15 @@ public class AdminInterface {
     } catch (InvalidIdException e) {
       e.printStackTrace();
     }
-     userInformation += "\nActive accounts: ";
-    if(activeAccounts.size() > 0){
-      for(Account account : activeAccounts){
+    userInformation += "\nActive accounts: ";
+    if (activeAccounts.size() > 0) {
+      for (Account account : activeAccounts) {
         userInformation += account.getId() + " ";
       }
     }
     userInformation += "\nInactive Accounts: ";
-    if(inactiveAccounts.size() > 0){
-      for(Account account : inactiveAccounts){
+    if (inactiveAccounts.size() > 0) {
+      for (Account account : inactiveAccounts) {
         userInformation += account.getId() + " ";
       }
     }
@@ -386,7 +389,7 @@ public class AdminInterface {
    */
   public List<Account> getActiveAccounts(int userId, Context context) throws InvalidIdException {
     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
-    // get inactive accounts
+    // get active accounts
     List<Integer> userActiveAccountIds = sel.getUserActiveAccountsHelper(userId);
     List<Account> userActiveAccounts = new ArrayList<>();
     for (Integer current : userActiveAccountIds) {
@@ -394,6 +397,39 @@ public class AdminInterface {
     }
 
     return userActiveAccounts;
+  }
+
+  /**
+   * Serialize the database.
+   *
+   * @param context the current state of the application.
+   * @throws IOException if something goes wrong with input/output
+   * @throws SQLException if SQL experiences error
+   */
+  public void serialize(Context context) throws IOException, SQLException {
+    // call the serializable demo with this database
+    DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(context);
+
+    // serialize the database
+    SerializeDemo.serialize(mydb.getReadableDatabase(), this.currentAdmin, context);
+  }
+
+  /**
+   * Deserialize the database.
+   *
+   * @param context the current state of the application
+   * @return a deserialize database object.
+   * @throws IOException if the input output goes wrong
+   * @throws SQLException if sql experiences error
+   * @throws ClassNotFoundException if a class can not be found
+   */
+  public Object deserialize(Context context)
+      throws IOException, SQLException, ClassNotFoundException {
+    // call the serializable demo with this database
+    DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(context);
+
+    // deserialize the database and return it
+    return SerializeDemo.deserialize(this.currentAdmin, context);
   }
 
 
