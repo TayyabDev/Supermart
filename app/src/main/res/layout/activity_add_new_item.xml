@@ -26,6 +26,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="Please fill out the following information about the item."
+      android:textStyle="bold"
       android:textSize="20sp"/>
 
     <EditText
