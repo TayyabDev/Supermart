@@ -6,14 +6,14 @@ import java.security.MessageDigest;
  * A class used to hash passwords and validate that entered passwords are equal to the hashed
  * password found within the database. Used to assist in the logging in and storage of passwords for
  * the B07 store application.
- * 
- * @author Joe
  *
+ * @author Joe
  */
 public class PasswordHelpers {
+
   /**
    * Returns a hashed version of password to be stored in database.
-   * 
+   *
    * @param password the unhashed password
    * @return the hashsed password
    */
@@ -32,7 +32,7 @@ public class PasswordHelpers {
 
   /**
    * check if the database password matches user provided password.
-   * 
+   *
    * @param dbPassword the password stored in the database.
    * @param enteredPassword the user provided password (unhashed).
    * @return true if passwords match, false otherwise.

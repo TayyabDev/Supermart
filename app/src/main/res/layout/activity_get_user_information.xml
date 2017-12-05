@@ -3,34 +3,34 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="group0669.com.example.supermart.GetUserInformationActivity"
+  android:padding="10dp"
   android:background="@color/colorPrimaryDark"
   android:orientation="vertical"
-  android:padding="10dp">
+  tools:context="group0669.com.example.supermart.GetUserInformationActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please enter the User's ID"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:textSize="20dp"
-        android:textStyle="bold"/>
+  <TextView
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:layout_gravity="center"
+    android:text="Please enter the User's ID"
+    android:textSize="20dp"/>
 
-    <EditText
-        android:id="@+id/editUserID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="UserId"
-        android:inputType="number"
-        android:layout_marginTop="30dp"/>
+  <EditText
+    android:id="@+id/editUserID"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:hint="UserId"
+    android:inputType="number"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Get Information!"
-        android:id="@+id/buttonGetInformation"
-        android:layout_marginTop="30dp"
-        />
+  <Button
+    android:id="@+id/buttonGetInformation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:background="@color/colorPrimary"
+    android:text="Get Information!"
+    />
 </LinearLayout>

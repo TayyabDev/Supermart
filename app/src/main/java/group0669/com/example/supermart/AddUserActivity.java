@@ -12,20 +12,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
-import com.b07.exceptions.DatabaseInsertException;
 import com.b07.exceptions.InvalidIdException;
-import com.b07.exceptions.InvalidInputException;
 import com.b07.exceptions.InvalidRoleException;
 import com.b07.store.AdminInterface;
 import com.b07.users.Admin;
-
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 
 public class AddUserActivity extends AppCompatActivity implements View.OnClickListener {
 
-  String [] roleNames;
+  String[] roleNames;
   Button buttonNext;
   EditText editUsername, editAge, editAddress, editPassword, editConfirmPassword;
   AdminInterface adminInterface;
@@ -66,11 +61,10 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     buttonNext = findViewById(R.id.buttonNext);
     buttonNext.setOnClickListener(this);
 
-
     // get the roles
     List<Integer> roles = sel.getRoleIdsHelper();
-    roleNames = new String [roles.size()];
-    for(Integer roleId : roles){
+    roleNames = new String[roles.size()];
+    for (Integer roleId : roles) {
       roleNames[roleId - 1] = sel.getRoleName(roleId);
     }
 
@@ -125,13 +119,15 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
           // construct user based on role type
           if (roleName.equals("CUSTOMER")) {
             int customerId = adminInterface.createCustomer(editUsername.getText().toString(),
-                    Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(),
-                    editPassword.getText().toString(), this);
-            Toast.makeText(this, "Customer created with id: " + customerId, Toast.LENGTH_LONG).show();
+                Integer.parseInt(editAge.getText().toString()), editAddress.getText().toString(),
+                editPassword.getText().toString(), this);
+            Toast.makeText(this, "Customer created with id: " + customerId, Toast.LENGTH_LONG)
+                .show();
             finish();
-          }else if(roleName.equals("ADMIN")){
-              int adminId = adminInterface.createAdmin(editUsername.getText().toString(), Integer.parseInt(editAge.getText().toString()),
-                      editAddress.getText().toString() , editPassword.getText().toString(), this);
+          } else if (roleName.equals("ADMIN")) {
+            int adminId = adminInterface.createAdmin(editUsername.getText().toString(),
+                Integer.parseInt(editAge.getText().toString()),
+                editAddress.getText().toString(), editPassword.getText().toString(), this);
 
             Toast.makeText(this, "Admin created with id: " + adminId, Toast.LENGTH_LONG).show();
             finish();

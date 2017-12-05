@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-public interface Sale extends Serializable{
+public interface Sale extends Serializable {
+
   public int getId();
 
   public void setId(int id);

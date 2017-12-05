@@ -2,12 +2,12 @@ package com.b07.users;
 
 
 public class Customer extends User {
-  
+
   private static final long serialVersionUID = -7845430689919000752L;
 
   /**
    * Customer constructor.
-   * 
+   *
    * @param id of Customer.
    * @param name of Customer.
    * @param age of Customer.
@@ -23,7 +23,7 @@ public class Customer extends User {
 
   /**
    * Customer constructor.
-   * 
+   *
    * @param id of Customer.
    * @param name of Customer.
    * @param age of Customer.
