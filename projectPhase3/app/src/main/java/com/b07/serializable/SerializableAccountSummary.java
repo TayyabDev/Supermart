@@ -2,13 +2,13 @@ package com.b07.serializable;
 
 import java.io.Serializable;
 
-public class SerializableAccountSummary implements Serializable{
+public class SerializableAccountSummary implements Serializable {
 
   private static final long serialVersionUID = 5447379500756474879L;
   private int accountId;
   private int itemId;
   private int quantity;
-  
+
   private SerializableAccountSummary(int accountid, int itemid, int quantity) {
     this.setaccountId(accountid);
     this.setitemId(itemid);
@@ -32,7 +32,7 @@ public class SerializableAccountSummary implements Serializable{
   private int getitemId() {
     return this.itemId;
   }
-  
+
   private void setquantity(int quantity) {
     this.quantity = quantity;
   }

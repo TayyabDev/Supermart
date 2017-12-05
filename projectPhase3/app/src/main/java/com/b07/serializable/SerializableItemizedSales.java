@@ -13,22 +13,22 @@ public class SerializableItemizedSales implements Serializable {
     this.setRoleName(rolename);
   }
 
-  private void setRoleId(int id) {
-    this.roleId = id;
-  }
-
   @SuppressWarnings("unused")
   private int getRoleId() {
     return this.roleId;
   }
 
-  private void setRoleName(String name) {
-    this.roleName = name;
+  private void setRoleId(int id) {
+    this.roleId = id;
   }
 
   @SuppressWarnings("unused")
   private String getRoleName() {
     return this.roleName;
+  }
+
+  private void setRoleName(String name) {
+    this.roleName = name;
   }
 
 }

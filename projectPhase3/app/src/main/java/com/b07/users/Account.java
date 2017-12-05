@@ -1,4 +1,3 @@
-
 package com.b07.users;
 
 import java.io.Serializable;
@@ -6,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Account implements Serializable{
-  
+public class Account implements Serializable {
+
   private static final long serialVersionUID = 2279704311689629160L;
   private int id;
   private List<Integer> itemIdList = new ArrayList<>();
@@ -15,7 +14,7 @@ public class Account implements Serializable{
 
   /**
    * Constructor of account.
-   * 
+   *
    * @param id of the account
    * @param itemIdList of items stored in this account
    * @param quantityList stored in this account

@@ -30,7 +30,7 @@
     android:id="@+id/buttonInitialize"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
     android:layout_marginTop="20dp"
+    android:background="@color/colorPrimary"
     android:text="initialize"/>
 </LinearLayout>

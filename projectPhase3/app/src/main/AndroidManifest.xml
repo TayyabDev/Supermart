@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="group0669.com.example.supermart">
+  package="group0669.com.example.supermart">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/supermart"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/supermart"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <application
+    android:allowBackup="true"
+    android:icon="@mipmap/supermart"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/supermart"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity android:name=".MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".AddItemActivity" />
-        <activity android:name=".RemoveItemActivity" />
-        <activity android:name=".CheckShoppingCartActivity" />
-        <activity android:name=".AddOrEditActivity" />
-        <activity android:name=".AddUserActivity" />
-        <activity android:name=".EditUserActivity" />
-        <activity android:name=".RestockInventoryActivity" />
-        <activity android:name=".ViewInventoryActivity" />
-        <activity android:name=".ViewSaleActivity" />
-        <activity android:name=".CustomerActivity" />
-        <activity android:name=".AdminActivity" />
-        <activity android:name=".InitializationActivity" />
-        <activity android:name=".AddNewItemActivity" />
-        <activity android:name=".AddAccountActivity" />
-        <activity android:name=".GetUserInformationActivity" />
-        <activity android:name=".UserInformationActivity"></activity>
-    </application>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+    <activity android:name=".LoginActivity"/>
+    <activity android:name=".AddItemActivity"/>
+    <activity android:name=".RemoveItemActivity"/>
+    <activity android:name=".CheckShoppingCartActivity"/>
+    <activity android:name=".AddOrEditActivity"/>
+    <activity android:name=".AddUserActivity"/>
+    <activity android:name=".EditUserActivity"/>
+    <activity android:name=".RestockInventoryActivity"/>
+    <activity android:name=".ViewInventoryActivity"/>
+    <activity android:name=".ViewSaleActivity"/>
+    <activity android:name=".CustomerActivity"/>
+    <activity android:name=".AdminActivity"/>
+    <activity android:name=".InitializationActivity"/>
+    <activity android:name=".AddNewItemActivity"/>
+    <activity android:name=".AddAccountActivity"/>
+    <activity android:name=".GetUserInformationActivity"/>
+    <activity android:name=".UserInformationActivity"></activity>
+  </application>
 
 </manifest>

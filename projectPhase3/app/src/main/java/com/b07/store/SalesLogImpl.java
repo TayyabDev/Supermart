@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SalesLogImpl implements SalesLog {
-  
+
   private static final long serialVersionUID = -1495641776665974524L;
   private List<Sale> sales = new ArrayList<>();
 

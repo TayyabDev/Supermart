@@ -6,7 +6,7 @@ public class Admin extends User {
 
   /**
    * Admin constructor.
-   * 
+   *
    * @param id of admin.
    * @param name of admin.
    * @param age of admin.
@@ -21,7 +21,7 @@ public class Admin extends User {
 
   /**
    * Admin constructor.
-   * 
+   *
    * @param id of admin.
    * @param name of admin.
    * @param age of admin.

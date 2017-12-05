@@ -6,14 +6,14 @@ import java.sql.Connection;
 
 /**
  * An extension of the DatabaseDriver to allow objects in the store package access.
- * 
- * @author Joe
  *
+ * @author Joe
  */
 public class DatabaseDriverExtender extends DatabaseDriver {
+
   /**
    * Either create a new database connection or create the initial database.
-   * 
+   *
    * @return the connection to the database.
    */
   protected static Connection connectOrCreateDataBase() {
@@ -22,7 +22,7 @@ public class DatabaseDriverExtender extends DatabaseDriver {
 
   /**
    * initialize the database.
-   * 
+   *
    * @param connection the connection to the database.
    * @return the connection.
    * @throws ConnectionFailedException if the connection is in use or unavailable.
