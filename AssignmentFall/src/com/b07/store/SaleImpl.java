@@ -5,9 +5,8 @@ import com.b07.users.User;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-
 public class SaleImpl implements Sale {
-  
+
   private static final long serialVersionUID = -5868303827035303319L;
   private int id;
   private User user;
@@ -54,7 +53,5 @@ public class SaleImpl implements Sale {
   public void setItemMap(HashMap<Item, Integer> itemMap) {
     this.itemMap = itemMap;
   }
-
-
 
 }

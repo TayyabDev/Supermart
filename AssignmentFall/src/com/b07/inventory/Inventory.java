@@ -5,8 +5,7 @@ import com.b07.exceptions.InventoryFullException;
 import java.io.Serializable;
 import java.util.HashMap;
 
-
-public interface Inventory extends Serializable{
+public interface Inventory extends Serializable {
 
   public HashMap<Item, Integer> getItemMap();
 

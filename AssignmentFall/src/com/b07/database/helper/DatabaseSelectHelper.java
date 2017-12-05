@@ -87,9 +87,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
       e.printStackTrace();
     } finally {
       connection.close();
-    results.close();
+      results.close();
     }
-    
+
     return check;
   }
 
@@ -357,7 +357,8 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     List<Item> itemlist = DatabaseSelectHelper.getAllItems();
     for (Item item : itemlist) {
       if (item.getId() == itemId) {
-        // connect to database and get the inventory quantity once we have found the item
+        // connect to database and get the inventory quantity once we have found the
+        // item
         Connection connection = DatabaseDriverHelper.connectOrCreateDataBase();
         quantity = DatabaseSelector.getInventoryQuantity(itemId, connection);
         connection.close();
@@ -503,27 +504,42 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     }
     return sales;
   }
-  public static void getItemizedSaleById(int saleId, Sale sale) throws InvalidIdException, SQLException {
-      Connection connection = DatabaseDriverHelper.connectOrCreateDataBase();
-      ResultSet results = DatabaseSelectHelper.getItemizedSaleById(saleId, connection);
-      HashMap<Item, Integer> itemMap = new HashMap<>();
-      while(results.next()){
-          // get current item
-          itemMap.put(DatabaseSelectHelper.getItem(results.getInt("ITEMID")), results.getInt("QUANTITY"));
-      }
-      results.close();
-      connection.close();
+  /**
+   * Get the itemized sales by a given sale id.
+   * @param saleId the id of the sale
+   * @param sale the sale object
+   * @throws InvalidIdException if sale id invalid
+   * @throws SQLException if sql fault.
+   */
+  
+  public static void getItemizedSaleById(int saleId, Sale sale)
+      throws InvalidIdException, SQLException {
+    Connection connection = DatabaseDriverHelper.connectOrCreateDataBase();
+    ResultSet results = DatabaseSelectHelper.getItemizedSaleById(saleId, connection);
+    HashMap<Item, Integer> itemMap = new HashMap<>();
+    while (results.next()) {
+      // get current item
+      itemMap.put(DatabaseSelectHelper.getItem(results.getInt("ITEMID")),
+          results.getInt("QUANTITY"));
+    }
+    results.close();
+    connection.close();
 
-      // set the item map to the sales item map
-      sale.setItemMap(itemMap);
+    // set the item map to the sales item map
+    sale.setItemMap(itemMap);
 
   }
-
-
+  /**
+   * Get the itemized sales.
+   * @param salesLog the history of sales
+   * @throws InvalidIdException if a sale id invalid
+   * @throws SQLException if sql fault
+   */
+  
   public static void getItemizedSales(SalesLog salesLog) throws InvalidIdException, SQLException {
-      for(Sale sale : salesLog.getSales()){
-          DatabaseSelectHelper.getItemizedSaleById(sale.getId(), sale);
-      }
+    for (Sale sale : salesLog.getSales()) {
+      DatabaseSelectHelper.getItemizedSaleById(sale.getId(), sale);
+    }
   }
 
   /**
@@ -573,16 +589,16 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     // return the user formed by his information
     return new Account(accountId, itemIdList, quantityList);
 
-
   }
-  
+
   /**
    * get a list of active accounts of the user.
+   * 
    * @param userId the Id of the user
    * @return A list of all the active accounts the user has
    * @throws SQLException if an SQL error occurs
    */
-  
+
   public static List<Integer> getUserActiveAccounts(int userId) throws SQLException {
     Connection connection = DatabaseDriverHelper.connectOrCreateDataBase();
     ResultSet results = DatabaseSelector.getUserActiveAccounts(userId, connection);
@@ -593,12 +609,13 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     }
     results.close();
     connection.close();
-    
+
     return activeList;
   }
-  
+
   /**
    * get a list of inactive accounts of the user.
+   * 
    * @param userId the id of the user
    * @return a list of inactive accounts
    * @throws SQLException if an SQL error occurs
@@ -613,12 +630,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     }
     results.close();
     connection.close();
-    
-    return inactiveList;
-    
-  }
-  
 
+    return inactiveList;
+
+  }
 
 }
-

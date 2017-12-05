@@ -18,6 +18,8 @@ import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidRoleException;
 import com.b07.store.AdminInterface;
 import com.b07.users.Admin;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class AdminActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -139,11 +141,40 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
         break;
 
       case R.id.buttonSerializeDatabase:
-        Toast.makeText(AdminActivity.this, "Serialize successfully", Toast.LENGTH_SHORT).show();
+        if(admin != null){
+          // get the admin interface
+          DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
+          AdminInterface adminInterface = new AdminInterface(admin, sel.getInventoryHelper());
+          try {
+            // try to serialize
+            adminInterface.serialize(this);
+            Toast.makeText(AdminActivity.this, "Serialize successfully", Toast.LENGTH_SHORT).show();
+          } catch (IOException e) {
+            Toast.makeText(this, "Error reading in and out from file!", Toast.LENGTH_SHORT).show();
+          } catch (SQLException e) {
+            Toast.makeText(this, "SQL Error!", Toast.LENGTH_SHORT).show();
+          }
+
+        }
         break;
 
       case R.id.buttonDeserializeDatabase:
-        Toast.makeText(AdminActivity.this, "Deserialize successfully", Toast.LENGTH_SHORT).show();
+        // get the admin interface
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
+        AdminInterface adminInterface = new AdminInterface(admin, sel.getInventoryHelper());
+
+        // try to deserialize
+        try {
+          adminInterface.deserialize(this);
+          Toast.makeText(AdminActivity.this, "Deserialize successfully", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+          Toast.makeText(this, "Error reading in and out from file!", Toast.LENGTH_SHORT).show();
+        } catch (SQLException e) {
+          Toast.makeText(this, "SQL error", Toast.LENGTH_SHORT).show();
+        } catch (ClassNotFoundException e) {
+          Toast.makeText(this, "Could not find class", Toast.LENGTH_SHORT).show();
+        }
+
         break;
     }
   }

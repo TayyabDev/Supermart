@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class ItemizedSaleImpl extends SaleImpl {
   private int saleId;
 
-
   @Override
   public void setItemMap(HashMap<Item, Integer> itemMap) {
     // only set it to item map if length is less than one
@@ -23,5 +22,3 @@ public class ItemizedSaleImpl extends SaleImpl {
     return this.saleId;
   }
 }
-
-

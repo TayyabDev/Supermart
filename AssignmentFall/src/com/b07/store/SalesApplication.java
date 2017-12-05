@@ -79,8 +79,6 @@ public class SalesApplication {
           DatabaseInsertHelper.insertInventory(running, 3);
           DatabaseInsertHelper.insertInventory(protein, 3);
 
-
-
         } else {
           // list the options
           System.out.println("Please choose from one of the following options:");
@@ -106,7 +104,7 @@ public class SalesApplication {
             // check if user exists
             try {
               User user = DatabaseSelectHelper.getUserDetails(id);
-            } catch(InvalidIdException e ) {
+            } catch (InvalidIdException e) {
               System.out.println("User ID is not in the database.");
               System.exit(0);;
             }
@@ -129,11 +127,13 @@ public class SalesApplication {
                 System.out.println("6. View the sales");
                 System.out.println("7. Get active accounts");
                 System.out.println("8. Get inactive accounts");
-                System.out.println("9. Exit");
+                System.out.println("9. Serialize the database");
+                System.out.println("10. Deserialize the database");
+                System.out.println("11. Exit");
 
                 int adminInterfaceChoice = 0;
                 // keep looping until Admin wants to exit the Admin portal
-                while (adminInterfaceChoice != 9) {
+                while (adminInterfaceChoice != 11) {
                   adminInterfaceChoice = Integer.parseInt(br.readLine());
                   // user wants to authenticate new Admin
                   if (adminInterfaceChoice == 1) {
@@ -182,7 +182,7 @@ public class SalesApplication {
                       System.out.println("The new account ID is " + customerAccount.getId());
                     } catch (InvalidIdException e) {
                       System.out.println("The ID you entered is invalid!");
-                    } 
+                    }
 
                   } else if (adminInterfaceChoice == 4) {
                     System.out.println("What is the name of the Admin");
@@ -223,15 +223,26 @@ public class SalesApplication {
                     // get the sales string
                     System.out.println(adminInterface.viewBooks());
                   } else if (adminInterfaceChoice == 7) {
+
+                    // ask user for id
                     System.out.println("What is the user Id");
                     int userId = Integer.parseInt(br.readLine());
-                    List<Integer> activeAccounts = DatabaseSelectHelper.getUserActiveAccounts(userId);
-                    System.out.println("Here are all active the user has " + activeAccounts + " now.");
+                    List<Integer> activeAccounts =
+                        DatabaseSelectHelper.getUserActiveAccounts(userId);
+                    System.out
+                        .println("Here are all active the user has " + activeAccounts + " now.");
                   } else if (adminInterfaceChoice == 8) {
                     System.out.println("What is the user Id");
                     int userId = Integer.parseInt(br.readLine());
-                    List<Integer> inactiveAccounts = DatabaseSelectHelper.getUserInactiveAccounts(userId);
-                    System.out.println("Here are all active the user has " + inactiveAccounts + " now.");
+                    List<Integer> inactiveAccounts =
+                        DatabaseSelectHelper.getUserInactiveAccounts(userId);
+                    System.out
+                        .println("Here are all active the user has " + inactiveAccounts + " now.");
+                  } else if (adminInterfaceChoice == 9) {
+                    adminInterface.serialize();
+                    System.out.println("Serialize successful");
+                  } else if (adminInterfaceChoice == 10) {
+                    adminInterface.deserialize();
                   }
                 }
               } else {
@@ -252,15 +263,15 @@ public class SalesApplication {
               int id = Integer.parseInt(br.readLine());
               System.out.println("Please enter your password");
               String password = br.readLine();
-              
-           // check if user exists
+
+              // check if user exists
               try {
                 User user = DatabaseSelectHelper.getUserDetails(id);
-              } catch(InvalidIdException e ) {
+              } catch (InvalidIdException e) {
                 System.out.println("User ID is not in the database.");
                 System.exit(0);;
               }
-              
+
               // check if user is customer
               if (DatabaseSelectHelper.getRoleName(DatabaseSelectHelper.getUserRoleId(id))
                   .equals("CUSTOMER")) {
@@ -290,119 +301,113 @@ public class SalesApplication {
                   int customerChoice = -1;
                   // keep looping until customer wants to exit (by entering 6)
                   while (customerChoice != 7) {
-                    try { 
+                    try {
                       customerChoice = Integer.parseInt(br.readLine());
-                    
-                    if (customerChoice == 1) {
-                      // print the items in cart
-                      List<Item> itemsList = sc.getItems();
-                      System.out.println("Here are the items in your cart");
-                      for (Item item : itemsList) {
-                        System.out.println(item.getName());
-                      }
 
-                    } else if (customerChoice == 2) {
-                      // ask for item name and quantity
-                      System.out.println("Enter the item name");
-                      String itemName = br.readLine();
-                      System.out.println("Enter the quantity you want to add");
-                      int quantity = Integer.parseInt(br.readLine());
-
-                      // add the item and quantity to the cart
-                      for (Item item : DatabaseSelectHelper.getAllItems()) {
-                        if (item.getName().equals(itemName)) {
-                          try {
-                            sc.addItem(item, quantity);
-                            System.out.println("Item " + item.getName() + " of quantity " + quantity
-                                + " was added.");
-                          } catch (InvalidQuantityException e) {
-                            System.out.println("The quantity you entered is invalid.");
-                          }
-                          break;
-                        }
-                      }
-                    } else if (customerChoice == 3) {
-                      // state the total value of the items in the cart
-                      System.out.println("The total is " + sc.getTotal());
-                    } else if (customerChoice == 4) {
-                      // ask user for the item name and quantity they want to remove
-                      System.out.println("Enter the item name");
-                      String itemName = br.readLine();
-
-                      System.out.println("Enter the quantity you want to remove");
-                      int quantity = Integer.parseInt(br.readLine());
-
-                      // remove the item and quantity from the cart
-                      for (Item item : sc.getItems()) {
-                        if (item.getName().equals(itemName)) {
-                          try {
-                            sc.removeItem(item, quantity);
-                            System.out.println("Item " + item.getName() + " with quantity "
-                                + quantity + " was removed.");
-                          } catch (InvalidQuantityException e) {
-                            System.out.println("The quantity you entered is invalid.");
-                          }
-                          // stop searching for item
-                          break;
+                      if (customerChoice == 1) {
+                        // print the items in cart
+                        List<Item> itemsList = sc.getItems();
+                        System.out.println("Here are the items in your cart");
+                        for (Item item : itemsList) {
+                          System.out.println(item.getName());
                         }
 
-                      }
-                    } else if (customerChoice == 5) {
-                      // checkout the cart
+                      } else if (customerChoice == 2) {
+                        // ask for item name and quantity
+                        System.out.println("Enter the item name");
+                        String itemName = br.readLine();
+                        System.out.println("Enter the quantity you want to add");
+                        int quantity = Integer.parseInt(br.readLine());
 
-                      // tell user the total
-                      System.out.println("Your total is: " + sc.getTotal());
-                      if (sc.checkOut(sc)) {
-                        // if checkout is successful, let user know
-                        System.out.println("Thank you for shopping! Your purchase is complete.");
-                      } else {
-                        // if not successful then let user know
-                        System.out
-                            .println("We do not have enough inventory space. Please try again.");
-                      }
+                        // add the item and quantity to the cart
+                        for (Item item : DatabaseSelectHelper.getAllItems()) {
+                          if (item.getName().equals(itemName)) {
+                            try {
+                              sc.addItem(item, quantity);
+                              System.out.println("Item " + item.getName() + " of quantity "
+                                  + quantity + " was added.");
+                            } catch (InvalidQuantityException e) {
+                              System.out.println("The quantity you entered is invalid.");
+                            }
+                            break;
+                          }
+                        }
+                      } else if (customerChoice == 3) {
+                        // state the total value of the items in the cart
+                        System.out.println("The total is " + sc.getTotal());
+                      } else if (customerChoice == 4) {
+                        // ask user for the item name and quantity they want to remove
+                        System.out.println("Enter the item name");
+                        String itemName = br.readLine();
 
-                      // ask user if he wants to continue shopping
-                      System.out.println("Would you like to continue shopping? (yes/no)");
-                      String cont = br.readLine();
-                      if (cont.equals("no")) {
-                        System.out.println("Ok, thanks for shopping!");
-                        System.exit(0);
-                      } else if (cont.equals("yes")) {
-                        System.out.println("K. You can continue shopping.");
+                        System.out.println("Enter the quantity you want to remove");
+                        int quantity = Integer.parseInt(br.readLine());
 
+                        // remove the item and quantity from the cart
+                        for (Item item : sc.getItems()) {
+                          if (item.getName().equals(itemName)) {
+                            try {
+                              sc.removeItem(item, quantity);
+                              System.out.println("Item " + item.getName() + " with quantity "
+                                  + quantity + " was removed.");
+                            } catch (InvalidQuantityException e) {
+                              System.out.println("The quantity you entered is invalid.");
+                            }
+                            // stop searching for item
+                            break;
+                          }
+
+                        }
+                      } else if (customerChoice == 5) {
+                        // checkout the cart
+
+                        // tell user the total
+                        System.out.println("Your total is: " + sc.getTotal());
+                        if (sc.checkOut(sc)) {
+                          // if checkout is successful, let user know
+                          System.out.println("Thank you for shopping! Your purchase is complete.");
+                        } else {
+                          // if not successful then let user know
+                          System.out
+                              .println("We do not have enough inventory space. Please try again.");
+                        }
+
+                        // ask user if he wants to continue shopping
+                        System.out.println("Would you like to continue shopping? (yes/no)");
+                        String cont = br.readLine();
+                        if (cont.equals("no")) {
+                          System.out.println("Ok, thanks for shopping!");
+                          System.exit(0);
+                        } else if (cont.equals("yes")) {
+                          System.out.println("K. You can continue shopping.");
+
+                        }
+                      } else if (customerChoice == 6) {
+                        // exit and clear the cart
+                        if (sc.updateAccount()) {
+                          System.out.println("Cart saved for future use.");
+                        } else {
+                          System.out.println(
+                              "Cart could not be saved. Contact admin to create a new account.");
+                        }
+
+                      } else if (customerChoice == 7) {
+                        System.out.println("Ok.....exiting...");
                       }
-                    } else if (customerChoice == 6) {
-                      // exit and clear the cart
-                      if(sc.updateAccount()) {
-                        System.out.println("Cart saved for future use.");
-                      } else {
-                        System.out.println("Cart could not be saved. Contact admin to create a new account.");
-                      }
-                      
-                    } else if(customerChoice == 7) {
-                      System.out.println("Ok.....exiting...");
+                    } catch (NumberFormatException e) {
+                      System.out.println("Please select a valid option!");
                     }
-                    }      
-                catch(NumberFormatException e ) {
-                  System.out.println("Please select a valid option!");
-                }
                   }
+                } else {
+                  System.out.println("Invalid password.");
                 }
-               else {
-                System.out.println("Invalid password.");
               }
             }
-          }
-        
+
           }
         }
       }
-    }
- 
-
-      
-
-     catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     } finally {
       try {

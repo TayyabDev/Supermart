@@ -4,7 +4,6 @@ import com.b07.exceptions.InvalidQuantityException;
 import com.b07.exceptions.InventoryFullException;
 import java.util.HashMap;
 
-
 public class InventoryImpl implements Inventory {
 
   private static final long serialVersionUID = 6863228137485611689L;
@@ -56,7 +55,6 @@ public class InventoryImpl implements Inventory {
     } else {
       throw new InvalidQuantityException("The total must be greater than current inventory size");
     }
-
 
   }
 
