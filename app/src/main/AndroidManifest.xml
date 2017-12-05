@@ -32,7 +32,9 @@
     <activity android:name=".AddNewItemActivity"/>
     <activity android:name=".AddAccountActivity"/>
     <activity android:name=".GetUserInformationActivity"/>
-    <activity android:name=".UserInformationActivity"></activity>
+    <activity android:name=".UserInformationActivity"/>
+    <activity android:name=".ViewDailyDealActivity">
+    </activity>
   </application>
 
 </manifest>

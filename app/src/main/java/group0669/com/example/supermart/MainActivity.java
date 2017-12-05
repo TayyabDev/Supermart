@@ -13,7 +13,7 @@ import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
   Button buttonLogin, buttonInitialize;
-  ViewPager viewPager;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
