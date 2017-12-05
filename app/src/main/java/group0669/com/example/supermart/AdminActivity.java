@@ -25,6 +25,8 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
   Button buttonRestockInventory;
   Button buttonAddNewItem;
   Button buttonUserInformation;
+  Button buttonSerializeDatabase;
+  Button buttonDeserializeDatabase;
   Admin admin;
 
   @Override
@@ -69,7 +71,10 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
     buttonAddNewItem.setOnClickListener(this);
     buttonUserInformation = (Button) findViewById(R.id.buttonUserInformation);
     buttonUserInformation.setOnClickListener(this);
-
+    buttonSerializeDatabase = (Button) findViewById(R.id.buttonSerializeDatabase);
+    buttonSerializeDatabase.setOnClickListener(this);
+    buttonDeserializeDatabase = (Button) findViewById(R.id.buttonDeserializeDatabase);
+    buttonDeserializeDatabase.setOnClickListener(this);
 
   }
 
@@ -131,6 +136,13 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
         dialog.show();
         break;
 
+      case R.id.buttonSerializeDatabase:
+        Toast.makeText(AdminActivity.this, "Serialize successfully", Toast.LENGTH_SHORT).show();
+        break;
+
+      case R.id.buttonDeserializeDatabase:
+        Toast.makeText(AdminActivity.this, "Deserialize successfully", Toast.LENGTH_SHORT).show();
+        break;
     }
   }
 
