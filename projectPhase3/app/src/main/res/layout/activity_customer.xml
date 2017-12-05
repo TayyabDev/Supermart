@@ -94,6 +94,17 @@
     android:fontFamily="monospace"
     android:text="Save Cart"/>
 
+  <Button
+    android:id="@+id/buttonDailyDeal"
+    style="?attr/buttonStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:background="@color/colorPrimary"
+    android:drawableLeft="@mipmap/sales"
+    android:fontFamily="monospace"
+    android:text="View Daily Deals"/>
+
   <TextView
     android:id="@+id/textTotal"
     android:layout_width="361dp"
@@ -103,6 +114,5 @@
     android:fontFamily="monospace"
     android:text="Your current total is: $0"
     android:textColor="@android:color/background_dark"/>
-
 
 </LinearLayout>

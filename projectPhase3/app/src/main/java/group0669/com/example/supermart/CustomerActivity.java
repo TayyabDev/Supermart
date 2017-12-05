@@ -4,6 +4,7 @@ package group0669.com.example.supermart;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -35,7 +36,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
   Button buttonCheckShoppingCart;
   Button buttonCheckOut;
   Button buttonSave;
+  Button buttonDailyDeal;
   TextView textTotal;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
     buttonCheckOut.setOnClickListener(this);
     buttonSave = (Button) findViewById(R.id.buttonSave);
     buttonSave.setOnClickListener(this);
+    buttonDailyDeal = (Button) findViewById(R.id.buttonDailyDeal);
+    buttonDailyDeal.setOnClickListener(this);
+
   }
 
   @Override
@@ -101,6 +107,9 @@ public class CustomerActivity extends AppCompatActivity implements View.OnClickL
     AlertDialog.Builder a_builder;
 
     switch (view.getId()) {
+      case R.id.buttonDailyDeal:
+        startActivity(new Intent(this, ViewDailyDealActivity.class));
+        break;
       case R.id.buttonRestoreShoppingCart:
         try {
           // restore shopping cart

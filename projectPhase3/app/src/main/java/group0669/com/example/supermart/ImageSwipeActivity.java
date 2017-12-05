@@ -15,7 +15,7 @@ import android.widget.ImageView;
 public class ImageSwipeActivity extends PagerAdapter {
 
   private int[] images = {R.drawable.fishing_rod, R.drawable.hockey_stick, R.drawable.protein_bar,
-      R.drawable.skates};
+      R.drawable.skates, R.drawable.running_shoes};
   private Context context;
   private LayoutInflater layoutInflater;
 

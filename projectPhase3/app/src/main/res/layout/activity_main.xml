@@ -9,14 +9,6 @@
   tools:context="group0669.com.example.supermart.MainActivity">
 
 
-  <android.support.v4.view.ViewPager
-    android:id="@+id/viewPager"
-    android:layout_width="wrap_content"
-    android:layout_height="100dp"
-    android:layout_marginBottom="20dp">
-
-  </android.support.v4.view.ViewPager>
-
   <Button
     android:id="@+id/buttonLogin"
     android:layout_width="match_parent"
