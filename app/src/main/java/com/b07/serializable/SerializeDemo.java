@@ -14,19 +14,21 @@ import java.sql.SQLException;
 import com.b07.users.Admin;
 
 public class SerializeDemo {
+
   // All data stored in the database should be outputted into a file called database_copy.ser
   private static final String filepath = "database_copy.ser";
 
   /**
    * Serializes the given object to the file at the filepath.
-   * 
+   *
    * @param obj The object to serialize.
    * @param admin the admin of the application
    * @param context the state of the application
    * @throws IOException If the ID’s do not align with the ones in your Enum classes
    * @throws SQLException when there is an invalid idinput
    */
-  public static void serialize(Object obj, Admin admin, Context context) throws IOException, SQLException {
+  public static void serialize(Object obj, Admin admin, Context context)
+      throws IOException, SQLException {
     // check if the Admin is valid, else throw a new exception
     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
     if (!sel.getRoleName(sel.getUserRoleId(admin.getId())).equals("ADMIN")) {
@@ -42,15 +44,16 @@ public class SerializeDemo {
 
   /**
    * Deserializes the next object in the given serialized file.
-   * 
+   *
    * @param admin to deserialize.
-   * @throws IOException If the user is no longer in the database, or if
-   *         the database fails to load.
+   * @throws IOException If the user is no longer in the database, or if the database fails to
+   * load.
    * @throws ClassNotFoundException If a superclass of the deserialized object has since been
-   *         modified.
+   * modified.
    * @throws SQLException when there is an invalid idinput
    */
-  public static Object deserialize(Admin admin, Context context) throws IOException, ClassNotFoundException, SQLException {
+  public static Object deserialize(Admin admin, Context context)
+      throws IOException, ClassNotFoundException, SQLException {
     // check if the Admin is valid, else throw a new exception
     DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
     if (!sel.getRoleName(sel.getUserRoleId(admin.getId())).equals("ADMIN")) {
@@ -67,5 +70,5 @@ public class SerializeDemo {
     Files.delete(path);
     return deserialized;
   }
-  
+
 }
