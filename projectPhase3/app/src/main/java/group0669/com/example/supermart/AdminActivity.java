@@ -1,5 +1,6 @@
 package group0669.com.example.supermart;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.exceptions.InvalidIdException;
 import com.b07.exceptions.InvalidRoleException;
+import com.b07.store.AdminInterface;
 import com.b07.users.Admin;
 
 public class AdminActivity extends AppCompatActivity implements View.OnClickListener {
