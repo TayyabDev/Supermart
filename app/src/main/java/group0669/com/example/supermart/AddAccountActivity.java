@@ -61,13 +61,13 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
           } catch (InvalidRoleException e) {
             Toast.makeText(this, "Invalid role, contact administrator", Toast.LENGTH_SHORT).show();
           } catch (InvalidIdException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "Invalid user ID", Toast.LENGTH_SHORT).show();
           } catch (InvalidInputException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
           } catch (SQLException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "SQL error", Toast.LENGTH_SHORT).show();
           } catch (DatabaseInsertException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "Error inserting into database", Toast.LENGTH_SHORT).show();
           }
         } else {
           Toast.makeText(this, "Please enter a user ID!", Toast.LENGTH_SHORT).show();
@@ -88,7 +88,6 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
     int i = item.getItemId();
     System.out.println(i);
     if (i == R.id.logout_button) {
-      System.out.println("bobmom");
       // if user clicks logout button then logout and clear the activity stack
       Intent intent = new Intent(this, LoginActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

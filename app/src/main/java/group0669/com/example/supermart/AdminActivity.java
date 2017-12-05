@@ -56,6 +56,7 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
     final TextView welcomeAdmin = (TextView) findViewById(R.id.textWelcomeAdmin);
     welcomeAdmin.setText("Welcome " + admin.getName() + "!");
 
+    // initialize buttons
     buttonAddOrEdit = (Button) findViewById(R.id.buttonAddOrEdit);
     buttonAddOrEdit.setOnClickListener(this);
     buttonViewInventory = (Button) findViewById(R.id.buttonViewInventory);
@@ -75,24 +76,31 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
   @Override
   public void onClick(View view) {
     switch (view.getId()) {
+      // add or edit a user
       case R.id.buttonAddOrEdit:
         Intent intent = new Intent(this, AddOrEditActivity.class);
         intent.putExtra("adminId", admin.getId());
         startActivity(intent);
         break;
+      // view the inventory
       case R.id.buttonViewInventory:
         startActivity(new Intent(this, ViewInventoryActivity.class));
         break;
+      // view all the sales
       case R.id.buttonViewSale:
         startActivity(new Intent(this, ViewSaleActivity.class));
         break;
+      // restock inventroy button
       case R.id.buttonRestockInventory:
         startActivity(new Intent(this, RestockInventoryActivity.class));
         break;
+      // add new item button
       case R.id.buttonAddNewItem:
         startActivity(new Intent(this, AddNewItemActivity.class));
         break;
+      // get information about a user
       case R.id.buttonUserInformation:
+        // show alert dialog asking for user id
         AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
         View myView = (LayoutInflater.from(AdminActivity.this))
             .inflate(R.layout.activity_get_user_information, null);
@@ -103,6 +111,7 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
           @Override
           public void onClick(View view) {
             if (!editUserInformaion.getText().toString().isEmpty()) {
+              // if the admin has entered a user id then it will go to get user information page
               Toast.makeText(AdminActivity.this, "Getting Information",
                   Toast.LENGTH_SHORT).show();
               Intent intent = new Intent(AdminActivity.this, UserInformationActivity.class);
