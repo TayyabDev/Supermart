@@ -272,10 +272,32 @@ public class AdminInterface {
     String userInformation = "";
     if (user != null) {
       // get name, age ,  role type
-      userInformation += "Name: " + user.getId() + "\n";
+      userInformation += "Name: " + user.getName() + "\n";
       userInformation += "Role: " + sel.getRoleName(user.getRoleId(context)) + "\n";
       userInformation += "Age: " + user.getAge();
     }
+    // now get active and inactive accounts of user
+    List<Account> activeAccounts = new ArrayList<>();
+    List<Account> inactiveAccounts = new ArrayList<>();
+    try {
+      activeAccounts = getActiveAccounts(userId, context);
+      inactiveAccounts = getInactiveAccounts(userId, context);
+    } catch (InvalidIdException e) {
+      e.printStackTrace();
+    }
+     userInformation += "\nActive accounts: ";
+    if(activeAccounts.size() > 0){
+      for(Account account : activeAccounts){
+        userInformation += account.getId() + " ";
+      }
+    }
+    userInformation += "\nInactive Accounts: ";
+    if(inactiveAccounts.size() > 0){
+      for(Account account : inactiveAccounts){
+        userInformation += account.getId() + " ";
+      }
+    }
+
     return userInformation;
 
   }
