@@ -3,6 +3,7 @@ package group0669.com.example.supermart;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
+import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
+import com.b07.exceptions.DatabaseInsertException;
+import com.b07.exceptions.InvalidIdException;
+import com.b07.exceptions.InvalidInputException;
 import com.b07.exceptions.InvalidRoleException;
+import com.b07.store.AdminInterface;
+import com.b07.users.Account;
+import com.b07.users.Admin;
+import java.sql.SQLException;
 
 public class AddAccountActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,6 +32,7 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
     setContentView(R.layout.activity_add_account);
 
     editUserId = findViewById(R.id.editUserIdForAccount);
+    editUserId.setInputType(InputType.TYPE_CLASS_NUMBER);
     buttonCreateAccount = (Button) findViewById(R.id.buttonCreateAccount);
     buttonCreateAccount.setOnClickListener(this);
     //
@@ -32,19 +42,35 @@ public class AddAccountActivity extends AppCompatActivity implements View.OnClic
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.buttonCreateAccount:
-        // add account for the user
-        DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(AddAccountActivity.this);
-        try {
-          int accountId = ins.insertAccount(Integer.parseInt(editUserId.getText().toString()),
-              AddAccountActivity.this);
+        // try to inserr the account for the user if user id is defined
+        if (editUserId.getText().toString().length() > 0) {
+          try {
+            DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(
+                AddAccountActivity.this);
+            AdminInterface adminInterface = new AdminInterface(sel.getInventoryHelper());
 
-          // if account created notify user
-          if (accountId > 0) {
-            Toast.makeText(this, "Account created for user, the account id is " + accountId,
-                Toast.LENGTH_SHORT).show();
+            Account account = adminInterface
+                .createAccount(Integer.parseInt(editUserId.getText().toString()),
+                    AddAccountActivity.this);
+            // if account created notify user
+            if (account.getId() > 0) {
+              Toast.makeText(this, "Account created for user, the account id is " + account.getId(),
+                  Toast.LENGTH_SHORT).show();
+            }
+
+          } catch (InvalidRoleException e) {
+            Toast.makeText(this, "Invalid role, contact administrator", Toast.LENGTH_SHORT).show();
+          } catch (InvalidIdException e) {
+            e.printStackTrace();
+          } catch (InvalidInputException e) {
+            e.printStackTrace();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          } catch (DatabaseInsertException e) {
+            e.printStackTrace();
           }
-        } catch (InvalidRoleException e) {
-          Toast.makeText(this, "Invalid role, contact administrator", Toast.LENGTH_SHORT).show();
+        } else {
+          Toast.makeText(this, "Please enter a user ID!", Toast.LENGTH_SHORT).show();
         }
 
     }

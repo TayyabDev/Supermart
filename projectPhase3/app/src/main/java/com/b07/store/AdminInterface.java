@@ -1,6 +1,7 @@
 package com.b07.store;
 
 import android.content.Context;
+import android.widget.Toast;
 import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.database.helper.android.DatabaseAndroidUpdateHelper;
@@ -12,6 +13,7 @@ import com.b07.inventory.Inventory;
 import com.b07.inventory.Item;
 import com.b07.users.Account;
 import com.b07.users.Admin;
+import com.b07.users.User;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -248,9 +250,34 @@ public class AdminInterface {
     return statement;
   }
 
+  /**
+   * Get a string representation of the User's information.
+   *
+   * @param userId id of the user
+   * @param context the current state of the android app
+   * @return user's information
+   */
+  public String getUserInformation(int userId, Context context) {
+    // get the user object
+    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+    User user = null;
+    try {
+      user = sel.getUser(userId);
+    } catch (InvalidIdException e) {
+      Toast.makeText(context, "User not in database", Toast.LENGTH_SHORT).show();
+    } catch (InvalidRoleException e) {
+      Toast.makeText(context, "User not initialized role yet. Contact admin.", Toast.LENGTH_SHORT)
+          .show();
+    }
+    String userInformation = "";
+    if (user != null) {
+      // get name, age ,  role type
+      userInformation += "Name: " + user.getId() + "\n";
+      userInformation += "Role: " + sel.getRoleName(user.getRoleId(context)) + "\n";
+      userInformation += "Age: " + user.getAge();
+    }
+    return userInformation;
 
-  public String getUserInformation() {
-    return "";
   }
 
 
