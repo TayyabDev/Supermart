@@ -5,6 +5,7 @@
   android:layout_height="match_parent"
   android:background="@color/colorPrimaryDark"
   android:orientation="vertical"
+  android:padding="10dp"
   tools:context="group0669.com.example.supermart.UserInformationActivity">
 
   <TextView
@@ -15,12 +16,13 @@
     android:layout_marginBottom="30dp"
     android:layout_marginStart="10dp"
     android:text="Here is the user's information:"
-    android:textSize="20dp"
+    android:textSize="22dp"
     />
 
 
   <TextView
     android:id="@+id/textUserInformation"
+    android:textSize="18dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollHorizontally="false"
