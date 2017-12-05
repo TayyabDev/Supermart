@@ -22,8 +22,8 @@ public class SalesLogImpl implements SalesLog {
   public void addSale(Sale sale) {
     // go through the list and check if the itemized sale is already there
     boolean found = false;
-    for (Sale x : sales) {
-      if (x.getId() == sale.getId()) {
+    for (Sale currentSale : sales) {
+      if (currentSale.getId() == sale.getId()) {
         found = true;
       }
     }
