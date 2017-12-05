@@ -97,15 +97,15 @@ public class ShoppingCart {
       } catch (CustomerNoAccountException e) {
         return false;
       } catch (ItemNotFoundException e) {
-        e.printStackTrace();
+        return false;
       } catch (SQLException e) {
-        e.printStackTrace();
+        return false;
       } catch (InvalidQuantityException e) {
-        e.printStackTrace();
+        return false;
       } catch (DatabaseInsertException e) {
-        e.printStackTrace();
+        return false;
       } catch (InvalidInputException e) {
-        e.printStackTrace();
+        return false;
       }
       return cartRestored;
     }

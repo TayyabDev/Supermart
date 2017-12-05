@@ -17,10 +17,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.inventory.Item;
+import com.b07.store.DailyDeals;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class AddItemActivity extends AppCompatActivity {
 
@@ -71,11 +73,28 @@ public class AddItemActivity extends AppCompatActivity {
             DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(AddItemActivity.this);
             final int inventoryQuantity = sel
                 .getInventoryQuantity(itemNameToItem.get(itemName).getId());
-            final BigDecimal price = itemNameToItem.get(itemName).getPrice();
+            BigDecimal price = itemNameToItem.get(itemName).getPrice();
 
             // give user the quantity of the item and determine happens when user selects confirm
-            a_builder.setMessage("The price of item is $" + price + "\nThe inventory quantity is "
-                + inventoryQuantity).setCancelable(false).setPositiveButton
+
+            // get the daily deal
+            DailyDeals dailyDeals = new DailyDeals(AddItemActivity.this);
+            HashMap<Item, BigDecimal> todaysDeal = dailyDeals.getTodaysDiscount();
+            Item todaysItem =(Item) todaysDeal.keySet().toArray()[0];
+
+            // check if user selected the daily deal item
+            if(todaysItem.getId() == itemNameToItem.get(itemName).getId()){
+              // apply the discount to the price
+              BigDecimal discountPrice = price.subtract(todaysItem.getPrice().multiply(todaysDeal.get(todaysItem))).setScale(2);
+              a_builder.setMessage("Today the item has a discount! The price of item is $" + discountPrice + " today,"
+                  + " originally $" + price+ "\nThe inventory quantity is "
+                  + inventoryQuantity);
+            } else {
+              // if user did not select daily deal item then give him normal price
+              a_builder.setMessage("The price of item is $" + price + "\nThe inventory quantity is "
+                  + inventoryQuantity);
+            }
+            a_builder.setCancelable(false).setPositiveButton
                 ("Confirm", new DialogInterface.OnClickListener() {
                   @Override
                   public void onClick(DialogInterface dialogInterface, int i) {
@@ -98,6 +117,7 @@ public class AddItemActivity extends AppCompatActivity {
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialogInterface, int i) {
+                // close dailog
                 dialogInterface.cancel();
               }
             });
@@ -110,6 +130,7 @@ public class AddItemActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
+    // inflate the menu so we get logout button
     getMenuInflater().inflate(R.menu.main, menu);
     return super.onCreateOptionsMenu(menu);
   }
@@ -120,7 +141,6 @@ public class AddItemActivity extends AppCompatActivity {
     int i = item.getItemId();
     System.out.println(i);
     if (i == R.id.logout_button) {
-      System.out.println("bobmom");
       // if user clicks logout button then logout and clear the activity stack
       Intent intent = new Intent(this, LoginActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
