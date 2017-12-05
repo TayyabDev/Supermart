@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.b07.database.DatabaseDriverAndroid;
 import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
+import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import java.math.BigDecimal;
 
 public class InitializationActivity extends AppCompatActivity implements View.OnClickListener {
@@ -18,77 +19,85 @@ public class InitializationActivity extends AppCompatActivity implements View.On
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    // check if database is created already
+    // check if admins already created
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_initialization);
+    DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(this);
+    if (sel.getUsersDetailsHelper().size() < 1) {
+      setContentView(R.layout.activity_initialization);
 
-    editName = (EditText) findViewById(R.id.editName);
-    editAge = (EditText) findViewById(R.id.editAge);
-    editAddress = (EditText) findViewById(R.id.editAddress);
-    editPassword = (EditText) findViewById(R.id.editPassword);
-    editConfirmPassword = findViewById(R.id.editConfirmPassword);
+      editName = (EditText) findViewById(R.id.editName);
+      editAge = (EditText) findViewById(R.id.editAge);
+      editAddress = (EditText) findViewById(R.id.editAddress);
+      editPassword = (EditText) findViewById(R.id.editPassword);
+      editConfirmPassword = findViewById(R.id.editConfirmPassword);
 
-    buttonInitialize = (Button) findViewById(R.id.buttonInitialize);
-    buttonInitialize.setOnClickListener(this);
+      buttonInitialize = (Button) findViewById(R.id.buttonInitialize);
+      buttonInitialize.setOnClickListener(this);
 
-    editName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View view, boolean b) {
-        if (editName.getText().length() <= 3) {
-          editName.setError("The input name is too short");
+      editName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+          if (editName.getText().length() < 1) {
+            editName.setError("The input name is too short");
+          }
+
         }
+      });
 
-      }
-    });
+      editAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+          if (editAge.getText().toString().length() > 0) {
+            if (Integer.parseInt(editAge.getText().toString()) < 13) {
+              editAge.setError("You must be at least 13 year's old to use this application.");
+            }
+          }
 
-    editAge.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View view, boolean b) {
-        if (editAge.getText().toString().length() > 0) {
-          if (Integer.parseInt(editAge.getText().toString()) < 13) {
-            editAge.setError("You must be at least 13 year's old to use this application.");
+
+        }
+      });
+
+      editPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+          if (editPassword.getText().length() < 1) {
+            editPassword.setError("The password is too short. Must be at least 1 character.");
           }
         }
+      });
 
-
-      }
-    });
-
-    editPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View view, boolean b) {
-        if (editPassword.getText().length() < 1) {
-          editPassword.setError("The password is too short. Must be at least 1 character.");
+      editPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+          if (editPassword.getText().length() > 64) {
+            editPassword
+                .setError("The password is too long. Must be less than or equal to 64 characters.");
+          }
         }
-      }
-    });
+      });
 
-    editPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View view, boolean b) {
-        if (editPassword.getText().length() > 64) {
-          editPassword.setError("The password is too long. Must be less than 64 characters.");
+      editConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+          if (!editConfirmPassword.getText().toString().equals(editPassword.getText().toString())) {
+            editConfirmPassword.setError("The passwords must match!");
+          }
         }
-      }
-    });
+      });
 
-    editConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View view, boolean b) {
-        if (!editConfirmPassword.getText().toString().equals(editPassword.getText().toString())) {
-          editConfirmPassword.setError("The passwords must match!");
+      editConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+          if (editAddress.getText().toString().length() > 100) {
+            editConfirmPassword.setError("Address is too long! Must be less than 100 characters");
+          }
         }
-      }
-    });
-
-    editConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View view, boolean b) {
-        if (editAddress.getText().toString().length() > 100) {
-          editConfirmPassword.setError("Address is too long! Must be less than 100 characters");
-        }
-      }
-    });
-
+      });
+    } else {
+      Toast.makeText(this, "The database is already initialized!", Toast.LENGTH_SHORT).show();
+      finish();
+    }
   }
 
   @Override
@@ -100,7 +109,6 @@ public class InitializationActivity extends AppCompatActivity implements View.On
           if (editPassword.getText().toString().equals(editConfirmPassword.getText().toString())) {
             // initialize the database
             DatabaseDriverAndroid mydb = new DatabaseDriverAndroid(this);
-
             // insert get activity_admin role
             DatabaseAndroidInsertHelper ins = new DatabaseAndroidInsertHelper(this);
             int adminRoleId = (int) ins.insertRole("ADMIN");
@@ -121,7 +129,8 @@ public class InitializationActivity extends AppCompatActivity implements View.On
             ins.insertRole("CUSTOMER");
 
             // insert some default items
-            int fishingRodId = (int) ins.insertItem("FISHING_ROD", new BigDecimal("450.00"), this);
+            int fishingRodId = (int) ins
+                .insertItem("FISHING_ROD", new BigDecimal("450.00"), this);
             int skatesId = (int) ins.insertItem("SKATES", new BigDecimal("200.00"), this);
             int hockeyStickId = (int) ins
                 .insertItem("HOCKEY_STICK", new BigDecimal("100.00"), this);
@@ -140,11 +149,15 @@ public class InitializationActivity extends AppCompatActivity implements View.On
             startActivity(new Intent(this, LoginActivity.class));
 
             break;
+
+
           }
+
+
         } catch (Exception e) {
           e.printStackTrace();
         }
-
     }
   }
 }
+
