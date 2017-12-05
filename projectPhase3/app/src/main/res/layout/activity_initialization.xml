@@ -24,6 +24,8 @@
 
     <EditText
       android:id="@+id/editName"
+      android:layout_marginStart="10dp"
+      android:layout_marginEnd="10dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginBottom="20dp"
@@ -34,6 +36,8 @@
 
     <EditText
       android:id="@+id/editPassword"
+      android:layout_marginStart="10dp"
+      android:layout_marginEnd="10dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginBottom="20dp"
@@ -45,6 +49,8 @@
 
     <EditText
       android:id="@+id/editConfirmPassword"
+      android:layout_marginStart="10dp"
+      android:layout_marginEnd="10dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginBottom="20dp"
@@ -56,6 +62,8 @@
 
     <EditText
       android:id="@+id/editAge"
+      android:layout_marginStart="10dp"
+      android:layout_marginEnd="10dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginBottom="20dp"
@@ -66,6 +74,8 @@
 
     <EditText
       android:id="@+id/editAddress"
+      android:layout_marginStart="10dp"
+      android:layout_marginEnd="10dp"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginBottom="20dp"
@@ -79,6 +89,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@color/colorPrimary"
+      android:layout_marginStart="10dp"
+      android:layout_marginEnd="10dp"
       android:text="Initialize!"/>
 
   </LinearLayout>
