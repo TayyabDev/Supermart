@@ -1,11 +1,7 @@
 package com.b07.store;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.b07.database.helper.DatabaseInsertHelper;
-import com.b07.database.helper.DatabaseSelectHelper;
-import com.b07.database.helper.DatabaseUpdateHelper;
 import com.b07.database.helper.android.DatabaseAndroidInsertHelper;
 import com.b07.database.helper.android.DatabaseAndroidSelectHelper;
 import com.b07.database.helper.android.DatabaseAndroidUpdateHelper;
@@ -54,18 +50,21 @@ public class AdminInterface {
    * @throws SQLException thrown if something goes wrong with the query.
    * @throws InvalidIdException thrown if the id is invalid.
    */
-  public void setCurrentAdmin(Admin admin) throws SQLException, InvalidIdException {
-    // we need to check if employee created a password
-    int id = admin.getId();
-    // look up the password of the employee in the database
-    String password = DatabaseSelectHelper.getPassword(id);
-    // check the password in database matches
-    boolean authenticated = admin.authenticate(password);
-    // if the employee set a password, we set current employee to it since it is authenticated
-    if (authenticated) {
-      this.currentAdmin = admin;
+    public void setCurrentAdmin(Admin admin, Context context) throws SQLException, InvalidIdException {
+        // we need to check if employee created a password
+        int id = admin.getId();
+        // look up the password of the employee in the database
+        DatabaseAndroidSelectHelper sel = new DatabaseAndroidSelectHelper(context);
+        String password = sel.getPasswordHelper(id);
+        // check the password in database matches
+        boolean authenticated = admin.authenticate(password, context);
+        // if the employee set a password, we set current employee to it since it is authenticated
+        if (authenticated) {
+            this.currentAdmin = admin;
+        }
     }
-  }
+
+
 
   /**
    * Check if we have an employee right now.

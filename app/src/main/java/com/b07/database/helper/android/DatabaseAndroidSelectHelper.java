@@ -2,22 +2,18 @@ package com.b07.database.helper.android;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
+
 
 import com.b07.database.DatabaseDriverAndroid;
-import com.b07.database.DatabaseSelector;
-import com.b07.database.helper.DatabaseDriverHelper;
-import com.b07.database.helper.DatabaseSelectHelper;
+
 import com.b07.enumerators.Roles;
 import com.b07.exceptions.InvalidIdException;
-import com.b07.exceptions.InvalidInputException;
 import com.b07.exceptions.InvalidRoleException;
 import com.b07.exceptions.InventoryFullException;
 import com.b07.inventory.Inventory;
 import com.b07.inventory.InventoryImpl;
 import com.b07.inventory.Item;
 import com.b07.inventory.ItemImpl;
-import com.b07.store.ItemizedSaleImpl;
 import com.b07.store.Sale;
 import com.b07.store.SaleImpl;
 import com.b07.store.SalesLog;
@@ -28,8 +24,6 @@ import com.b07.users.Customer;
 import com.b07.users.User;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
